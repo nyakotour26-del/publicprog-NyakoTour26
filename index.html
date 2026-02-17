@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>Tournée Europe 2026 · NY AKO</title>
+    <title>Tournée Europe 2026 · Public</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
@@ -181,11 +181,13 @@
         }
         .toggle-btn:hover { background: #1b5d94; transform: scale(1.02); }
 
+        /* Grille par défaut : 4 colonnes desktop */
         .program-list {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 14px;
         }
+
         .program-card {
             background: #f9fbfe;
             border-radius: 20px;
@@ -224,12 +226,11 @@
         }
         .modal-program-card:hover { background: #fff4e6; }
 
-        /* petite info localisation dans la modale */
         .modal-loc { font-size: 0.75rem; color: #1e6f9f; margin-top: 4px; word-break: break-word; }
 
         /* ===== CORRECTIONS SPÉCIFIQUES POUR 768px ===== */
         @media (max-width: 768px) {
-            /* Ajustement du calendrier */
+            /* Calendrier */
             .calendrier-grille { gap: 3px; }
             .case-jour { 
                 min-height: 70px; 
@@ -258,32 +259,54 @@
             .country-name { font-size: 1.5rem; }
             .country-stats { font-size: 0.8rem; padding: 4px 12px; }
             .toggle-btn { padding: 6px 16px; font-size: 0.8rem; }
-            
-            /* Grille de programmes : 2 colonnes */
+
+            /* ===== LISTE PROG PAR PAYS : 1 SEULE COLONNE ===== */
             .program-list { 
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 10px;
+                grid-template-columns: 1fr !important;
+                gap: 12px;
             }
-            .program-card { padding: 12px; }
-            .program-date-badge { font-size: 0.7rem; }
-            .program-localite { font-size: 0.95rem; }
-            .program-lieu { font-size: 0.8rem; }
-            .programme-text { font-size: 0.8rem; }
+            
+            .program-card { 
+                padding: 14px; 
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+            }
+            .program-date-badge { 
+                margin-right: 10px;
+                white-space: nowrap;
+            }
+            .program-localite { 
+                font-size: 1rem; 
+                margin-right: 10px;
+            }
+            .program-lieu { 
+                font-size: 0.85rem;
+                margin-right: 10px;
+            }
+            .programme-text { 
+                font-size: 0.85rem;
+                white-space: nowrap;
+            }
+            /* Pour que les éléments s'adaptent sur plusieurs lignes si nécessaire */
+            .program-card > * {
+                margin-bottom: 4px;
+            }
         }
 
         @media (max-width: 480px) {
-            .program-list { grid-template-columns: repeat(2, 1fr) !important; }
-            .case-jour { min-height: 65px; }
-            .jour-localite { max-width: 50px; }
-            .jour-programme { max-width: 50px; }
-            .country-name { font-size: 1.3rem; }
+            .program-card { 
+                flex-direction: column; 
+                align-items: flex-start;
+            }
+            .program-date-badge { margin-bottom: 4px; }
         }
     </style>
 </head>
 <body>
 <div class="container">
     <header>
-        <h1>🇪🇺 TOURNÉE EUROPE 2026 · NY AKO</h1>
+        <h1>🇪🇺 TOURNÉE EUROPE 2026 · PUBLIC</h1>
         <div class="subhead">Tous les programmes ouverts • mise à jour automatique</div>
         <div class="flags-strip">
             <div class="flag-mini flag-ch" title="Suisse"></div>
