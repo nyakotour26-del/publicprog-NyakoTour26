@@ -97,7 +97,6 @@
         .case-jour.autre-mois { opacity: 0.4; }
         .numero-jour { font-weight: 700; font-size: 0.85rem; margin-bottom: 2px; }
 
-        /* Nouveau : localité et programme sur deux lignes */
         .jour-localite {
             font-weight: 600;
             color: #166b8f;
@@ -191,7 +190,6 @@
         .copy-icon { margin-left: 6px; color: #7e93a8; font-size: 0.7rem; cursor: pointer; }
         .copy-icon:hover { color: #2b6f9e; }
 
-        .filter-note { background: #f8f0ff; border-radius: 40px; padding: 10px 20px; margin: 20px 0 0; font-size: 0.85rem; color: #525e75; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
         footer { margin-top: 50px; text-align: center; color: #8094a8; font-size: 0.85rem; border-top: 1px solid #dce5ed; padding-top: 25px; }
 
         /* MODAL */
@@ -256,11 +254,6 @@
     <!-- LISTE PAYS -->
     <div id="programmesPublic" class="programs-grid"></div>
 
-    <div class="filter-note">
-        <i class="fas fa-eye-slash"></i>
-        <span>Les dates passées sont masquées. Apéritifs, repas privés, installations, visites, retours Madagascar sont exclus.</span>
-    </div>
-
     <footer><i class="fas fa-music"></i> Données extraites automatiquement · version grand public</footer>
 </div>
 
@@ -287,6 +280,9 @@
     let programsByCountry = {};
     let uniqueCountries = [];
     let flatPrograms = [];        // tous les programmes (filtrés, sans exclus)
+    // Pour connaître le pays d'un jour sans programme, on utilise un dictionnaire pays par date
+    let countryByDate = new Map(); // date string -> pays
+
     let today = new Date(); today.setHours(0,0,0,0);
 
     // ----------------------------- OUTILS ---------------------------------
@@ -367,6 +363,8 @@
     function buildData() {
         programsByCountry = {};
         flatPrograms = [];
+        countryByDate.clear();
+
         allData.forEach(row => {
             let pays = (row[COLUMNS.PAYS]||'').trim().toUpperCase();
             if (!pays) return;
@@ -379,6 +377,15 @@
             if (isExcluded(progRaw, lieu)) return;
             let date = parseDate(row[COLUMNS.DATE]);
             if (!date) return;
+
+            // Enregistrer le pays pour cette date (même si le programme est exclu plus tard? non, on le fait après filtre)
+            // Mais on veut le drapeau pour chaque date où une ligne existe (même sans programme affiché)
+            // On va plutôt créer une map date->pays à partir de toutes les lignes (même exclues)
+            let dateKey = date.toISOString().split('T')[0];
+            if (!countryByDate.has(dateKey)) {
+                countryByDate.set(dateKey, pays);
+            }
+
             let item = {
                 date, dateStr: formatDateFr(date),
                 localite: loc, lieu, heures: row[COLUMNS.HEURES]||'',
@@ -393,6 +400,10 @@
             programsByCountry[pays].push(item);
             flatPrograms.push(item);
         });
+
+        // Compléter countryByDate pour les jours sans programme mais avec drapeau ?
+        // On a déjà enregistré chaque date de ligne (même exclue). On peut aussi interpoler mais on garde simple : seules les dates avec une ligne ont un drapeau.
+
         for (let p in programsByCountry) {
             programsByCountry[p].sort((a,b)=>a.date-b.date);
         }
@@ -424,20 +435,29 @@
 
         for (let d=1; d<=dernier.getDate(); d++) {
             let curDate = new Date(an, mois, d);
+            let dateKey = curDate.toISOString().split('T')[0];
+            // Programmes du jour (filtrés)
             let programmesDuJour = flatPrograms.filter(p => p.date.toDateString() === curDate.toDateString() && !isPastProgram(p));
-            let paysDuJour = programmesDuJour.length>0 ? programmesDuJour[0].pays : null;
+            // Pays : si pas de programme mais qu'une ligne existe (même exclue) on prend countryByDate, sinon on laisse vide
+            let paysDuJour = null;
+            if (programmesDuJour.length>0) {
+                paysDuJour = programmesDuJour[0].pays;
+            } else if (countryByDate.has(dateKey)) {
+                paysDuJour = countryByDate.get(dateKey);
+            }
             let flagHtml = paysDuJour ? `<div class="mini-flag ${COUNTRY_FLAG_CLASS[paysDuJour]||'flag-fr'}"></div>` : '';
-            // localité et programme sur deux lignes distinctes
+
             let localite = programmesDuJour.length>0 ? programmesDuJour[0].localite : '';
             let progText = programmesDuJour.length>0 ? (programmesDuJour.length>1 ? `${programmesDuJour.length} prog.` : programmesDuJour[0].programme) : '';
 
             html += `<div class="case-jour" onclick="showProgramsForDate('${curDate}')">`;
             html += `<span class="numero-jour">${d}</span>`;
-            if (programmesDuJour.length>0) {
+            // On affiche toujours le drapeau si on a un pays, même sans programme
+            if (paysDuJour) {
                 html += `<div class="jour-contenu">`;
-                html += `${flagHtml}`;
-                html += `<div class="jour-localite">${localite.substring(0,12)}</div>`;
-                html += `<div class="jour-programme">${progText.substring(0,12)}</div>`;
+                html += flagHtml;
+                if (localite) html += `<div class="jour-localite">${localite.substring(0,12)}</div>`;
+                if (progText) html += `<div class="jour-programme">${progText.substring(0,12)}</div>`;
                 html += `</div>`;
             }
             html += `</div>`;
@@ -454,8 +474,17 @@
     window.showProgramsForDate = function(dateStr) {
         let d = new Date(dateStr);
         let programmes = flatPrograms.filter(p => p.date.toDateString()===d.toDateString() && !isPastProgram(p));
-        if (programmes.length===0) { alert('Aucun programme public ce jour'); return; }
-        openModal(programmes[0]); // on montre le premier
+        if (programmes.length===0) {
+            // s'il n'y a pas de programme mais qu'un pays est associé, on peut juste informer
+            let dateKey = d.toISOString().split('T')[0];
+            if (countryByDate.has(dateKey)) {
+                alert('Aucun programme public ce jour, mais le groupe est dans le pays : '+countryByDate.get(dateKey));
+            } else {
+                alert('Aucun programme public ce jour');
+            }
+            return;
+        }
+        openModal(programmes[0]);
     };
 
     document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
@@ -479,7 +508,6 @@
             let card = document.createElement('div');
             card.className = 'next-card';
             card.onclick = ()=>openModal(p);
-            // On ajoute un aperçu de la localisation (lieu + adresse courte)
             let locDisplay = p.lieu || 'Lieu à préciser';
             if (p.localisation) {
                 let shortLoc = p.localisation.length>30 ? p.localisation.substring(0,27)+'…' : p.localisation;
