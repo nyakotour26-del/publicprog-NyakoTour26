@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>Tournée Europe 2026-NY AKO</title>
+    <title>Tournée Europe 2026 · Public</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
@@ -34,27 +34,12 @@
         .flag-mada::before { content:''; position:absolute; left:0; top:0; width:33%; height:100%; background:#FC3D32; }
         .flag-mada::after { content:''; position:absolute; left:0; bottom:0; width:33%; height:50%; background:#007E3A; }
 
-        /* ----- DISPOSITION RESPONSIVE : côte à côte seulement à partir de 900px ----- */
-        .top-row {
-            display: flex;
-            flex-direction: column;  /* par défaut empilé (mobile) */
-            gap: 24px;
-            margin-bottom: 30px;
-        }
-
-        @media (min-width: 900px) {
-            .top-row {
-                flex-direction: row;
-            }
-            .calendrier-panel {
-                flex: 1 1 50%;
-            }
-            .next-three-panel {
-                flex: 1 1 40%;
-            }
-        }
+        /* DISPOSITION RESPONSIVE : côte à côte à partir de 900px */
+        .top-row { display: flex; flex-direction: column; gap: 24px; margin-bottom: 30px; }
+        @media (min-width: 900px) { .top-row { flex-direction: row; } }
 
         .calendrier-panel {
+            flex: 1 1 50%;
             background: white;
             border-radius: 28px;
             padding: 20px;
@@ -63,6 +48,7 @@
             min-width: 280px;
         }
         .next-three-panel {
+            flex: 1 1 40%;
             background: linear-gradient(145deg, #ffffff, #f2f6fd);
             border-radius: 28px;
             padding: 20px;
@@ -70,14 +56,7 @@
             border: 1px solid rgba(0,90,150,0.1);
             min-width: 280px;
         }
-        .next-three-panel h2 {
-            font-size: 1.4rem;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #163a5f;
-        }
+        .next-three-panel h2 { font-size: 1.4rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: #163a5f; }
 
         .calendrier-header {
             display: flex;
@@ -85,11 +64,7 @@
             justify-content: space-between;
             margin-bottom: 16px;
         }
-        .mois-annee {
-            font-weight: 800;
-            font-size: 1.3rem;
-            color: #1e3f64;
-        }
+        .mois-annee { font-weight: 800; font-size: 1.3rem; color: #1e3f64; }
         .btn-nav {
             background: #e7effa;
             border: none;
@@ -158,11 +133,7 @@
         .mini-flag { width: 18px; height: 12px; border-radius: 2px; display: inline-block; margin: 2px auto; }
 
         /* 3 prochains cards (vertical) */
-        .next-cards-vertical {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
+        .next-cards-vertical { display: flex; flex-direction: column; gap: 14px; }
         .next-card {
             background: #ffffff;
             border-radius: 20px;
@@ -212,7 +183,7 @@
 
         .program-list {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 par ligne desktop */
+            grid-template-columns: repeat(4, 1fr);
             gap: 14px;
         }
         .program-card {
@@ -253,23 +224,18 @@
         }
         .modal-program-card:hover { background: #fff4e6; }
 
-        /* Ajustements responsive pour la grille de programmes */
-        @media (max-width: 1000px) {
-            .program-list { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (max-width: 700px) {
-            .program-list { grid-template-columns: repeat(2, 1fr); }
-            .country-name { font-size: 1.5rem; }
-        }
-        @media (max-width: 480px) {
-            .program-list { grid-template-columns: repeat(2, 1fr); }
-        }
+        /* petite info localisation dans la modale */
+        .modal-loc { font-size: 0.75rem; color: #1e6f9f; margin-top: 4px; word-break: break-word; }
+
+        @media (max-width: 1000px) { .program-list { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 700px) { .program-list { grid-template-columns: repeat(2, 1fr); } .country-name { font-size: 1.5rem; } }
+        @media (max-width: 480px) { .program-list { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
 <div class="container">
     <header>
-        <h1>🇪🇺 TOURNÉE EUROPE 2026 · NY AKO</h1>
+        <h1>🇪🇺 TOURNÉE EUROPE 2026 · PUBLIC</h1>
         <div class="subhead">Tous les programmes ouverts • mise à jour automatique</div>
         <div class="flags-strip">
             <div class="flag-mini flag-ch" title="Suisse"></div>
@@ -282,9 +248,8 @@
         </div>
     </header>
 
-    <!-- RANGÉE HAUTE : CALENDRIER + 3 PROCHAINS (côte à côte sur desktop) -->
+    <!-- RANGÉE HAUTE : CALENDRIER + 3 PROCHAINS -->
     <div class="top-row">
-        <!-- CALENDRIER -->
         <div class="calendrier-panel">
             <div class="calendrier-header">
                 <button class="btn-nav" id="prevMonthBtn"><i class="fas fa-chevron-left"></i></button>
@@ -294,7 +259,6 @@
             <div class="calendrier-grille" id="calendrierGrille"></div>
         </div>
 
-        <!-- 3 PROCHAINS PROGRAMMES (version verticale) -->
         <div class="next-three-panel" id="nextThreePanel">
             <h2><i class="fas fa-hourglass-half"></i> 3 prochains</h2>
             <div id="nextCardsContainer" class="next-cards-vertical"></div>
@@ -340,8 +304,8 @@
     let allData = [];
     let programsByCountry = {};
     let uniqueCountries = [];
-    let flatPrograms = [];        // tous les programmes (filtrés, sans exclus)
-    let countryByDate = new Map(); // date string -> pays (pour le drapeau)
+    let flatPrograms = [];
+    let countryByDate = new Map(); // date string -> pays
 
     let today = new Date(); today.setHours(0,0,0,0);
 
@@ -522,7 +486,7 @@
         document.getElementById('calendrierGrille').innerHTML = html;
     }
 
-    // Afficher tous les programmes d'une date
+    // Afficher tous les programmes d'une date (avec localisation si dispo)
     window.showProgramsForDate = function(dateStr) {
         let d = new Date(dateStr);
         let programmes = flatPrograms.filter(p => p.date.toDateString()===d.toDateString() && !isPastProgram(p));
@@ -548,10 +512,23 @@
                     closeDateModal();
                     openDetailModal(p);
                 };
+
+                // Construction de la ligne de localisation (uniquement si donnée non vide)
+                let locLine = '';
+                if (p.localisation && p.localisation.trim() !== '') {
+                    let shortLoc = p.localisation.length > 40 ? p.localisation.substring(0,40)+'…' : p.localisation;
+                    locLine = `<div class="modal-loc"><i class="fas fa-map"></i> ${shortLoc}</div>`;
+                } else if (p.coords && p.coords.trim() !== '') {
+                    let m = p.coords.match(/([-+]?\d+\.\d+)[,\s]+([-+]?\d+\.\d+)/);
+                    if (m) {
+                        locLine = `<div class="modal-loc"><i class="fas fa-map-marker-alt"></i> ${m[1].substring(0,6)}…, ${m[2].substring(0,6)}…</div>`;
+                    }
+                }
+
                 card.innerHTML = `
                     <div style="font-weight:700; color:#0a4b7a;">${p.heures ? p.heures : 'horaire ?'}</div>
                     <div style="font-weight:600;">📍 ${p.localite}</div>
-                    <div style="color:#f15a24;">🏛️ ${p.lieu || 'Lieu?'}</div>
+                    ${locLine}
                     <div style="margin-top:6px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme}</span></div>
                 `;
                 listDiv.appendChild(card);
@@ -608,7 +585,7 @@
         renderCalendrier(currentCalMonth);
     });
 
-    // 3 PROCHAINS (version verticale dans le panneau de droite)
+    // 3 PROCHAINS
     function renderNextThree() {
         let upcoming = flatPrograms.filter(p => !isPastProgram(p)).slice(0,3);
         let container = document.getElementById('nextCardsContainer');
@@ -706,11 +683,8 @@
 
     window.copyText = function(text, ev) { ev.stopPropagation(); navigator.clipboard.writeText(text).then(()=>alert('📋 Copié!')); };
 
-    // Fermer les modales en cliquant à l'extérieur
     window.onclick = function(e) {
-        if (e.target.classList.contains('modal')) {
-            e.target.style.display = 'none';
-        }
+        if (e.target.classList.contains('modal')) e.target.style.display = 'none';
     };
 
     loadData();
