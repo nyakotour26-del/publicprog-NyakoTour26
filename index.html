@@ -338,19 +338,33 @@
         .country-ANGLETERRE .program-card { background: #eef5ff; border-color: #012169; }
         .country-MADAGASCAR .program-card { background: #fff5f5; border-color: #FC3D32; }
 
+        /* Dates agrandies et colorées */
         .program-date-badge { 
             display: flex; 
             align-items: center; 
-            gap: 6px; 
-            font-weight: 700; 
-            color: #0a4b7a; 
-            background: rgba(255,255,255,0.8); 
-            padding: 5px 12px; 
-            border-radius: 30px; 
+            gap: 8px; 
+            font-weight: 800; 
+            color: #ffffff; 
+            background: #2b6a9e; 
+            padding: 8px 14px; 
+            border-radius: 40px; 
             width: fit-content; 
-            font-size: 0.8rem; 
-            border: 1px solid #cbd5e0;
+            font-size: 1rem; 
+            border: 2px solid #ffd966;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
+        
+        /* Badge privé pour animations écoles */
+        .program-card.private-event .programme-text {
+            background: #9ca3af;
+            color: #1e293b;
+            border-color: #6b7280;
+        }
+        .program-card.private-event .program-date-badge {
+            background: #6b7280;
+            border-color: #4b5563;
+        }
+
         .program-localite { font-weight: 700; font-size: 1.1rem; color: #122b44; }
         .program-lieu { 
             color: #f15a24; 
@@ -390,14 +404,95 @@
         .modal-program-card {
             background: #f9fbfe;
             border-radius: 16px;
-            padding: 12px;
+            padding: 16px;
             margin-bottom: 12px;
             border-left: 4px solid #f97316;
             cursor: pointer;
         }
         .modal-program-card:hover { background: #fff4e6; }
-
-        .modal-loc { font-size: 0.75rem; color: #1e6f9f; margin-top: 4px; word-break: break-word; }
+        
+        /* Date dans la modal agrandie et colorée */
+        .modal-program-card .modal-date {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #ffffff;
+            background: #2b6a9e;
+            padding: 6px 14px;
+            border-radius: 40px;
+            display: inline-block;
+            margin-bottom: 10px;
+            border: 2px solid #ffd966;
+        }
+        
+        /* Lien sur une ligne avec options */
+        .modal-loc {
+            font-size: 0.85rem;
+            color: #1e6f9f;
+            margin-top: 6px;
+            word-break: break-word;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 8px;
+        }
+        .modal-loc .link-container {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .modal-loc .link-container a {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px;
+            color: #1e6f9f;
+        }
+        .modal-loc .action-icons {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .modal-loc .action-icons i {
+            font-size: 0.9rem;
+            color: #4a6f8e;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .modal-loc .action-icons i:hover {
+            color: #f97316;
+        }
+        
+        /* Badge privé dans la modal */
+        .modal-program-card.private-event {
+            border-left-color: #6b7280;
+            opacity: 0.9;
+        }
+        .modal-program-card.private-event .modal-date {
+            background: #6b7280;
+            border-color: #4b5563;
+        }
+        
+        /* Mini drapeau dans les modales */
+        .modal-flag {
+            width: 24px;
+            height: 16px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 6px;
+            vertical-align: middle;
+        }
+        .modal-country-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(0,0,0,0.05);
+            padding: 4px 10px;
+            border-radius: 30px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
 
         /* ===== VERSION MOBILE OPTIMISÉE POUR 768px ===== */
         @media (max-width: 768px) {
@@ -447,8 +542,8 @@
                 gap: 4px;
             }
             .program-date-badge { 
-                font-size: 0.65rem; 
-                padding: 3px 6px;
+                font-size: 0.8rem; 
+                padding: 4px 8px;
             }
             .program-localite { 
                 font-size: 0.85rem; 
@@ -472,36 +567,13 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-            /* Liens tronqués dans les cartes */
-            .program-card a, 
-            .program-card .copy-icon + span {
+            .modal-loc .link-container a {
                 max-width: 120px;
-                display: inline-block;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                vertical-align: middle;
             }
         }
 
         @media (max-width: 480px) {
             .program-list { grid-template-columns: repeat(2, 1fr) !important; }
-            .program-card a { max-width: 90px; }
-        }
-
-        /* Style des liens tronqués mais fonctionnels */
-        a {
-            color: #1e6f9f;
-            text-decoration: underline dotted;
-            max-width: 150px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: inline-block;
-            vertical-align: middle;
-        }
-        .copy-icon {
-            flex-shrink: 0;
         }
     </style>
 </head>
@@ -576,6 +648,7 @@
     // ----------------------------- CONFIG ---------------------------------
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
     const EXCLUDED_KEYWORDS = ['apéro','apero','repas','installation','visite','visites','repos','trajet','trajets','départ','retour','rest','relax','marche','shopping','marché','détente','voyage','transfert'];
+    const PRIVATE_KEYWORDS = ['animation enfant','ecole','school','enfant','kids','child','élève','classe','scolaire','périscolaire','garderie'];
     const COUNTRY_FLAG_CLASS = { 'SUISSE':'flag-ch','FRANCE':'flag-fr','ALLEMAGNE':'flag-de','BELGIQUE':'flag-be','WALES':'flag-wales','ANGLETERRE':'flag-uk','MADAGASCAR':'flag-mada' };
     const COUNTRY_EMOJI = {
         'SUISSE': '🇨🇭', 'FRANCE': '🇫🇷', 'ALLEMAGNE': '🇩🇪', 'BELGIQUE': '🇧🇪',
@@ -654,6 +727,11 @@
         return EXCLUDED_KEYWORDS.some(k => txt.includes(k));
     }
     
+    function isPrivateEvent(prog, lieu) {
+        let txt = (prog+' '+(lieu||'')).toLowerCase();
+        return PRIVATE_KEYWORDS.some(k => txt.includes(k));
+    }
+    
     function getProgramDisplay(prog, loc, lieu) {
         if (prog && prog.trim()!=='' && !isExcluded(prog, lieu)) return prog.trim();
         if ((loc&&loc.trim()!=='') || (lieu&&lieu.trim()!=='')) return "Programme";
@@ -667,16 +745,47 @@
         return Math.ceil(diff / (1000 * 60 * 60 * 24));
     }
 
-    // Fonction pour créer un lien cliquable avec copie (tronqué visuellement)
-    function makeLinkWithCopy(text, label) {
-        if (!text) return '';
-        // Si c'est une URL, on l'utilise directement, sinon recherche Google
-        let href = text.match(/^https?:\/\//) ? text : 'https://www.google.com/search?q='+encodeURIComponent(text);
-        let displayText = label || (text.length > 25 ? text.substring(0, 22) + '…' : text);
-        return `<span style="display: inline-flex; align-items: center; max-width: 100%;">
-            <a href="${href}" target="_blank" rel="noopener" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 130px;">${displayText}</a>
-            <i class="fas fa-copy copy-icon" onclick="copyText('${href}', event)" style="flex-shrink: 0; margin-left: 4px;"></i>
-        </span>`;
+    // Fonction pour créer un lien avec options de navigation
+    function createLocationHTML(text, coords) {
+        if (!text && !coords) return '';
+        
+        let url = '';
+        let displayText = '';
+        let googleMapsUrl = '';
+        let wazeUrl = '';
+        
+        if (coords) {
+            let m = coords.match(/([-+]?\d+\.\d+)[,\s]+([-+]?\d+\.\d+)/);
+            if (m) {
+                let lat = m[1];
+                let lng = m[2];
+                googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+                wazeUrl = `https://www.waze.com/ul?ll=${lat},${lng}&navigate=yes`;
+                displayText = `${lat.substring(0,6)}…, ${lng.substring(0,6)}…`;
+                url = googleMapsUrl;
+            }
+        } else if (text) {
+            url = text.match(/^https?:\/\//) ? text : 'https://www.google.com/search?q='+encodeURIComponent(text);
+            displayText = text.length > 30 ? text.substring(0, 27) + '…' : text;
+            googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(text)}`;
+            wazeUrl = `https://www.waze.com/ul?q=${encodeURIComponent(text)}&navigate=yes`;
+        }
+        
+        if (!url) return '';
+        
+        return `
+            <div class="modal-loc">
+                <i class="fas fa-map-marker-alt"></i>
+                <div class="link-container">
+                    <a href="${url}" target="_blank" rel="noopener">${displayText}</a>
+                </div>
+                <div class="action-icons">
+                    <i class="fas fa-copy" onclick="copyText('${url}', event)" title="Copier le lien"></i>
+                    <i class="fab fa-google" onclick="window.open('${googleMapsUrl || url}', '_blank')" title="Google Maps"></i>
+                    <i class="fab fa-waze" onclick="window.open('${wazeUrl || url}', '_blank')" title="Waze"></i>
+                </div>
+            </div>
+        `;
     }
 
     // ----------------------------- CHARGEMENT -----------------------------
@@ -719,6 +828,8 @@
                 countryByDate.set(dateKey, pays);
             }
 
+            let isPrivate = isPrivateEvent(progRaw, lieu);
+            
             let item = {
                 date, dateStr: formatDateFr(date),
                 localite: loc, lieu, heures: row[COLUMNS.HEURES]||'',
@@ -727,7 +838,10 @@
                 localisation: row[COLUMNS.LOCALISATION]||'',
                 site: row[COLUMNS.SITE]||'',
                 coords: row[COLUMNS.COORDS]||'',
-                pays
+                pays,
+                isPrivate,
+                flagClass: COUNTRY_FLAG_CLASS[pays] || 'flag-fr',
+                countryEmoji: COUNTRY_EMOJI[pays] || '🇪🇺'
             };
             if (!programsByCountry[pays]) programsByCountry[pays] = [];
             programsByCountry[pays].push(item);
@@ -816,29 +930,26 @@
         } else {
             programmes.forEach(p => {
                 let card = document.createElement('div');
-                card.className = 'modal-program-card';
+                card.className = 'modal-program-card' + (p.isPrivate ? ' private-event' : '');
                 card.onclick = () => {
                     closeDateModal();
                     openDetailModal(p);
                 };
 
-                let locLine = '';
-                if (p.localisation && p.localisation.trim() !== '') {
-                    let shortLoc = p.localisation.length > 30 ? p.localisation.substring(0, 27)+'…' : p.localisation;
-                    locLine = `<div class="modal-loc"><i class="fas fa-map"></i> ${makeLinkWithCopy(p.localisation, shortLoc)}</div>`;
-                } else if (p.coords && p.coords.trim() !== '') {
-                    let m = p.coords.match(/([-+]?\d+\.\d+)[,\s]+([-+]?\d+\.\d+)/);
-                    if (m) {
-                        let url = `https://www.google.com/maps?q=${m[1]},${m[2]}`;
-                        locLine = `<div class="modal-loc"><i class="fas fa-map-marker-alt"></i> <a href="${url}" target="_blank">${m[1].substring(0,6)}…, ${m[2].substring(0,6)}…</a> <i class="fas fa-copy copy-icon" onclick="copyText('${url}', event)"></i></div>`;
-                    }
-                }
+                let locHTML = createLocationHTML(p.localisation, p.coords);
+                let siteHTML = p.site ? createLocationHTML(p.site, null) : '';
 
                 card.innerHTML = `
-                    <div style="font-weight:700; color:#0a4b7a;">${p.heures ? p.heures : 'horaire ?'}</div>
+                    <div class="modal-country-badge">
+                        <div class="mini-flag ${p.flagClass}" style="width:20px; height:14px; margin-right:6px;"></div>
+                        ${p.countryEmoji} ${p.pays}
+                    </div>
+                    <div class="modal-date">📅 ${p.dateStr} · ${p.heures || 'horaire ?'}</div>
                     <div style="font-weight:600;">📍 ${p.localite}</div>
-                    ${locLine}
-                    <div style="margin-top:6px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme}</span></div>
+                    ${locHTML}
+                    ${siteHTML}
+                    <div style="margin-top:8px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme}</span></div>
+                    ${p.isPrivate ? '<div style="margin-top:6px; font-size:0.75rem; color:#6b7280;"><i class="fas fa-lock"></i> Événement privé (école/enfants)</div>' : ''}
                 `;
                 listDiv.appendChild(card);
             });
@@ -853,29 +964,24 @@
     window.openDetailModal = function(p) {
         let modal = document.getElementById('programDetailModal');
         let title = document.getElementById('detailModalTitle');
-        title.innerText = p.localite + ' · ' + p.pays;
+        title.innerText = p.localite + ' · ' + p.pays + (p.isPrivate ? ' (Privé)' : '');
         let body = document.getElementById('detailModalBody');
 
-        let locHtml = '';
-        if (p.localisation) {
-            locHtml = `<div class="modal-detail-row"><span class="modal-icon">🔗</span><span class="modal-info">${makeLinkWithCopy(p.localisation)}</span></div>`;
-        } else if (p.coords) {
-            let m = p.coords.match(/([-+]?\d+\.\d+)[,\s]+([-+]?\d+\.\d+)/);
-            if (m) {
-                let url = `https://www.google.com/maps?q=${m[1]},${m[2]}`;
-                locHtml = `<div class="modal-detail-row"><span class="modal-icon">🗺️</span><span class="modal-info"><a href="${url}" target="_blank">Google Maps</a> · <a href="https://www.openstreetmap.org/?mlat=${m[1]}&mlon=${m[2]}#map=15/${m[1]}/${m[2]}" target="_blank">OSM</a><br><small>${m[1]}, ${m[2]}</small> <i class="fas fa-copy copy-icon" onclick="copyText('${url}', event)"></i></span></div>`;
-            }
-        }
-        let siteHtml = p.site ? `<div class="modal-detail-row"><span class="modal-icon">🌐</span><span class="modal-info">${makeLinkWithCopy(p.site)}</span></div>` : '';
+        let locHTML = createLocationHTML(p.localisation, p.coords);
+        let siteHTML = p.site ? createLocationHTML(p.site, null) : '';
 
         body.innerHTML = `
-            <div class="modal-detail-row"><span class="modal-icon">📅</span><span class="modal-info">${p.dateStr} · ${p.heures || 'horaire non communiqué'}</span></div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
+                <div class="mini-flag ${p.flagClass}" style="width:30px; height:20px;"></div>
+                <span style="font-weight:700; font-size:1.2rem;">${p.countryEmoji} ${p.pays}</span>
+            </div>
+            <div class="modal-detail-row"><span class="modal-icon">📅</span><span class="modal-info"><strong>${p.dateStr} · ${p.heures || 'horaire non communiqué'}</strong></span></div>
             <div class="modal-detail-row"><span class="modal-icon">🏷️</span><span class="modal-info"><strong>${p.programme}</strong></span></div>
             <div class="modal-detail-row"><span class="modal-icon">📍</span><span class="modal-info"><strong>${p.lieu || 'Lieu non précisé'}</strong>${p.adresse ? '<br>'+p.adresse : ''}</span></div>
-            ${locHtml}
-            ${siteHtml}
+            ${locHTML}
+            ${siteHTML}
             <hr>
-            <div class="modal-detail-row"><span class="modal-icon">ℹ️</span><span class="modal-info">Événement public</span></div>
+            <div class="modal-detail-row"><span class="modal-icon">ℹ️</span><span class="modal-info">${p.isPrivate ? 'Événement privé (école/enfants)' : 'Événement public'}</span></div>
         `;
         modal.style.display = 'flex';
     };
@@ -909,12 +1015,6 @@
             let jourText = jours === 0 ? "Aujourd'hui" : jours === 1 ? "Demain" : `J-${jours}`;
             
             let locDisplay = p.lieu || 'Lieu à préciser';
-            if (p.localisation) {
-                let shortLoc = p.localisation.length>25 ? p.localisation.substring(0,22)+'…' : p.localisation;
-                locDisplay += ` · <span style="color:#1e6f9f;">${makeLinkWithCopy(p.localisation, shortLoc)}</span>`;
-            } else if (p.coords) {
-                locDisplay += ` · <span style="color:#1e6f9f;">coordonnées</span>`;
-            }
             
             card.innerHTML = `
                 <div class="j-counter">${jourText}</div>
@@ -922,6 +1022,7 @@
                 <div class="next-localite">📍 ${p.localite||'?'}</div>
                 <div class="next-lieu" style="font-size:0.8rem;">${locDisplay}</div>
                 <div style="margin-top:8px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme}</span></div>
+                ${p.isPrivate ? '<div style="margin-top:4px; font-size:0.7rem; color:#6b7280;"><i class="fas fa-lock"></i> Privé</div>' : ''}
             `;
             container.appendChild(card);
         });
@@ -953,25 +1054,13 @@
                 let lieuAffiche = p.lieu || 'Lieu à préciser';
                 if (lieuAffiche.length>30) lieuAffiche = lieuAffiche.slice(0,27)+'…';
                 
-                let locDisplay = '';
-                if (p.localisation) {
-                    let short = p.localisation.length>20 ? p.localisation.substring(0,17)+'…' : p.localisation;
-                    locDisplay = `<div style="display: flex; align-items: center; gap: 4px; max-width: 100%;"><i class="fas fa-map" style="flex-shrink: 0;"></i> ${makeLinkWithCopy(p.localisation, short)}</div>`;
-                } else if (p.coords) {
-                    let m = p.coords.match(/([-+]?\d+\.\d+)[,\s]+([-+]?\d+\.\d+)/);
-                    if (m) {
-                        let lat = m[1].substring(0,6), lng = m[2].substring(0,6);
-                        let url = `https://www.google.com/maps?q=${m[1]},${m[2]}`;
-                        locDisplay = `<div style="display: flex; align-items: center; gap: 4px; max-width: 100%;"><i class="fas fa-map-marker-alt" style="flex-shrink: 0;"></i> <a href="${url}" target="_blank" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100px;">${lat}, ${lng}</a> <i class="fas fa-copy copy-icon" onclick="copyText('${url}', event)" style="flex-shrink: 0;"></i></div>`;
-                    }
-                }
-                
-                html += `<div class="program-card" onclick='openDetailModal(${JSON.stringify(p).replace(/'/g,"\\'").replace(/"/g,"&quot;")})'>`;
+                let cardClass = 'program-card' + (p.isPrivate ? ' private-event' : '');
+                html += `<div class="${cardClass}" onclick='openDetailModal(${JSON.stringify(p).replace(/'/g,"\\'").replace(/"/g,"&quot;")})'>`;
                 html += `<div class="program-date-badge"><i class="far fa-calendar"></i> ${p.dateStr} ${p.heures ? '· '+p.heures : ''}</div>`;
                 html += `<div class="program-localite"><i class="fas fa-map-pin"></i> ${p.localite||'?'}</div>`;
                 if (p.lieu) html += `<div class="program-lieu"><i class="fas fa-location-dot"></i> ${lieuAffiche}</div>`;
-                if (locDisplay) html += locDisplay;
                 html += `<div class="program-type-emojis"><span class="programme-text">${emojiProg} ${p.programme}</span></div>`;
+                if (p.isPrivate) html += `<div style="margin-top:4px; font-size:0.7rem; color:#6b7280;"><i class="fas fa-lock"></i> Privé</div>`;
                 html += `</div>`;
             });
             html += `</div></div>`;
@@ -992,7 +1081,10 @@
         }
     };
 
-    window.copyText = function(text, ev) { ev.stopPropagation(); navigator.clipboard.writeText(text).then(()=>alert('📋 Copié!')); };
+    window.copyText = function(text, ev) { 
+        ev.stopPropagation(); 
+        navigator.clipboard.writeText(text).then(()=>alert('📋 Copié!')); 
+    };
 
     window.onclick = function(e) {
         if (e.target.classList.contains('modal')) e.target.style.display = 'none';
