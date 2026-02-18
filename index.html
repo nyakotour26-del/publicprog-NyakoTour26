@@ -399,43 +399,109 @@
 
         .modal-loc { font-size: 0.75rem; color: #1e6f9f; margin-top: 4px; word-break: break-word; }
 
-        /* ===== VERSION MOBILE (inchangée) ===== */
+        /* ===== VERSION MOBILE OPTIMISÉE POUR 768px ===== */
         @media (max-width: 768px) {
-            .calendrier-grille { gap: 3px; }
+            /* Calendrier */
+            .calendrier-grille { gap: 2px; }
             .case-jour { 
-                min-height: 70px; 
-                padding: 4px 2px;
-                font-size: 0.65rem;
+                min-height: 60px; 
+                padding: 3px 1px;
+                font-size: 0.6rem;
                 background: rgba(255,255,255,0.5);
+                border-radius: 8px;
             }
             .jour-localite { 
-                font-size: 0.6rem; 
-                max-width: 60px;
+                font-size: 0.55rem; 
+                max-width: 50px;
             }
             .jour-programme { 
-                font-size: 0.55rem; 
-                max-width: 60px;
-                padding: 1px 3px;
+                font-size: 0.5rem; 
+                max-width: 50px;
+                padding: 1px 2px;
             }
-            .mini-flag { width: 16px; height: 10px; }
-            .next-three-panel { padding: 16px; }
-            .next-card { padding: 12px; }
-            .next-localite { font-size: 1rem; }
-            .j-counter { font-size: 0.8rem; padding: 3px 10px; }
-            .country-header { gap: 10px; }
-            .country-flag-large { width: 40px; height: 28px; }
-            .country-name { font-size: 1.5rem; }
-            .country-stats { font-size: 0.8rem; padding: 4px 12px; }
-            .toggle-btn { padding: 6px 16px; font-size: 0.8rem; }
+            .mini-flag { width: 14px; height: 9px; }
+            .numero-jour { font-size: 0.7rem; }
+            
+            /* 3 prochains */
+            .next-three-panel { padding: 12px; }
+            .next-three-panel h2 { font-size: 1.1rem; }
+            .next-card { padding: 10px; }
+            .next-localite { font-size: 0.9rem; }
+            .j-counter { font-size: 0.7rem; padding: 2px 8px; top: 6px; right: 8px; }
+            
+            /* Blocs pays */
+            .country-header { gap: 8px; padding: 6px 10px; }
+            .country-flag-large { width: 32px; height: 24px; }
+            .country-name { font-size: 1.2rem; }
+            .country-emoji { font-size: 1.2rem; }
+            .country-stats { font-size: 0.7rem; padding: 3px 8px; }
+            .toggle-btn { padding: 4px 12px; font-size: 0.7rem; }
+            
+            /* Grille programmes : 2 colonnes */
             .program-list { 
                 grid-template-columns: repeat(2, 1fr) !important;
-                gap: 10px;
+                gap: 8px;
             }
-            .program-card { padding: 12px; }
+            .program-card { 
+                padding: 10px; 
+                gap: 4px;
+            }
+            .program-date-badge { 
+                font-size: 0.65rem; 
+                padding: 3px 6px;
+            }
+            .program-localite { 
+                font-size: 0.85rem; 
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .program-lieu { 
+                font-size: 0.7rem; 
+                padding: 3px 6px;
+                max-width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .programme-text { 
+                font-size: 0.7rem; 
+                padding: 3px 6px;
+                max-width: 100%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            /* Liens tronqués dans les cartes */
+            .program-card a, 
+            .program-card .copy-icon + span {
+                max-width: 120px;
+                display: inline-block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                vertical-align: middle;
+            }
         }
 
         @media (max-width: 480px) {
             .program-list { grid-template-columns: repeat(2, 1fr) !important; }
+            .program-card a { max-width: 90px; }
+        }
+
+        /* Style des liens tronqués mais fonctionnels */
+        a {
+            color: #1e6f9f;
+            text-decoration: underline dotted;
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .copy-icon {
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -601,12 +667,16 @@
         return Math.ceil(diff / (1000 * 60 * 60 * 24));
     }
 
-    // ---------- Fonction pour créer un lien cliquable avec copie ----------
-    function makeLinkWithCopy(text, url) {
+    // Fonction pour créer un lien cliquable avec copie (tronqué visuellement)
+    function makeLinkWithCopy(text, label) {
         if (!text) return '';
-        // Si c'est déjà une URL, on l'utilise, sinon on cherche sur Google
+        // Si c'est une URL, on l'utilise directement, sinon recherche Google
         let href = text.match(/^https?:\/\//) ? text : 'https://www.google.com/search?q='+encodeURIComponent(text);
-        return `<span><a href="${href}" target="_blank" rel="noopener">${text.substring(0,40)}${text.length>40?'…':''}</a> <i class="fas fa-copy copy-icon" onclick="copyText('${href}', event)"></i></span>`;
+        let displayText = label || (text.length > 25 ? text.substring(0, 22) + '…' : text);
+        return `<span style="display: inline-flex; align-items: center; max-width: 100%;">
+            <a href="${href}" target="_blank" rel="noopener" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 130px;">${displayText}</a>
+            <i class="fas fa-copy copy-icon" onclick="copyText('${href}', event)" style="flex-shrink: 0; margin-left: 4px;"></i>
+        </span>`;
     }
 
     // ----------------------------- CHARGEMENT -----------------------------
@@ -754,8 +824,8 @@
 
                 let locLine = '';
                 if (p.localisation && p.localisation.trim() !== '') {
-                    let shortLoc = p.localisation.length > 40 ? p.localisation.substring(0,40)+'…' : p.localisation;
-                    locLine = `<div class="modal-loc"><i class="fas fa-map"></i> ${makeLinkWithCopy(p.localisation, p.localisation)}</div>`;
+                    let shortLoc = p.localisation.length > 30 ? p.localisation.substring(0, 27)+'…' : p.localisation;
+                    locLine = `<div class="modal-loc"><i class="fas fa-map"></i> ${makeLinkWithCopy(p.localisation, shortLoc)}</div>`;
                 } else if (p.coords && p.coords.trim() !== '') {
                     let m = p.coords.match(/([-+]?\d+\.\d+)[,\s]+([-+]?\d+\.\d+)/);
                     if (m) {
@@ -788,7 +858,7 @@
 
         let locHtml = '';
         if (p.localisation) {
-            locHtml = `<div class="modal-detail-row"><span class="modal-icon">🔗</span><span class="modal-info">${makeLinkWithCopy(p.localisation, p.localisation)}</span></div>`;
+            locHtml = `<div class="modal-detail-row"><span class="modal-icon">🔗</span><span class="modal-info">${makeLinkWithCopy(p.localisation)}</span></div>`;
         } else if (p.coords) {
             let m = p.coords.match(/([-+]?\d+\.\d+)[,\s]+([-+]?\d+\.\d+)/);
             if (m) {
@@ -796,7 +866,7 @@
                 locHtml = `<div class="modal-detail-row"><span class="modal-icon">🗺️</span><span class="modal-info"><a href="${url}" target="_blank">Google Maps</a> · <a href="https://www.openstreetmap.org/?mlat=${m[1]}&mlon=${m[2]}#map=15/${m[1]}/${m[2]}" target="_blank">OSM</a><br><small>${m[1]}, ${m[2]}</small> <i class="fas fa-copy copy-icon" onclick="copyText('${url}', event)"></i></span></div>`;
             }
         }
-        let siteHtml = p.site ? `<div class="modal-detail-row"><span class="modal-icon">🌐</span><span class="modal-info">${makeLinkWithCopy(p.site, p.site)}</span></div>` : '';
+        let siteHtml = p.site ? `<div class="modal-detail-row"><span class="modal-icon">🌐</span><span class="modal-info">${makeLinkWithCopy(p.site)}</span></div>` : '';
 
         body.innerHTML = `
             <div class="modal-detail-row"><span class="modal-icon">📅</span><span class="modal-info">${p.dateStr} · ${p.heures || 'horaire non communiqué'}</span></div>
@@ -840,7 +910,7 @@
             
             let locDisplay = p.lieu || 'Lieu à préciser';
             if (p.localisation) {
-                let shortLoc = p.localisation.length>30 ? p.localisation.substring(0,27)+'…' : p.localisation;
+                let shortLoc = p.localisation.length>25 ? p.localisation.substring(0,22)+'…' : p.localisation;
                 locDisplay += ` · <span style="color:#1e6f9f;">${makeLinkWithCopy(p.localisation, shortLoc)}</span>`;
             } else if (p.coords) {
                 locDisplay += ` · <span style="color:#1e6f9f;">coordonnées</span>`;
@@ -880,20 +950,22 @@
             html += `<div class="program-list" id="list-${pays}" style="display: none;">`;
             programmes.forEach(p => {
                 let emojiProg = getEmoji(p.programme);
-                let lieuAffiche = p.lieu || p.localisation || 'Lieu à préciser';
-                if (lieuAffiche.length>40) lieuAffiche = lieuAffiche.slice(0,37)+'…';
+                let lieuAffiche = p.lieu || 'Lieu à préciser';
+                if (lieuAffiche.length>30) lieuAffiche = lieuAffiche.slice(0,27)+'…';
+                
                 let locDisplay = '';
                 if (p.localisation) {
-                    let short = p.localisation.length>25 ? p.localisation.substring(0,22)+'…' : p.localisation;
-                    locDisplay = `<div><i class="fas fa-map"></i> ${makeLinkWithCopy(p.localisation, short)}</div>`;
+                    let short = p.localisation.length>20 ? p.localisation.substring(0,17)+'…' : p.localisation;
+                    locDisplay = `<div style="display: flex; align-items: center; gap: 4px; max-width: 100%;"><i class="fas fa-map" style="flex-shrink: 0;"></i> ${makeLinkWithCopy(p.localisation, short)}</div>`;
                 } else if (p.coords) {
                     let m = p.coords.match(/([-+]?\d+\.\d+)[,\s]+([-+]?\d+\.\d+)/);
                     if (m) {
                         let lat = m[1].substring(0,6), lng = m[2].substring(0,6);
                         let url = `https://www.google.com/maps?q=${m[1]},${m[2]}`;
-                        locDisplay = `<div><i class="fas fa-map-marker-alt"></i> <a href="${url}" target="_blank">${lat}, ${lng}</a> <i class="fas fa-copy copy-icon" onclick="copyText('${url}', event)"></i></div>`;
+                        locDisplay = `<div style="display: flex; align-items: center; gap: 4px; max-width: 100%;"><i class="fas fa-map-marker-alt" style="flex-shrink: 0;"></i> <a href="${url}" target="_blank" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100px;">${lat}, ${lng}</a> <i class="fas fa-copy copy-icon" onclick="copyText('${url}', event)" style="flex-shrink: 0;"></i></div>`;
                     }
                 }
+                
                 html += `<div class="program-card" onclick='openDetailModal(${JSON.stringify(p).replace(/'/g,"\\'").replace(/"/g,"&quot;")})'>`;
                 html += `<div class="program-date-badge"><i class="far fa-calendar"></i> ${p.dateStr} ${p.heures ? '· '+p.heures : ''}</div>`;
                 html += `<div class="program-localite"><i class="fas fa-map-pin"></i> ${p.localite||'?'}</div>`;
