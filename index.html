@@ -61,22 +61,115 @@
         .flags-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 20px 0 10px; }
         .flag-mini { width: 36px; height: 24px; border-radius: 4px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
         .flag-mini:hover { transform: scale(1.1); }
-        .flag-fr { background: linear-gradient(to right, #002395 33.3%, #fff 33.3%, #fff 66.6%, #ED2939 66.6%); }
-        .flag-de { background: linear-gradient(to bottom, #000 33.3%, #DD0000 33.3%, #DD0000 66.6%, #FFCE00 66.6%); }
-        .flag-be { background: linear-gradient(to right, #000 33.3%, #FAE042 33.3%, #FAE042 66.6%, #ED2939 66.6%); }
-        .flag-ch { background: #D52B1E; position: relative; }
-        .flag-ch::before, .flag-ch::after { content:''; position:absolute; background:#fff; }
-        .flag-ch::before { width: 20px; height: 5px; top:9px; left:8px; }
-        .flag-ch::after { width: 5px; height: 20px; top:2px; left:15px; }
-        .flag-uk { background: #012169; position:relative; }
-        .flag-uk::before, .flag-uk::after { content:''; position:absolute; background:#fff; }
-        .flag-uk::before { width:36px; height:4px; top:10px; left:0; }
-        .flag-uk::after { width:4px; height:24px; top:0; left:16px; }
-        .flag-wales { background: #fff; position:relative; overflow:hidden; }
-        .flag-wales::before { content:''; position:absolute; inset:0; background: linear-gradient(135deg, #fff 50%, #D21034 50%); }
-        .flag-mada { background: #fff; position:relative; }
-        .flag-mada::before { content:''; position:absolute; left:0; top:0; width:33%; height:100%; background:#FC3D32; }
-        .flag-mada::after { content:''; position:absolute; left:0; bottom:0; width:33%; height:50%; background:#007E3A; }
+        .flag-fr { background: linear-gradient(90deg, #002395 33.33%, #fff 33.33%, #fff 66.66%, #ED2939 66.66%); }
+        .flag-de { background: linear-gradient(0deg, #000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); }
+        .flag-be { background: linear-gradient(90deg, #000 33.33%, #FAE042 33.33%, #FAE042 66.66%, #ED2939 66.66%); }
+        .flag-ch { 
+            background: #D52B1E; 
+            position: relative; 
+            overflow: hidden;
+        }
+        .flag-ch::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 20%;
+            background: white;
+        }
+        .flag-ch::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20%;
+            height: 60%;
+            background: white;
+        }
+        .flag-uk { 
+            background: #012169; 
+            position: relative;
+            background-image: 
+                linear-gradient(45deg, #fff 25%, transparent 25%),
+                linear-gradient(-45deg, #fff 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #fff 75%),
+                linear-gradient(-45deg, transparent 75%, #fff 75%);
+            background-size: 12px 12px;
+            background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+        }
+        .flag-uk::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 20%;
+            background: #fff;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        .flag-uk::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            bottom: 0;
+            width: 20%;
+            background: #fff;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        .flag-wales { 
+            background: #fff; 
+            position: relative; 
+            overflow: hidden;
+        }
+        .flag-wales::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fff 50%, #D21034 50%);
+        }
+        .flag-wales::after {
+            content: '🐉';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            color: #D21034;
+            text-shadow: 0 0 2px #fff;
+            z-index: 2;
+        }
+        .flag-mada { 
+            background: #fff; 
+            position: relative;
+            overflow: hidden;
+        }
+        .flag-mada::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 33.33%;
+            height: 100%;
+            background: #FC3D32;
+        }
+        .flag-mada::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 33.33%;
+            height: 50%;
+            background: #007E3A;
+        }
 
         /* DISPOSITION RESPONSIVE : côte à côte à partir de 900px */
         .top-row { display: flex; flex-direction: column; gap: 24px; margin-bottom: 30px; }
@@ -496,26 +589,67 @@
 
         /* ===== VERSION MOBILE OPTIMISÉE POUR 768px ===== */
         @media (max-width: 768px) {
-            /* Calendrier */
-            .calendrier-grille { gap: 2px; }
+            /* Calendrier - largeurs fixes pour éviter débordement */
+            .calendrier-panel {
+                width: 100%;
+                overflow: hidden;
+                padding: 12px;
+            }
+            .calendrier-grille { 
+                gap: 2px;
+                width: 100%;
+                display: grid;
+                grid-template-columns: repeat(7, minmax(0, 1fr));
+            }
             .case-jour { 
-                min-height: 60px; 
-                padding: 3px 1px;
+                min-height: 70px; 
+                padding: 4px 2px;
                 font-size: 0.6rem;
                 background: rgba(255,255,255,0.5);
                 border-radius: 8px;
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
             }
             .jour-localite { 
-                font-size: 0.55rem; 
-                max-width: 50px;
+                font-size: 0.6rem; 
+                max-width: 100%;
+                width: 100%;
+                padding: 2px 2px;
+                text-align: center;
+                word-break: break-word;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
+                overflow: hidden;
+                line-height: 1.2;
+                max-height: 2.4em;
+                color: #166b8f;
+                font-weight: 600;
             }
             .jour-programme { 
-                font-size: 0.5rem; 
-                max-width: 50px;
-                padding: 1px 2px;
+                display: none;
             }
-            .mini-flag { width: 14px; height: 9px; }
-            .numero-jour { font-size: 0.7rem; }
+            .mini-flag { 
+                width: 16px; 
+                height: 10px; 
+                margin: 2px auto; 
+                display: block;
+            }
+            .numero-jour { 
+                font-size: 0.7rem;
+                margin-bottom: 2px;
+            }
+            .jour-contenu {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
             
             /* 3 prochains */
             .next-three-panel { padding: 12px; }
@@ -545,10 +679,9 @@
                 gap: 4px;
                 width: 100%;
                 max-width: 100%;
-                min-width: 0; /* Important pour permettre le rétrécissement */
+                min-width: 0;
                 box-sizing: border-box;
             }
-            /* Forcer tous les éléments à ne pas dépasser */
             .program-card * {
                 max-width: 100%;
                 overflow-wrap: break-word;
@@ -587,14 +720,13 @@
                 text-overflow: ellipsis;
                 display: block;
             }
-            /* Icônes et texte dans les cartes */
             .program-card i {
                 flex-shrink: 0;
             }
             .program-card div {
                 max-width: 100%;
             }
-            /* Réduire encore sur très petits écrans */
+            
             @media (max-width: 480px) {
                 .program-date-badge { font-size: 0.7rem; padding: 3px 4px; }
                 .program-localite { font-size: 0.75rem; }
@@ -602,7 +734,6 @@
             }
         }
 
-        /* Styles supplémentaires pour garantir l'absence de débordement */
         img, svg, iframe, video, audio, embed, canvas, object {
             max-width: 100%;
         }
@@ -922,15 +1053,13 @@
             let flagHtml = paysDuJour ? `<div class="mini-flag ${COUNTRY_FLAG_CLASS[paysDuJour]||'flag-fr'}"></div>` : '';
 
             let localite = programmesDuJour.length>0 ? programmesDuJour[0].localite : '';
-            let progText = programmesDuJour.length>0 ? (programmesDuJour.length>1 ? `${programmesDuJour.length} prog.` : programmesDuJour[0].programme) : '';
 
             html += `<div class="case-jour" onclick="showProgramsForDate('${curDate}')">`;
             html += `<span class="numero-jour">${d}</span>`;
             if (paysDuJour) {
                 html += `<div class="jour-contenu">`;
                 html += flagHtml;
-                if (localite) html += `<div class="jour-localite">${localite.substring(0,12)}</div>`;
-                if (progText) html += `<div class="jour-programme">${progText.substring(0,12)}</div>`;
+                if (localite) html += `<div class="jour-localite">${localite}</div>`;
                 html += `</div>`;
             }
             html += `</div>`;
@@ -978,7 +1107,7 @@
                         <div class="mini-flag ${p.flagClass}" style="width:20px; height:14px; margin-right:6px;"></div>
                         ${p.countryEmoji} ${p.pays}
                     </div>
-                    <div class="modal-date">📅 ${p.dateStr} · ${p.heures || 'horaire ?'}</div>
+                    <div class="modal-date">📅 ${p.dateStr} ${p.heures ? '· ' + p.heures : ''}</div>
                     <div style="font-weight:600;">📍 ${p.localite}</div>
                     ${locHTML}
                     ${siteHTML}
@@ -1009,7 +1138,7 @@
                 <div class="mini-flag ${p.flagClass}" style="width:30px; height:20px;"></div>
                 <span style="font-weight:700; font-size:1.2rem;">${p.countryEmoji} ${p.pays}</span>
             </div>
-            <div class="modal-detail-row"><span class="modal-icon">📅</span><span class="modal-info"><strong>${p.dateStr} · ${p.heures || 'horaire non communiqué'}</strong></span></div>
+            <div class="modal-detail-row"><span class="modal-icon">📅</span><span class="modal-info"><strong>${p.dateStr} ${p.heures ? '· ' + p.heures : ''}</strong></span></div>
             <div class="modal-detail-row"><span class="modal-icon">🏷️</span><span class="modal-info"><strong>${p.programme}</strong></span></div>
             <div class="modal-detail-row"><span class="modal-icon">📍</span><span class="modal-info"><strong>${p.lieu || 'Lieu non précisé'}</strong>${p.adresse ? '<br>'+p.adresse : ''}</span></div>
             ${locHTML}
@@ -1052,7 +1181,7 @@
             
             card.innerHTML = `
                 <div class="j-counter">${jourText}</div>
-                <div class="next-date">📅 ${p.dateStr} · ${p.heures || ''}</div>
+                <div class="next-date">📅 ${p.dateStr} ${p.heures ? '· ' + p.heures : ''}</div>
                 <div class="next-localite">📍 ${p.localite||'?'}</div>
                 <div class="next-lieu" style="font-size:0.8rem;">${locDisplay}</div>
                 <div style="margin-top:8px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme}</span></div>
