@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>TOURNÉE NY AKO EUROPE 2026</title>
+    <title>TOURNÉE EUROPE 2026 - NY AKO</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
@@ -169,6 +169,55 @@
             width: 33.33%;
             height: 50%;
             background: #007E3A;
+        }
+
+        /* Bande des intervalles de dates par pays */
+        .dates-strip {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 18px 30px;
+            margin: 20px 0 25px;
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            box-shadow: 0 5px 15px rgba(0,30,60,0.1);
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+        .date-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 6px 16px 6px 10px;
+            border-radius: 40px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.03);
+            border: 1px solid #e1eaf2;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .chip-flag {
+            width: 26px;
+            height: 18px;
+            border-radius: 4px;
+        }
+        .chip-dates {
+            color: #1e3f64;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .interval-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.85rem;
+        }
+        .interval-row i {
+            color: #f97316;
+            font-size: 0.7rem;
+            width: 14px;
         }
 
         /* DISPOSITION RESPONSIVE : côte à côte à partir de 900px */
@@ -612,7 +661,6 @@
 
         /* ===== VERSION MOBILE OPTIMISÉE POUR 768px ===== */
         @media (max-width: 768px) {
-            /* Calendrier - largeurs fixes pour éviter débordement */
             .calendrier-panel {
                 width: 100%;
                 overflow: hidden;
@@ -674,14 +722,12 @@
                 width: 100%;
             }
             
-            /* 3 prochains */
             .next-three-panel { padding: 12px; }
             .next-three-panel h2 { font-size: 1.1rem; }
             .next-card { padding: 10px; }
             .next-localite { font-size: 0.9rem; }
             .j-counter { font-size: 0.7rem; padding: 2px 8px; top: 6px; right: 8px; }
             
-            /* Blocs pays */
             .country-header { gap: 8px; padding: 6px 10px; }
             .country-flag-large { width: 32px; height: 24px; }
             .country-name { font-size: 1.2rem; }
@@ -689,7 +735,6 @@
             .country-stats { font-size: 0.7rem; padding: 3px 8px; }
             .toggle-btn { padding: 4px 12px; font-size: 0.7rem; }
             
-            /* Grille programmes : 2 colonnes sans dépassement */
             .program-list { 
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 8px;
@@ -773,7 +818,7 @@
             <img class="polaroid-img" src="https://drive.google.com/thumbnail?id=193k18u5i7g3JvpQWTK4xFoi7uzJl1vhI&sz=w800" alt="Tournée Europe">
             <div class="polaroid-caption">✨ Toutes nos source sont en TOI✨</div>
         </div>
-        <h1>🇪🇺 TOURNÉE NY AKO EUROPE 2026</h1>
+        <h1>🇪🇺 TOURNÉ EUROPE 2026 - NY AKO</h1>
         <div class="flags-strip">
             <div class="flag-mini flag-ch" title="Suisse"></div>
             <div class="flag-mini flag-fr" title="France"></div>
@@ -782,6 +827,11 @@
             <div class="flag-mini flag-uk" title="Angleterre"></div>
             <div class="flag-mini flag-wales" title="Wales"></div>
             <div class="flag-mini flag-mada" title="Madagascar"></div>
+        </div>
+
+        <!-- Bande des intervalles de dates par pays (basée sur la colonne PAYS) -->
+        <div id="datesStrip" class="dates-strip">
+            <!-- injecté dynamiquement -->
         </div>
     </div>
 
@@ -847,7 +897,7 @@
     let programsByCountry = {};
     let uniqueCountries = [];
     let flatPrograms = [];
-    let countryByDate = new Map();
+    let countryByDate = new Map(); // Carte dateKey -> pays (même sans programme)
 
     let today = new Date(); 
     today.setHours(0,0,0,0);
@@ -897,6 +947,16 @@
         let mm = (d.getMonth()+1).toString().padStart(2,'0');
         let yy = d.getFullYear().toString().slice(-2);
         return `${dd}/${mm}/${yy}`;
+    }
+    
+    // Format jour abrégé + jj-mm (ex: "lun 02-04")
+    function formatIntervalDate(d) {
+        if (!d) return '';
+        const jours = ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'];
+        let jourSem = jours[d.getDay()];
+        let dd = d.getDate().toString().padStart(2,'0');
+        let mm = (d.getMonth()+1).toString().padStart(2,'0');
+        return `${jourSem} ${dd}-${mm}`;
     }
     
     function getEmoji(p) {
@@ -985,11 +1045,15 @@
         if (!csvText) throw new Error('Impossible de charger');
         let rows = parseCSV(csvText);
         if (rows.length<5) throw new Error('Format CSV invalide');
-        allData = rows.slice(4).filter(r => r.length>=10 && r[COLUMNS.DATE] && r[COLUMNS.PAYS]);
+        
+        // La ligne 4 (index 3) contient les en-têtes - on garde la structure
+        allData = rows.slice(4).filter(r => r.length >= 12); // On garde toutes les lignes de données
+        
         buildData();
         renderCalendrier(currentCalMonth);
         renderNextThree();
         renderCountries();
+        renderDateStrip(); // Affiche les intervalles basés sur countryByDate
     }
 
     function buildData() {
@@ -997,24 +1061,29 @@
         flatPrograms = [];
         countryByDate.clear();
 
+        // D'abord, collecter toutes les entrées avec pays et date valide
         allData.forEach(row => {
-            let pays = (row[COLUMNS.PAYS]||'').trim().toUpperCase();
-            if (!pays) return;
-            let loc = row[COLUMNS.LOCALITE]||'';
-            if (loc.toUpperCase().includes('RETOUR MADAGASCAR')) return;
-            let progRaw = row[COLUMNS.PROGRAMME]||'';
-            let lieu = row[COLUMNS.LIEU]||'';
-            let progDisplay = getProgramDisplay(progRaw, loc, lieu);
-            if (!progDisplay) return;
-            if (isExcluded(progRaw, lieu)) return;
+            let pays = (row[COLUMNS.PAYS] || '').trim().toUpperCase();
             let date = parseDate(row[COLUMNS.DATE]);
-            if (!date) return;
-
+            
+            if (!pays || !date) return; // Ignorer si pas de pays ou date invalide
+            
             let dateKey = date.toISOString().split('T')[0];
-            if (!countryByDate.has(dateKey)) {
-                countryByDate.set(dateKey, pays);
-            }
-
+            
+            // Enregistrer le pays pour cette date (même si pas de programme)
+            countryByDate.set(dateKey, pays);
+            
+            // Traiter le programme s'il y en a un
+            let loc = row[COLUMNS.LOCALITE] || '';
+            if (loc.toUpperCase().includes('RETOUR MADAGASCAR')) return;
+            
+            let progRaw = row[COLUMNS.PROGRAMME] || '';
+            let lieu = row[COLUMNS.LIEU] || '';
+            let progDisplay = getProgramDisplay(progRaw, loc, lieu);
+            
+            // Ne garder que les programmes valides (non exclus)
+            if (!progDisplay) return;
+            
             let isPrivate = isPrivateEvent(progRaw, lieu);
             
             let item = {
@@ -1030,20 +1099,97 @@
                 flagClass: COUNTRY_FLAG_CLASS[pays] || 'flag-fr',
                 countryEmoji: COUNTRY_EMOJI[pays] || '🇪🇺'
             };
+            
             if (!programsByCountry[pays]) programsByCountry[pays] = [];
             programsByCountry[pays].push(item);
             flatPrograms.push(item);
         });
 
+        // Trier les programmes par pays
         for (let p in programsByCountry) {
             programsByCountry[p].sort((a,b)=>a.date-b.date);
         }
         flatPrograms.sort((a,b)=>a.date-b.date);
+        
+        // Déterminer les pays uniques dans l'ordre souhaité
         const order = ['SUISSE','FRANCE','ALLEMAGNE','BELGIQUE','WALES','ANGLETERRE','MADAGASCAR'];
-        uniqueCountries = order.filter(c => programsByCountry[c] && programsByCountry[c].length>0);
+        uniqueCountries = order.filter(c => programsByCountry[c] && programsByCountry[c].length > 0);
     }
 
-    // ----------------------------- CALENDRIER -----------------------------
+    // Extrait les intervalles de dates pour un pays à partir de countryByDate
+    function getDateIntervalsForCountry(pays) {
+        // Récupérer toutes les dates où ce pays est présent
+        const dates = [];
+        countryByDate.forEach((p, dateKey) => {
+            if (p === pays) {
+                dates.push(new Date(dateKey + 'T00:00:00'));
+            }
+        });
+        
+        if (dates.length === 0) return [];
+        
+        // Trier les dates
+        dates.sort((a, b) => a - b);
+        
+        // Regrouper en intervalles consécutifs
+        const intervals = [];
+        let start = dates[0];
+        let end = dates[0];
+        
+        for (let i = 1; i < dates.length; i++) {
+            const prev = dates[i-1];
+            const curr = dates[i];
+            // Si écart de plus d'un jour, on coupe l'intervalle
+            if ((curr - prev) > (24 * 60 * 60 * 1000)) {
+                intervals.push({ start, end });
+                start = curr;
+                end = curr;
+            } else {
+                end = curr;
+            }
+        }
+        intervals.push({ start, end });
+        
+        return intervals;
+    }
+
+    // Affichage des intervalles par pays avec le nouveau format
+    function renderDateStrip() {
+        const strip = document.getElementById('datesStrip');
+        if (!strip) return;
+        let html = '';
+        
+        // Utiliser les pays uniques basés sur les programmes
+        uniqueCountries.forEach(pays => {
+            const progs = programsByCountry[pays] || [];
+            if (progs.length === 0) return;
+            
+            const intervals = getDateIntervalsForCountry(pays);
+            if (intervals.length === 0) return;
+            
+            const flagClass = COUNTRY_FLAG_CLASS[pays] || 'flag-fr';
+            const emoji = COUNTRY_EMOJI[pays] || '🇪🇺';
+            
+            // Créer le chip principal
+            html += `<div class="date-chip" title="${pays}">`;
+            html += `<div class="chip-flag ${flagClass}"></div>`;
+            html += `<div class="chip-dates">`;
+            
+            // Ajouter chaque intervalle
+            intervals.forEach((interval, idx) => {
+                const startStr = formatIntervalDate(interval.start);
+                const endStr = formatIntervalDate(interval.end);
+                html += `<div class="interval-row"><i class="far fa-calendar-alt"></i> ${startStr} – ${endStr}</div>`;
+            });
+            
+            html += `</div>`;
+            html += `<span style="margin-left:4px;">${emoji}</span>`;
+            html += `</div>`;
+        });
+        
+        strip.innerHTML = html;
+    }
+
     function renderCalendrier(date) {
         let mois = date.getMonth(), an = date.getFullYear();
         document.getElementById('moisAnnee').innerText = date.toLocaleDateString('fr-FR',{month:'long',year:'numeric'});
@@ -1065,16 +1211,20 @@
         for (let d=1; d<=dernier.getDate(); d++) {
             let curDate = new Date(an, mois, d);
             let dateKey = curDate.toISOString().split('T')[0];
+            
+            // Chercher d'abord les programmes du jour
             let programmesDuJour = flatPrograms.filter(p => p.date.toDateString() === curDate.toDateString() && !isPastProgram(p));
+            
+            // Déterminer le pays (priorité aux programmes, sinon countryByDate)
             let paysDuJour = null;
-            if (programmesDuJour.length>0) {
+            if (programmesDuJour.length > 0) {
                 paysDuJour = programmesDuJour[0].pays;
             } else if (countryByDate.has(dateKey)) {
                 paysDuJour = countryByDate.get(dateKey);
             }
+            
             let flagHtml = paysDuJour ? `<div class="mini-flag ${COUNTRY_FLAG_CLASS[paysDuJour]||'flag-fr'}"></div>` : '';
-
-            let localite = programmesDuJour.length>0 ? programmesDuJour[0].localite : '';
+            let localite = programmesDuJour.length > 0 ? programmesDuJour[0].localite : '';
 
             html += `<div class="case-jour" onclick="showProgramsForDate('${curDate}')">`;
             html += `<span class="numero-jour">${d}</span>`;
@@ -1120,7 +1270,6 @@
                     card.className = 'modal-program-card' + (p.isPrivate ? ' private-event' : '');
                     card.setAttribute('data-pays', p.pays);
                     
-                    // Utiliser une fonction pour capturer correctement p
                     card.addEventListener('click', function() {
                         closeDateModal();
                         openDetailModal(p);
@@ -1210,7 +1359,6 @@
                 let card = document.createElement('div');
                 card.className = 'next-card';
                 
-                // Utiliser addEventListener pour capturer correctement p
                 card.addEventListener('click', function() {
                     openDetailModal(p);
                 });
@@ -1268,10 +1416,10 @@
                     
                     let cardClass = 'program-card' + (p.isPrivate ? ' private-event' : '');
                     
-                    // Créer un ID unique pour chaque carte
-                    let cardId = 'card-' + pays + '-' + p.dateStr.replace(/\//g, '-') + '-' + Math.random().toString(36).substr(2, 9);
+                    // Échapper les données pour l'attribut data-program
+                    let programData = JSON.stringify(p).replace(/'/g, "&#39;").replace(/"/g, "&quot;");
                     
-                    html += `<div class="${cardClass}" id="${cardId}" data-pays="${pays}" data-program='${JSON.stringify(p).replace(/'/g, "&#39;").replace(/"/g, "&quot;")}'>`;
+                    html += `<div class="${cardClass}" data-pays="${pays}" data-program='${programData}'>`;
                     html += `<div class="program-date-badge"><i class="far fa-calendar"></i> ${p.dateStr} ${p.heures ? '· '+p.heures : ''}</div>`;
                     html += `<div class="program-localite"><i class="fas fa-map-pin"></i> ${p.localite||'?'}</div>`;
                     if (p.lieu) html += `<div class="program-lieu"><i class="fas fa-location-dot"></i> ${lieuAffiche}</div>`;
@@ -1291,7 +1439,6 @@
                         card.addEventListener('click', function(e) {
                             e.stopPropagation();
                             try {
-                                // Récupérer les données depuis l'attribut data-program
                                 let programData = this.getAttribute('data-program');
                                 if (programData) {
                                     let p = JSON.parse(programData);
