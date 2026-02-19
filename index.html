@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>TOURNÉE EUROPE 2026 -  NY AKO</title>
+    <title>TOURNÉE NY AKO EUROPE 2026</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
@@ -318,8 +318,16 @@
             margin-bottom: 8px; 
             font-size:0.85rem;
         }
-        .next-localite { font-weight: 800; font-size: 1.1rem; color: #0b2b4a; }
+        .next-localite { 
+            font-weight: 800; 
+            font-size: 1.1rem; 
+            color: #0b2b4a;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
         .next-lieu { color: #f15a24; font-weight: 600; font-size: 0.85rem; }
+        .next-flag { width: 22px; height: 14px; border-radius: 3px; display: inline-block; }
         
         /* Compteur J-xxx */
         .j-counter {
@@ -351,7 +359,7 @@
         .country-block[data-pays="FRANCE"] { border-left-color: #002395; background: linear-gradient(to right, #fff, #f0f5ff); }
         .country-block[data-pays="ALLEMAGNE"] { border-left-color: #000; background: linear-gradient(to right, #fff, #f5f5f5); }
         .country-block[data-pays="BELGIQUE"] { border-left-color: #FDDA25; background: linear-gradient(to right, #fff, #fffceb); }
-        .country-block[data-pays="WALES"] { border-left-color: #D21034; background: linear-gradient(to right, #fff, #fff5f5); }
+        .country-block[data-pays="WALES"] { border-left-color: #00A859; background: linear-gradient(to right, #fff, #f0fff0); }
         .country-block[data-pays="ANGLETERRE"] { border-left-color: #012169; background: linear-gradient(to right, #fff, #eef5ff); }
         .country-block[data-pays="MADAGASCAR"] { border-left-color: #FC3D32; background: linear-gradient(to right, #fff, #fff5f5); }
 
@@ -427,18 +435,17 @@
         .country-FRANCE .program-card { background: #f0f5ff; border-color: #002395; }
         .country-ALLEMAGNE .program-card { background: #f5f5f5; border-color: #000; }
         .country-BELGIQUE .program-card { background: #fffceb; border-color: #FDDA25; }
-        .country-WALES .program-card { background: #fff5f5; border-color: #D21034; }
+        .country-WALES .program-card { background: #f0fff0; border-color: #00A859; }
         .country-ANGLETERRE .program-card { background: #eef5ff; border-color: #012169; }
         .country-MADAGASCAR .program-card { background: #fff5f5; border-color: #FC3D32; }
 
-        /* Dates agrandies et colorées */
-        .program-date-badge { 
+        /* Dates agrandies et colorées par pays - avec sélecteurs renforcés */
+        .country-block .program-card .program-date-badge { 
             display: flex; 
             align-items: center; 
             gap: 8px; 
             font-weight: 800; 
             color: #ffffff; 
-            background: #2b6a9e; 
             padding: 8px 14px; 
             border-radius: 40px; 
             width: fit-content; 
@@ -447,15 +454,20 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
-        /* Badge privé pour animations écoles */
-        .program-card.private-event .programme-text {
-            background: #9ca3af;
-            color: #1e293b;
-            border-color: #6b7280;
-        }
+        /* Couleurs par pays pour les badges de date - spécifiques et prioritaires */
+        .country-block[data-pays="SUISSE"] .program-card .program-date-badge { background: #D52B1E !important; color: #ffffff !important; } /* Rouge suisse */
+        .country-block[data-pays="FRANCE"] .program-card .program-date-badge { background: #002395 !important; color: #ffffff !important; } /* Bleu France */
+        .country-block[data-pays="ALLEMAGNE"] .program-card .program-date-badge { background: #000000 !important; color: #ffffff !important; } /* Noir Allemagne */
+        .country-block[data-pays="BELGIQUE"] .program-card .program-date-badge { background: #FDDA25 !important; color: #000000 !important; } /* Jaune Belgique, texte noir */
+        .country-block[data-pays="WALES"] .program-card .program-date-badge { background: #00A859 !important; color: #ffffff !important; } /* Vert gallois */
+        .country-block[data-pays="ANGLETERRE"] .program-card .program-date-badge { background: #012169 !important; color: #ffffff !important; } /* Bleu Angleterre */
+        .country-block[data-pays="MADAGASCAR"] .program-card .program-date-badge { background: #FC3D32 !important; color: #ffffff !important; } /* Rouge Madagascar */
+        
+        /* Badge privé pour animations écoles - avec priorité */
         .program-card.private-event .program-date-badge {
-            background: #6b7280;
-            border-color: #4b5563;
+            background: #6b7280 !important;
+            border-color: #4b5563 !important;
+            color: #ffffff !important;
         }
 
         .program-localite { font-weight: 700; font-size: 1.1rem; color: #122b44; }
@@ -482,9 +494,11 @@
             display: inline-block; 
             border: 1px solid #fed7aa;
         }
-        .localisation-link { color: #1e6f9f; font-size: 0.8rem; text-decoration: underline dotted; cursor: pointer; word-break: break-all; }
-        .copy-icon { margin-left: 6px; color: #7e93a8; font-size: 0.7rem; cursor: pointer; }
-        .copy-icon:hover { color: #2b6f9e; }
+        .program-card.private-event .programme-text {
+            background: #9ca3af !important;
+            color: #1e293b !important;
+            border-color: #6b7280 !important;
+        }
 
         footer { margin-top: 50px; text-align: center; color: #8094a8; font-size: 0.85rem; border-top: 1px solid #dce5ed; padding-top: 25px; }
 
@@ -504,18 +518,26 @@
         }
         .modal-program-card:hover { background: #fff4e6; }
         
-        /* Date dans la modal agrandie et colorée */
+        /* Date dans la modal agrandie et colorée par pays */
         .modal-program-card .modal-date {
             font-weight: 800;
             font-size: 1.2rem;
             color: #ffffff;
-            background: #2b6a9e;
             padding: 6px 14px;
             border-radius: 40px;
             display: inline-block;
             margin-bottom: 10px;
             border: 2px solid #ffd966;
         }
+        
+        /* Couleurs par pays pour les dates dans les modales */
+        .modal-program-card[data-pays="SUISSE"] .modal-date { background: #D52B1E; }
+        .modal-program-card[data-pays="FRANCE"] .modal-date { background: #002395; }
+        .modal-program-card[data-pays="ALLEMAGNE"] .modal-date { background: #000; }
+        .modal-program-card[data-pays="BELGIQUE"] .modal-date { background: #FDDA25; color: #000; }
+        .modal-program-card[data-pays="WALES"] .modal-date { background: #00A859; }
+        .modal-program-card[data-pays="ANGLETERRE"] .modal-date { background: #012169; }
+        .modal-program-card[data-pays="MADAGASCAR"] .modal-date { background: #FC3D32; }
         
         /* Lien sur une ligne avec options */
         .modal-loc {
@@ -564,8 +586,9 @@
             opacity: 0.9;
         }
         .modal-program-card.private-event .modal-date {
-            background: #6b7280;
+            background: #6b7280 !important;
             border-color: #4b5563;
+            color: #ffffff;
         }
         
         /* Mini drapeau dans les modales */
@@ -750,7 +773,7 @@
             <img class="polaroid-img" src="https://drive.google.com/thumbnail?id=193k18u5i7g3JvpQWTK4xFoi7uzJl1vhI&sz=w800" alt="Tournée Europe">
             <div class="polaroid-caption">✨ Toutes nos source sont en TOI✨</div>
         </div>
-        <h1>🇪🇺 TOURNÉE EUROPE 2026 -  NY AKO</h1>
+        <h1>🇪🇺 TOURNÉE NY AKO EUROPE 2026</h1>
         <div class="flags-strip">
             <div class="flag-mini flag-ch" title="Suisse"></div>
             <div class="flag-mini flag-fr" title="France"></div>
@@ -1073,50 +1096,58 @@
     }
 
     window.showProgramsForDate = function(dateStr) {
-        let d = new Date(dateStr);
-        let programmes = flatPrograms.filter(p => p.date.toDateString()===d.toDateString() && !isPastProgram(p));
-        let modal = document.getElementById('dateProgramsModal');
-        let daySpan = document.getElementById('modalDateDay');
-        daySpan.innerText = d.toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
+        try {
+            let d = new Date(dateStr);
+            let programmes = flatPrograms.filter(p => p.date && p.date.toDateString() === d.toDateString() && !isPastProgram(p));
+            let modal = document.getElementById('dateProgramsModal');
+            let daySpan = document.getElementById('modalDateDay');
+            daySpan.innerText = d.toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
 
-        let listDiv = document.getElementById('modalProgramsList');
-        listDiv.innerHTML = '';
+            let listDiv = document.getElementById('modalProgramsList');
+            listDiv.innerHTML = '';
 
-        if (programmes.length===0) {
-            let dateKey = d.toISOString().split('T')[0];
-            if (countryByDate.has(dateKey)) {
-                listDiv.innerHTML = `<div style="padding:20px; text-align:center;">Aucun programme public, mais le groupe est en ${countryByDate.get(dateKey)}</div>`;
+            if (programmes.length===0) {
+                let dateKey = d.toISOString().split('T')[0];
+                if (countryByDate.has(dateKey)) {
+                    listDiv.innerHTML = `<div style="padding:20px; text-align:center;">Aucun programme public, mais le groupe est en ${countryByDate.get(dateKey)}</div>`;
+                } else {
+                    listDiv.innerHTML = '<div style="padding:20px; text-align:center;">Aucun programme public ce jour</div>';
+                }
             } else {
-                listDiv.innerHTML = '<div style="padding:20px; text-align:center;">Aucun programme public ce jour</div>';
+                programmes.forEach(p => {
+                    if (!p) return;
+                    let card = document.createElement('div');
+                    card.className = 'modal-program-card' + (p.isPrivate ? ' private-event' : '');
+                    card.setAttribute('data-pays', p.pays);
+                    
+                    // Utiliser une fonction pour capturer correctement p
+                    card.addEventListener('click', function() {
+                        closeDateModal();
+                        openDetailModal(p);
+                    });
+
+                    let locHTML = p.localisation || p.coords ? createLocationHTML(p.localisation, p.coords) : '';
+                    let siteHTML = p.site ? createLocationHTML(p.site, null) : '';
+
+                    card.innerHTML = `
+                        <div class="modal-country-badge">
+                            <div class="mini-flag ${p.flagClass}" style="width:20px; height:14px; margin-right:6px;"></div>
+                            ${p.countryEmoji} ${p.pays}
+                        </div>
+                        <div class="modal-date">📅 ${p.dateStr} ${p.heures ? '· ' + p.heures : ''}</div>
+                        <div style="font-weight:600;">📍 ${p.localite || 'Lieu non précisé'}</div>
+                        ${locHTML}
+                        ${siteHTML}
+                        <div style="margin-top:8px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme || 'Programme'}</span></div>
+                        ${p.isPrivate ? '<div style="margin-top:6px; font-size:0.75rem; color:#6b7280;"><i class="fas fa-lock"></i> Événement privé (école/enfants)</div>' : ''}
+                    `;
+                    listDiv.appendChild(card);
+                });
             }
-        } else {
-            programmes.forEach(p => {
-                let card = document.createElement('div');
-                card.className = 'modal-program-card' + (p.isPrivate ? ' private-event' : '');
-                card.onclick = () => {
-                    closeDateModal();
-                    openDetailModal(p);
-                };
-
-                let locHTML = createLocationHTML(p.localisation, p.coords);
-                let siteHTML = p.site ? createLocationHTML(p.site, null) : '';
-
-                card.innerHTML = `
-                    <div class="modal-country-badge">
-                        <div class="mini-flag ${p.flagClass}" style="width:20px; height:14px; margin-right:6px;"></div>
-                        ${p.countryEmoji} ${p.pays}
-                    </div>
-                    <div class="modal-date">📅 ${p.dateStr} ${p.heures ? '· ' + p.heures : ''}</div>
-                    <div style="font-weight:600;">📍 ${p.localite}</div>
-                    ${locHTML}
-                    ${siteHTML}
-                    <div style="margin-top:8px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme}</span></div>
-                    ${p.isPrivate ? '<div style="margin-top:6px; font-size:0.75rem; color:#6b7280;"><i class="fas fa-lock"></i> Événement privé (école/enfants)</div>' : ''}
-                `;
-                listDiv.appendChild(card);
-            });
+            modal.style.display = 'flex';
+        } catch (e) {
+            console.error('Erreur dans showProgramsForDate:', e);
         }
-        modal.style.display = 'flex';
     };
 
     window.closeDateModal = function() {
@@ -1124,28 +1155,33 @@
     };
 
     window.openDetailModal = function(p) {
-        let modal = document.getElementById('programDetailModal');
-        let title = document.getElementById('detailModalTitle');
-        title.innerText = p.localite + ' · ' + p.pays + (p.isPrivate ? ' (Privé)' : '');
-        let body = document.getElementById('detailModalBody');
+        try {
+            if (!p) return;
+            let modal = document.getElementById('programDetailModal');
+            let title = document.getElementById('detailModalTitle');
+            title.innerText = (p.localite || 'Lieu') + ' · ' + (p.pays || 'Pays') + (p.isPrivate ? ' (Privé)' : '');
+            let body = document.getElementById('detailModalBody');
 
-        let locHTML = createLocationHTML(p.localisation, p.coords);
-        let siteHTML = p.site ? createLocationHTML(p.site, null) : '';
+            let locHTML = p.localisation || p.coords ? createLocationHTML(p.localisation, p.coords) : '';
+            let siteHTML = p.site ? createLocationHTML(p.site, null) : '';
 
-        body.innerHTML = `
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
-                <div class="mini-flag ${p.flagClass}" style="width:30px; height:20px;"></div>
-                <span style="font-weight:700; font-size:1.2rem;">${p.countryEmoji} ${p.pays}</span>
-            </div>
-            <div class="modal-detail-row"><span class="modal-icon">📅</span><span class="modal-info"><strong>${p.dateStr} ${p.heures ? '· ' + p.heures : ''}</strong></span></div>
-            <div class="modal-detail-row"><span class="modal-icon">🏷️</span><span class="modal-info"><strong>${p.programme}</strong></span></div>
-            <div class="modal-detail-row"><span class="modal-icon">📍</span><span class="modal-info"><strong>${p.lieu || 'Lieu non précisé'}</strong>${p.adresse ? '<br>'+p.adresse : ''}</span></div>
-            ${locHTML}
-            ${siteHTML}
-            <hr>
-            <div class="modal-detail-row"><span class="modal-icon">ℹ️</span><span class="modal-info">${p.isPrivate ? 'Événement privé (école/enfants)' : 'Événement public'}</span></div>
-        `;
-        modal.style.display = 'flex';
+            body.innerHTML = `
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
+                    <div class="mini-flag ${p.flagClass}" style="width:30px; height:20px;"></div>
+                    <span style="font-weight:700; font-size:1.2rem;">${p.countryEmoji || '🇪🇺'} ${p.pays || ''}</span>
+                </div>
+                <div class="modal-detail-row"><span class="modal-icon">📅</span><span class="modal-info"><strong>${p.dateStr || ''} ${p.heures ? '· ' + p.heures : ''}</strong></span></div>
+                <div class="modal-detail-row"><span class="modal-icon">🏷️</span><span class="modal-info"><strong>${p.programme || 'Programme'}</strong></span></div>
+                <div class="modal-detail-row"><span class="modal-icon">📍</span><span class="modal-info"><strong>${p.lieu || 'Lieu non précisé'}</strong>${p.adresse ? '<br>'+p.adresse : ''}</span></div>
+                ${locHTML}
+                ${siteHTML}
+                <hr>
+                <div class="modal-detail-row"><span class="modal-icon">ℹ️</span><span class="modal-info">${p.isPrivate ? 'Événement privé (école/enfants)' : 'Événement public'}</span></div>
+            `;
+            modal.style.display = 'flex';
+        } catch (e) {
+            console.error('Erreur dans openDetailModal:', e);
+        }
     };
 
     window.closeDetailModal = function() {
@@ -1162,72 +1198,116 @@
     });
 
     function renderNextThree() {
-        let upcoming = flatPrograms.filter(p => !isPastProgram(p)).slice(0,3);
-        let container = document.getElementById('nextCardsContainer');
-        let panel = document.getElementById('nextThreePanel');
-        if (upcoming.length===0) { panel.style.display='none'; return; }
-        panel.style.display='block';
-        container.innerHTML = '';
-        upcoming.forEach(p => {
-            let card = document.createElement('div');
-            card.className = 'next-card';
-            card.onclick = ()=>openDetailModal(p);
-            
-            let jours = daysUntil(p.date);
-            let jourText = jours === 0 ? "Aujourd'hui" : jours === 1 ? "Demain" : `J-${jours}`;
-            
-            let locDisplay = p.lieu || 'Lieu à préciser';
-            
-            card.innerHTML = `
-                <div class="j-counter">${jourText}</div>
-                <div class="next-date">📅 ${p.dateStr} ${p.heures ? '· ' + p.heures : ''}</div>
-                <div class="next-localite">📍 ${p.localite||'?'}</div>
-                <div class="next-lieu" style="font-size:0.8rem;">${locDisplay}</div>
-                <div style="margin-top:8px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme}</span></div>
-                ${p.isPrivate ? '<div style="margin-top:4px; font-size:0.7rem; color:#6b7280;"><i class="fas fa-lock"></i> Privé</div>' : ''}
-            `;
-            container.appendChild(card);
-        });
+        try {
+            let upcoming = flatPrograms.filter(p => !isPastProgram(p)).slice(0,3);
+            let container = document.getElementById('nextCardsContainer');
+            let panel = document.getElementById('nextThreePanel');
+            if (upcoming.length===0) { panel.style.display='none'; return; }
+            panel.style.display='block';
+            container.innerHTML = '';
+            upcoming.forEach(p => {
+                if (!p) return;
+                let card = document.createElement('div');
+                card.className = 'next-card';
+                
+                // Utiliser addEventListener pour capturer correctement p
+                card.addEventListener('click', function() {
+                    openDetailModal(p);
+                });
+                
+                let jours = daysUntil(p.date);
+                let jourText = jours === 0 ? "Aujourd'hui" : jours === 1 ? "Demain" : `J-${jours}`;
+                
+                let locDisplay = p.lieu || 'Lieu à préciser';
+                
+                card.innerHTML = `
+                    <div class="j-counter">${jourText}</div>
+                    <div class="next-date">📅 ${p.dateStr} ${p.heures ? '· ' + p.heures : ''}</div>
+                    <div class="next-localite">
+                        <div class="next-flag ${p.flagClass}"></div>
+                        📍 ${p.localite || '?'}
+                    </div>
+                    <div class="next-lieu" style="font-size:0.8rem;">${locDisplay}</div>
+                    <div style="margin-top:8px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme || 'Programme'}</span></div>
+                    ${p.isPrivate ? '<div style="margin-top:4px; font-size:0.7rem; color:#6b7280;"><i class="fas fa-lock"></i> Privé</div>' : ''}
+                `;
+                container.appendChild(card);
+            });
+        } catch (e) {
+            console.error('Erreur dans renderNextThree:', e);
+        }
     }
 
     function renderCountries() {
-        let container = document.getElementById('programmesPublic');
-        if (!container) return;
-        if (uniqueCountries.length===0) { container.innerHTML = '<div style="padding:40px; text-align:center;">Aucun programme à venir.</div>'; return; }
+        try {
+            let container = document.getElementById('programmesPublic');
+            if (!container) return;
+            if (uniqueCountries.length===0) { container.innerHTML = '<div style="padding:40px; text-align:center;">Aucun programme à venir.</div>'; return; }
 
-        let html = '';
-        uniqueCountries.forEach(pays => {
-            let programmes = programsByCountry[pays].filter(p => !isPastProgram(p));
-            if (programmes.length===0) return;
-            let flagClass = COUNTRY_FLAG_CLASS[pays]||'flag-fr';
-            let paysDisplay = pays.charAt(0)+pays.slice(1).toLowerCase();
-            let emoji = COUNTRY_EMOJI[pays] || '🇪🇺';
+            let html = '';
+            uniqueCountries.forEach(pays => {
+                let programmes = programsByCountry[pays] ? programsByCountry[pays].filter(p => !isPastProgram(p)) : [];
+                if (programmes.length===0) return;
+                let flagClass = COUNTRY_FLAG_CLASS[pays]||'flag-fr';
+                let paysDisplay = pays.charAt(0)+pays.slice(1).toLowerCase();
+                let emoji = COUNTRY_EMOJI[pays] || '🇪🇺';
 
-            html += `<div class="country-block" data-pays="${pays}" id="block-${pays}">`;
-            html += `<div class="country-header">`;
-            html += `<div class="country-flag-large ${flagClass}"></div>`;
-            html += `<span class="country-name"><span class="country-emoji">${emoji}</span> ${paysDisplay}</span>`;
-            html += `<span class="country-stats"><i class="far fa-calendar-alt"></i> ${programmes.length} programme${programmes.length>1?'s':''}</span>`;
-            html += `<button class="toggle-btn" onclick="toggleCountry('${pays}')" id="toggle-${pays}"><i class="fas fa-eye"></i> Afficher</button>`;
-            html += `</div>`;
-            html += `<div class="program-list" id="list-${pays}" style="display: none;">`;
-            programmes.forEach(p => {
-                let emojiProg = getEmoji(p.programme);
-                let lieuAffiche = p.lieu || 'Lieu à préciser';
-                if (lieuAffiche.length>30) lieuAffiche = lieuAffiche.slice(0,27)+'…';
-                
-                let cardClass = 'program-card' + (p.isPrivate ? ' private-event' : '');
-                html += `<div class="${cardClass}" onclick='openDetailModal(${JSON.stringify(p).replace(/'/g,"\\'").replace(/"/g,"&quot;")})'>`;
-                html += `<div class="program-date-badge"><i class="far fa-calendar"></i> ${p.dateStr} ${p.heures ? '· '+p.heures : ''}</div>`;
-                html += `<div class="program-localite"><i class="fas fa-map-pin"></i> ${p.localite||'?'}</div>`;
-                if (p.lieu) html += `<div class="program-lieu"><i class="fas fa-location-dot"></i> ${lieuAffiche}</div>`;
-                html += `<div class="program-type-emojis"><span class="programme-text">${emojiProg} ${p.programme}</span></div>`;
-                if (p.isPrivate) html += `<div style="margin-top:4px; font-size:0.7rem; color:#6b7280;"><i class="fas fa-lock"></i> Privé</div>`;
+                html += `<div class="country-block" data-pays="${pays}" id="block-${pays}">`;
+                html += `<div class="country-header">`;
+                html += `<div class="country-flag-large ${flagClass}"></div>`;
+                html += `<span class="country-name"><span class="country-emoji">${emoji}</span> ${paysDisplay}</span>`;
+                html += `<span class="country-stats"><i class="far fa-calendar-alt"></i> ${programmes.length} programme${programmes.length>1?'s':''}</span>`;
+                html += `<button class="toggle-btn" onclick="toggleCountry('${pays}')" id="toggle-${pays}"><i class="fas fa-eye"></i> Afficher</button>`;
                 html += `</div>`;
+                html += `<div class="program-list" id="list-${pays}" style="display: none;">`;
+                programmes.forEach(p => {
+                    if (!p) return;
+                    let emojiProg = getEmoji(p.programme);
+                    let lieuAffiche = p.lieu || 'Lieu à préciser';
+                    if (lieuAffiche.length>30) lieuAffiche = lieuAffiche.slice(0,27)+'…';
+                    
+                    let cardClass = 'program-card' + (p.isPrivate ? ' private-event' : '');
+                    
+                    // Créer un ID unique pour chaque carte
+                    let cardId = 'card-' + pays + '-' + p.dateStr.replace(/\//g, '-') + '-' + Math.random().toString(36).substr(2, 9);
+                    
+                    html += `<div class="${cardClass}" id="${cardId}" data-pays="${pays}" data-program='${JSON.stringify(p).replace(/'/g, "&#39;").replace(/"/g, "&quot;")}'>`;
+                    html += `<div class="program-date-badge"><i class="far fa-calendar"></i> ${p.dateStr} ${p.heures ? '· '+p.heures : ''}</div>`;
+                    html += `<div class="program-localite"><i class="fas fa-map-pin"></i> ${p.localite||'?'}</div>`;
+                    if (p.lieu) html += `<div class="program-lieu"><i class="fas fa-location-dot"></i> ${lieuAffiche}</div>`;
+                    html += `<div class="program-type-emojis"><span class="programme-text">${emojiProg} ${p.programme || 'Programme'}</span></div>`;
+                    if (p.isPrivate) html += `<div style="margin-top:4px; font-size:0.7rem; color:#6b7280;"><i class="fas fa-lock"></i> Privé</div>`;
+                    html += `</div>`;
+                });
+                html += `</div></div>`;
             });
-            html += `</div></div>`;
-        });
-        container.innerHTML = html;
+            container.innerHTML = html;
+            
+            // Ajouter les écouteurs d'événements après avoir inséré le HTML
+            setTimeout(() => {
+                document.querySelectorAll('.program-card').forEach(card => {
+                    if (!card.hasAttribute('data-listener')) {
+                        card.setAttribute('data-listener', 'true');
+                        card.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            try {
+                                // Récupérer les données depuis l'attribut data-program
+                                let programData = this.getAttribute('data-program');
+                                if (programData) {
+                                    let p = JSON.parse(programData);
+                                    openDetailModal(p);
+                                }
+                            } catch (err) {
+                                console.error('Erreur lors du clic sur la carte:', err);
+                            }
+                        });
+                    }
+                });
+            }, 100);
+            
+        } catch (e) {
+            console.error('Erreur dans renderCountries:', e);
+        }
     }
 
     window.toggleCountry = function(pays) {
@@ -1252,7 +1332,7 @@
         if (e.target.classList.contains('modal')) e.target.style.display = 'none';
     };
 
-    loadData();
+    loadData().catch(e => console.error('Erreur chargement données:', e));
 })();
 </script>
 </body>
