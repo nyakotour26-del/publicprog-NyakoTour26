@@ -182,14 +182,14 @@
             border: 1px solid rgba(255,255,255,0.8);
         }
         
-        /* Responsive grid pour les cartes */
-        @media (max-width: 767px) {
+        /* Passage à 2 cartes dès que l'écran dépasse 8cm (environ 300px) */
+        @media (max-width: 299px) {
             .dates-strip {
                 grid-template-columns: 1fr;
             }
         }
         
-        @media (min-width: 768px) and (max-width: 1199px) {
+        @media (min-width: 300px) {
             .dates-strip {
                 grid-template-columns: repeat(2, 1fr);
             }
