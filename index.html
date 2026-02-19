@@ -171,7 +171,7 @@
             background: #007E3A;
         }
 
-        /* Bande des intervalles de dates par pays */
+        /* Bande des intervalles de dates par pays - avec effet cliquable */
         .dates-strip {
             display: flex;
             flex-wrap: wrap;
@@ -196,23 +196,33 @@
             border: 1px solid #e1eaf2;
             font-weight: 600;
             font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .date-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(0,60,120,0.15);
+            border-color: #f97316;
         }
         .chip-flag {
             width: 26px;
             height: 18px;
             border-radius: 4px;
+            pointer-events: none;
         }
         .chip-dates {
             color: #1e3f64;
             display: flex;
             flex-direction: column;
             gap: 2px;
+            pointer-events: none;
         }
         .interval-row {
             display: flex;
             align-items: center;
             gap: 4px;
             font-size: 0.85rem;
+            pointer-events: none;
         }
         .interval-row i {
             color: #f97316;
@@ -395,8 +405,9 @@
 
         /* pays blocks avec couleurs et emojis personnalisés */
         .programs-grid { display: flex; flex-direction: column; gap: 24px; margin: 30px 0; }
+        
+        /* Styles de base pour tous les blocs pays */
         .country-block { 
-            background: white; 
             border-radius: 24px; 
             padding: 20px 18px; 
             box-shadow: 0 12px 30px -8px rgba(0,20,40,0.15); 
@@ -404,13 +415,32 @@
             transition: transform 0.2s;
         }
         .country-block:hover { transform: translateY(-3px); }
-        .country-block[data-pays="SUISSE"] { border-left-color: #D52B1E; background: linear-gradient(to right, #fff, #fff5f5); }
-        .country-block[data-pays="FRANCE"] { border-left-color: #002395; background: linear-gradient(to right, #fff, #f0f5ff); }
-        .country-block[data-pays="ALLEMAGNE"] { border-left-color: #000; background: linear-gradient(to right, #fff, #f5f5f5); }
-        .country-block[data-pays="BELGIQUE"] { border-left-color: #FDDA25; background: linear-gradient(to right, #fff, #fffceb); }
-        .country-block[data-pays="WALES"] { border-left-color: #00A859; background: linear-gradient(to right, #fff, #f0fff0); }
-        .country-block[data-pays="ANGLETERRE"] { border-left-color: #012169; background: linear-gradient(to right, #fff, #eef5ff); }
-        .country-block[data-pays="MADAGASCAR"] { border-left-color: #FC3D32; background: linear-gradient(to right, #fff, #fff5f5); }
+        
+        /* Fonds aux couleurs nationales - avec dégradés subtils */
+        .country-block[data-pays="SUISSE"] { 
+            border-left-color: #D52B1E; 
+            background: linear-gradient(145deg, #fff0f0, #ffe6e6);
+        }
+        .country-block[data-pays="FRANCE"] { 
+            border-left-color: #002395; 
+            background: linear-gradient(145deg, #f0f5ff, #e6edff);
+        }
+        .country-block[data-pays="ALLEMAGNE"] { 
+            border-left-color: #000000; 
+            background: linear-gradient(145deg, #f5f5f5, #e8e8e8);
+        }
+        .country-block[data-pays="BELGIQUE"] { 
+            border-left-color: #FDDA25; 
+            background: linear-gradient(145deg, #fffceb, #fff9db);
+        }
+        .country-block[data-pays="WALES"] { 
+            border-left-color: #00A859; 
+            background: linear-gradient(145deg, #f0fff0, #e6f7e6);
+        }
+        .country-block[data-pays="ANGLETERRE"] { 
+            border-left-color: #012169; 
+            background: linear-gradient(145deg, #eef5ff, #e6f0ff);
+        }
 
         .country-header { 
             display: flex; 
@@ -419,8 +449,10 @@
             margin-bottom: 20px; 
             flex-wrap: wrap; 
             background: rgba(255,255,255,0.7);
+            backdrop-filter: blur(2px);
             padding: 10px 15px;
             border-radius: 60px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
         .country-flag-large { width: 50px; height: 35px; border-radius: 6px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
         .country-name { 
@@ -435,7 +467,8 @@
         .country-emoji { font-size: 1.8rem; }
         .country-stats { 
             margin-left: auto; 
-            background: #eef2f6; 
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(2px);
             padding: 6px 16px; 
             border-radius: 40px; 
             font-size: 0.9rem; 
@@ -443,24 +476,12 @@
             color: #1e3a6f; 
         }
 
+        /* Suppression du bouton toggle - les cartes sont toujours visibles */
         .toggle-btn {
-            background: #2270b0;
-            border: none;
-            border-radius: 40px;
-            padding: 8px 22px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: white;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(30,100,170,0.3);
-            transition: 0.2s;
+            display: none;
         }
-        .toggle-btn:hover { background: #1b5d94; transform: scale(1.02); }
 
-        /* Grille desktop : 4 colonnes */
+        /* Grille desktop : 4 colonnes - toujours visible */
         .program-list {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -479,14 +500,13 @@
         }
         .program-card:hover { transform: translateY(-4px); box-shadow: 0 12px 25px -8px rgba(0,55,120,0.2); }
         
-        /* Couleurs par pays pour les cartes */
-        .country-SUISSE .program-card { background: #fff5f5; border-color: #D52B1E; }
-        .country-FRANCE .program-card { background: #f0f5ff; border-color: #002395; }
-        .country-ALLEMAGNE .program-card { background: #f5f5f5; border-color: #000; }
-        .country-BELGIQUE .program-card { background: #fffceb; border-color: #FDDA25; }
-        .country-WALES .program-card { background: #f0fff0; border-color: #00A859; }
-        .country-ANGLETERRE .program-card { background: #eef5ff; border-color: #012169; }
-        .country-MADAGASCAR .program-card { background: #fff5f5; border-color: #FC3D32; }
+        /* Couleurs par pays pour les cartes - harmonisées avec le fond */
+        .country-block[data-pays="SUISSE"] .program-card { background: #fff5f5; border-color: #D52B1E; }
+        .country-block[data-pays="FRANCE"] .program-card { background: #f0f5ff; border-color: #002395; }
+        .country-block[data-pays="ALLEMAGNE"] .program-card { background: #f5f5f5; border-color: #000; }
+        .country-block[data-pays="BELGIQUE"] .program-card { background: #fffceb; border-color: #FDDA25; }
+        .country-block[data-pays="WALES"] .program-card { background: #f0fff0; border-color: #00A859; }
+        .country-block[data-pays="ANGLETERRE"] .program-card { background: #eef5ff; border-color: #012169; }
 
         /* Dates agrandies et colorées par pays - avec sélecteurs renforcés */
         .country-block .program-card .program-date-badge { 
@@ -504,13 +524,12 @@
         }
         
         /* Couleurs par pays pour les badges de date - spécifiques et prioritaires */
-        .country-block[data-pays="SUISSE"] .program-card .program-date-badge { background: #D52B1E !important; color: #ffffff !important; } /* Rouge suisse */
-        .country-block[data-pays="FRANCE"] .program-card .program-date-badge { background: #002395 !important; color: #ffffff !important; } /* Bleu France */
-        .country-block[data-pays="ALLEMAGNE"] .program-card .program-date-badge { background: #000000 !important; color: #ffffff !important; } /* Noir Allemagne */
-        .country-block[data-pays="BELGIQUE"] .program-card .program-date-badge { background: #FDDA25 !important; color: #000000 !important; } /* Jaune Belgique, texte noir */
-        .country-block[data-pays="WALES"] .program-card .program-date-badge { background: #00A859 !important; color: #ffffff !important; } /* Vert gallois */
-        .country-block[data-pays="ANGLETERRE"] .program-card .program-date-badge { background: #012169 !important; color: #ffffff !important; } /* Bleu Angleterre */
-        .country-block[data-pays="MADAGASCAR"] .program-card .program-date-badge { background: #FC3D32 !important; color: #ffffff !important; } /* Rouge Madagascar */
+        .country-block[data-pays="SUISSE"] .program-card .program-date-badge { background: #D52B1E !important; color: #ffffff !important; }
+        .country-block[data-pays="FRANCE"] .program-card .program-date-badge { background: #002395 !important; color: #ffffff !important; }
+        .country-block[data-pays="ALLEMAGNE"] .program-card .program-date-badge { background: #000000 !important; color: #ffffff !important; }
+        .country-block[data-pays="BELGIQUE"] .program-card .program-date-badge { background: #FDDA25 !important; color: #000000 !important; }
+        .country-block[data-pays="WALES"] .program-card .program-date-badge { background: #00A859 !important; color: #ffffff !important; }
+        .country-block[data-pays="ANGLETERRE"] .program-card .program-date-badge { background: #012169 !important; color: #ffffff !important; }
         
         /* Badge privé pour animations écoles - avec priorité */
         .program-card.private-event .program-date-badge {
@@ -586,7 +605,6 @@
         .modal-program-card[data-pays="BELGIQUE"] .modal-date { background: #FDDA25; color: #000; }
         .modal-program-card[data-pays="WALES"] .modal-date { background: #00A859; }
         .modal-program-card[data-pays="ANGLETERRE"] .modal-date { background: #012169; }
-        .modal-program-card[data-pays="MADAGASCAR"] .modal-date { background: #FC3D32; }
         
         /* Lien sur une ligne avec options */
         .modal-loc {
@@ -733,7 +751,6 @@
             .country-name { font-size: 1.2rem; }
             .country-emoji { font-size: 1.2rem; }
             .country-stats { font-size: 0.7rem; padding: 3px 8px; }
-            .toggle-btn { padding: 4px 12px; font-size: 0.7rem; }
             
             .program-list { 
                 grid-template-columns: repeat(2, 1fr) !important;
@@ -818,7 +835,7 @@
             <img class="polaroid-img" src="https://drive.google.com/thumbnail?id=193k18u5i7g3JvpQWTK4xFoi7uzJl1vhI&sz=w800" alt="Tournée Europe">
             <div class="polaroid-caption">✨ Toutes nos source sont en TOI✨</div>
         </div>
-        <h1>🇪🇺 TOURNÉ EUROPE 2026 - NY AKO</h1>
+        <h1>🇪🇺 TOURNÉE EUROPE 2026 - NY AKO</h1>
         <div class="flags-strip">
             <div class="flag-mini flag-ch" title="Suisse"></div>
             <div class="flag-mini flag-fr" title="France"></div>
@@ -826,10 +843,9 @@
             <div class="flag-mini flag-be" title="Belgique"></div>
             <div class="flag-mini flag-uk" title="Angleterre"></div>
             <div class="flag-mini flag-wales" title="Wales"></div>
-            <div class="flag-mini flag-mada" title="Madagascar"></div>
         </div>
 
-        <!-- Bande des intervalles de dates par pays (basée sur la colonne PAYS) -->
+        <!-- Bande des intervalles de dates par pays - cliquable -->
         <div id="datesStrip" class="dates-strip">
             <!-- injecté dynamiquement -->
         </div>
@@ -852,7 +868,7 @@
         </div>
     </div>
 
-    <!-- LISTE PAYS -->
+    <!-- LISTE PAYS - toujours visible -->
     <div id="programmesPublic" class="programs-grid"></div>
 
     <footer><i class="fas fa-music"></i> Données extraites automatiquement · version grand public</footer>
@@ -886,10 +902,10 @@
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
     const EXCLUDED_KEYWORDS = ['apéro','apero','repas','installation','visite','visites','repos','trajet','trajets','départ','retour','rest','relax','marche','shopping','marché','détente','voyage','transfert'];
     const PRIVATE_KEYWORDS = ['animation enfant','ecole','school','enfant','kids','child','élève','classe','scolaire','périscolaire','garderie'];
-    const COUNTRY_FLAG_CLASS = { 'SUISSE':'flag-ch','FRANCE':'flag-fr','ALLEMAGNE':'flag-de','BELGIQUE':'flag-be','WALES':'flag-wales','ANGLETERRE':'flag-uk','MADAGASCAR':'flag-mada' };
+    const COUNTRY_FLAG_CLASS = { 'SUISSE':'flag-ch','FRANCE':'flag-fr','ALLEMAGNE':'flag-de','BELGIQUE':'flag-be','WALES':'flag-wales','ANGLETERRE':'flag-uk' };
     const COUNTRY_EMOJI = {
         'SUISSE': '🇨🇭', 'FRANCE': '🇫🇷', 'ALLEMAGNE': '🇩🇪', 'BELGIQUE': '🇧🇪',
-        'WALES': '🏴󠁧󠁢󠁷󠁬󠁳󠁿', 'ANGLETERRE': '🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'MADAGASCAR': '🇲🇬'
+        'WALES': '🏴󠁧󠁢󠁷󠁬󠁳󠁿', 'ANGLETERRE': '🏴󠁧󠁢󠁥󠁮󠁧󠁿'
     };
     const COLUMNS = { DATE:0, LOCALITE:1, LIEU:2, HEURES:3, ADRESSE:4, HEBERGEMENT:5, PROGRAMME:6, LOCALISATION:7, SITE:8, PAYS:9, COORDS:10, TRAJETS:11 };
 
@@ -1064,6 +1080,10 @@
         // D'abord, collecter toutes les entrées avec pays et date valide
         allData.forEach(row => {
             let pays = (row[COLUMNS.PAYS] || '').trim().toUpperCase();
+            
+            // Exclure Madagascar
+            if (pays === 'MADAGASCAR') return;
+            
             let date = parseDate(row[COLUMNS.DATE]);
             
             if (!pays || !date) return; // Ignorer si pas de pays ou date invalide
@@ -1111,8 +1131,8 @@
         }
         flatPrograms.sort((a,b)=>a.date-b.date);
         
-        // Déterminer les pays uniques dans l'ordre souhaité
-        const order = ['SUISSE','FRANCE','ALLEMAGNE','BELGIQUE','WALES','ANGLETERRE','MADAGASCAR'];
+        // Déterminer les pays uniques dans l'ordre souhaité (sans Madagascar)
+        const order = ['SUISSE','FRANCE','ALLEMAGNE','BELGIQUE','WALES','ANGLETERRE'];
         uniqueCountries = order.filter(c => programsByCountry[c] && programsByCountry[c].length > 0);
     }
 
@@ -1153,7 +1173,15 @@
         return intervals;
     }
 
-    // Affichage des intervalles par pays avec le nouveau format
+    // Fonction pour faire défiler jusqu'au bloc d'un pays
+    function scrollToCountry(pays) {
+        const countryBlock = document.getElementById('block-' + pays);
+        if (countryBlock) {
+            countryBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
+    // Affichage des intervalles par pays avec le nouveau format - cliquable
     function renderDateStrip() {
         const strip = document.getElementById('datesStrip');
         if (!strip) return;
@@ -1170,8 +1198,8 @@
             const flagClass = COUNTRY_FLAG_CLASS[pays] || 'flag-fr';
             const emoji = COUNTRY_EMOJI[pays] || '🇪🇺';
             
-            // Créer le chip principal
-            html += `<div class="date-chip" title="${pays}">`;
+            // Créer le chip principal cliquable
+            html += `<div class="date-chip" onclick="scrollToCountry('${pays}')" title="Voir les programmes de ${pays}">`;
             html += `<div class="chip-flag ${flagClass}"></div>`;
             html += `<div class="chip-dates">`;
             
@@ -1337,6 +1365,14 @@
         document.getElementById('programDetailModal').style.display = 'none';
     };
 
+    // Fonction pour défiler jusqu'au pays (rendue globale pour l'appel depuis le HTML)
+    window.scrollToCountry = function(pays) {
+        const countryBlock = document.getElementById('block-' + pays);
+        if (countryBlock) {
+            countryBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
     document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
         currentCalMonth.setMonth(currentCalMonth.getMonth()-1);
         renderCalendrier(currentCalMonth);
@@ -1405,9 +1441,9 @@
                 html += `<div class="country-flag-large ${flagClass}"></div>`;
                 html += `<span class="country-name"><span class="country-emoji">${emoji}</span> ${paysDisplay}</span>`;
                 html += `<span class="country-stats"><i class="far fa-calendar-alt"></i> ${programmes.length} programme${programmes.length>1?'s':''}</span>`;
-                html += `<button class="toggle-btn" onclick="toggleCountry('${pays}')" id="toggle-${pays}"><i class="fas fa-eye"></i> Afficher</button>`;
                 html += `</div>`;
-                html += `<div class="program-list" id="list-${pays}" style="display: none;">`;
+                // Les programmes sont toujours affichés (plus de bouton toggle)
+                html += `<div class="program-list" id="list-${pays}">`;
                 programmes.forEach(p => {
                     if (!p) return;
                     let emojiProg = getEmoji(p.programme);
@@ -1456,19 +1492,6 @@
             console.error('Erreur dans renderCountries:', e);
         }
     }
-
-    window.toggleCountry = function(pays) {
-        let list = document.getElementById('list-'+pays);
-        let btn = document.getElementById('toggle-'+pays);
-        if (!list || !btn) return;
-        if (list.style.display === 'none' || list.style.display === '') {
-            list.style.display = 'grid';
-            btn.innerHTML = '<i class="fas fa-eye-slash"></i> Masquer';
-        } else {
-            list.style.display = 'none';
-            btn.innerHTML = '<i class="fas fa-eye"></i> Afficher';
-        }
-    };
 
     window.copyText = function(text, ev) { 
         ev.stopPropagation(); 
