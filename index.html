@@ -532,48 +532,82 @@
             .country-stats { font-size: 0.7rem; padding: 3px 8px; }
             .toggle-btn { padding: 4px 12px; font-size: 0.7rem; }
             
-            /* Grille programmes : 2 colonnes */
+            /* Grille programmes : 2 colonnes sans dépassement */
             .program-list { 
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 8px;
+                width: 100%;
+                max-width: 100%;
+                overflow: hidden;
             }
             .program-card { 
                 padding: 10px; 
                 gap: 4px;
+                width: 100%;
+                max-width: 100%;
+                min-width: 0; /* Important pour permettre le rétrécissement */
+                box-sizing: border-box;
+            }
+            /* Forcer tous les éléments à ne pas dépasser */
+            .program-card * {
+                max-width: 100%;
+                overflow-wrap: break-word;
+                word-wrap: break-word;
             }
             .program-date-badge { 
-                font-size: 0.8rem; 
-                padding: 4px 8px;
-            }
-            .program-localite { 
-                font-size: 0.85rem; 
+                font-size: 0.75rem; 
+                padding: 4px 6px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                max-width: 100%;
+                width: auto;
+            }
+            .program-localite { 
+                font-size: 0.8rem; 
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 100%;
             }
             .program-lieu { 
-                font-size: 0.7rem; 
-                padding: 3px 6px;
+                font-size: 0.65rem; 
+                padding: 3px 5px;
                 max-width: 100%;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
             .programme-text { 
-                font-size: 0.7rem; 
-                padding: 3px 6px;
+                font-size: 0.65rem; 
+                padding: 3px 5px;
                 max-width: 100%;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                display: block;
             }
-            .modal-loc .link-container a {
-                max-width: 120px;
+            /* Icônes et texte dans les cartes */
+            .program-card i {
+                flex-shrink: 0;
+            }
+            .program-card div {
+                max-width: 100%;
+            }
+            /* Réduire encore sur très petits écrans */
+            @media (max-width: 480px) {
+                .program-date-badge { font-size: 0.7rem; padding: 3px 4px; }
+                .program-localite { font-size: 0.75rem; }
+                .program-lieu, .programme-text { font-size: 0.6rem; }
             }
         }
 
-        @media (max-width: 480px) {
-            .program-list { grid-template-columns: repeat(2, 1fr) !important; }
+        /* Styles supplémentaires pour garantir l'absence de débordement */
+        img, svg, iframe, video, audio, embed, canvas, object {
+            max-width: 100%;
+        }
+        .program-card .fas, .program-card .far, .program-card .fab {
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -586,6 +620,7 @@
             <div class="polaroid-caption">✨ Toutes nos source sont en TOI✨</div>
         </div>
         <h1>🇪🇺 TOURNÉE NY AKO EUROPE 2026</h1>
+        <div class="subhead">Tous les programmes ouverts • mise à jour automatique</div>
         <div class="flags-strip">
             <div class="flag-mini flag-ch" title="Suisse"></div>
             <div class="flag-mini flag-fr" title="France"></div>
