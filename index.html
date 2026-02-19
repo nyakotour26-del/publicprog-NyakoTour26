@@ -182,14 +182,14 @@
             border: 1px solid rgba(255,255,255,0.8);
         }
         
-        /* Passage à 2 cartes dès que l'écran dépasse 8cm (environ 300px) */
-        @media (max-width: 299px) {
+        /* Passage à 2 cartes dès que l'écran dépasse 12cm (environ 450px) */
+        @media (max-width: 449px) {
             .dates-strip {
                 grid-template-columns: 1fr;
             }
         }
         
-        @media (min-width: 300px) {
+        @media (min-width: 450px) {
             .dates-strip {
                 grid-template-columns: repeat(2, 1fr);
             }
