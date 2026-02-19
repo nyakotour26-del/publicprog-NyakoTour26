@@ -8,10 +8,174 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #f4f7fb; color: #1e293b; padding: 16px; min-height: 100vh; }
+        body { background: #f4f7fb; color: #1e293b; padding: 16px; min-height: 100vh; position: relative; }
         .container { max-width: 1400px; margin: 0 auto; }
         
-        /* Header avec photo style polaroid - NOUVEAU : flex pour ordinateur */
+        /* Boutons flottants des drapeaux */
+        .flag-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+        }
+        
+        .flag-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .flag-button:hover {
+            transform: scale(1.15) translateX(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+            border-color: #ffd966;
+        }
+        
+        .flag-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255,255,255,0.2);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .flag-button:hover::after {
+            opacity: 1;
+        }
+        
+        /* Tooltip au survol */
+        .flag-button {
+            position: relative;
+        }
+        
+        .flag-button::before {
+            content: attr(data-country);
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #1e293b;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s, right 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .flag-button:hover::before {
+            opacity: 1;
+            right: 70px;
+        }
+        
+        /* Drapeaux pour les boutons */
+        .flag-btn-ch { background: #D52B1E; position: relative; }
+        .flag-btn-ch::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 20%;
+            background: white;
+        }
+        .flag-btn-ch::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20%;
+            height: 60%;
+            background: white;
+            z-index: 2;
+        }
+        
+        .flag-btn-fr { background: linear-gradient(90deg, #002395 33.33%, #fff 33.33%, #fff 66.66%, #ED2939 66.66%); }
+        .flag-btn-de { background: linear-gradient(0deg, #000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); }
+        .flag-btn-be { background: linear-gradient(90deg, #000 33.33%, #FAE042 33.33%, #FAE042 66.66%, #ED2939 66.66%); }
+        .flag-btn-wales { 
+            background: #fff; 
+            position: relative; 
+            overflow: hidden;
+        }
+        .flag-btn-wales::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fff 50%, #D21034 50%);
+        }
+        .flag-btn-wales::after {
+            content: '🐉';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: #D21034;
+            text-shadow: 0 0 2px #fff;
+            z-index: 2;
+        }
+        
+        .flag-btn-uk { 
+            background: #012169; 
+            position: relative;
+            background-image: 
+                linear-gradient(45deg, #fff 25%, transparent 25%),
+                linear-gradient(-45deg, #fff 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #fff 75%),
+                linear-gradient(-45deg, transparent 75%, #fff 75%);
+            background-size: 12px 12px;
+            background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+        }
+        .flag-btn-uk::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 20%;
+            background: #fff;
+            transform: translateY(-50%);
+            z-index: 1;
+        }
+        .flag-btn-uk::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            bottom: 0;
+            width: 20%;
+            background: #fff;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        
+        /* Header avec photo style polaroid */
         .header-section {
             display: flex;
             flex-direction: column;
@@ -216,6 +380,15 @@
             }
             .row-3 .country-card {
                 max-width: 100%;
+            }
+            .flag-buttons {
+                bottom: 10px;
+                right: 10px;
+                gap: 8px;
+            }
+            .flag-button {
+                width: 40px;
+                height: 40px;
             }
         }
         
@@ -927,7 +1100,12 @@
 </head>
 <body>
 <div class="container">
-    <!-- Header avec photo polaroid - NOUVELLE STRUCTURE -->
+    <!-- Boutons flottants des drapeaux -->
+    <div id="flagButtons" class="flag-buttons">
+        <!-- injecté dynamiquement -->
+    </div>
+
+    <!-- Header avec photo polaroid -->
     <div class="header-section">
         <div class="header-polaroid">
             <div class="polaroid-frame">
@@ -945,7 +1123,7 @@
             </div>
         </div>
 
-        <!-- Bande des intervalles de dates par pays - DISPOSITION PERSONNALISÉE -->
+        <!-- Bande des intervalles de dates par pays -->
         <div id="datesStrip" class="dates-strip">
             <!-- injecté dynamiquement -->
         </div>
@@ -1023,6 +1201,16 @@
     if (currentCalMonth < startDate) {
         currentCalMonth = new Date(2026, 3, 1);
     }
+
+    // Mapping des classes CSS pour les boutons flottants
+    const FLAG_BUTTON_CLASS = {
+        'SUISSE': 'flag-btn-ch',
+        'FRANCE': 'flag-btn-fr',
+        'ALLEMAGNE': 'flag-btn-de',
+        'BELGIQUE': 'flag-btn-be',
+        'WALES': 'flag-btn-wales',
+        'ANGLETERRE': 'flag-btn-uk'
+    };
 
     // ----------------------------- OUTILS ---------------------------------
     function parseCSV(text) {
@@ -1169,7 +1357,8 @@
         renderCalendrier(currentCalMonth);
         renderNextThree();
         renderCountries();
-        renderDateStrip(); // Affiche les intervalles avec nom du pays (NOUVEAU STYLE)
+        renderDateStrip(); // Affiche les intervalles avec nom du pays
+        renderFlagButtons(); // Affiche les boutons flottants
     }
 
     function buildData() {
@@ -1294,6 +1483,25 @@
         }
     };
 
+    // Affichage des boutons flottants
+    function renderFlagButtons() {
+        const container = document.getElementById('flagButtons');
+        if (!container) return;
+        
+        let html = '';
+        uniqueCountries.forEach(pays => {
+            const progs = programsByCountry[pays] || [];
+            if (progs.length === 0) return;
+            
+            const flagClass = FLAG_BUTTON_CLASS[pays] || 'flag-btn-fr';
+            const paysDisplay = pays.charAt(0) + pays.slice(1).toLowerCase();
+            
+            html += `<div class="flag-button ${flagClass}" data-country="${paysDisplay}" onclick="scrollToCountry('${pays}')" title="${paysDisplay}"></div>`;
+        });
+        
+        container.innerHTML = html;
+    }
+
     // Affichage des intervalles par pays - DISPOSITION PERSONNALISÉE
     function renderDateStrip() {
         const strip = document.getElementById('datesStrip');
@@ -1341,7 +1549,7 @@
         // Ligne 1 : Suisse et Allemagne
         if (countryCards['SUISSE'] || countryCards['ALLEMAGNE']) {
             html += '<div class="cards-row row-1">';
-            html += countryCards['SUISSE'] || '<div></div>'; // Placeholder si absent
+            html += countryCards['SUISSE'] || '<div></div>';
             html += countryCards['ALLEMAGNE'] || '<div></div>';
             html += '</div>';
         }
