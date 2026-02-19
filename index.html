@@ -169,9 +169,10 @@
             z-index: 2;
         }
 
-        /* Bande des intervalles de dates par pays - GRILLE RESPONSIVE */
+        /* Bande des intervalles de dates par pays - GRILLE PERSONNALISÉE */
         .dates-strip {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 16px;
             margin: 20px 0 25px;
             padding: 20px;
@@ -182,22 +183,39 @@
             border: 1px solid rgba(255,255,255,0.8);
         }
         
-        /* Passage à 2 cartes dès que l'écran dépasse 12cm (environ 450px) */
-        @media (max-width: 449px) {
-            .dates-strip {
+        /* Lignes de cartes */
+        .cards-row {
+            display: grid;
+            gap: 16px;
+        }
+        
+        /* Première ligne : Suisse et Allemagne (2 colonnes) */
+        .row-1 {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        /* Deuxième ligne : Belgique et Wales (2 colonnes) */
+        .row-2 {
+            grid-template-columns: 1fr 1fr;
+        }
+        
+        /* Troisième ligne : France centré */
+        .row-3 {
+            display: flex;
+            justify-content: center;
+        }
+        .row-3 .country-card {
+            max-width: 50%;
+            flex: 0 0 auto;
+        }
+        
+        /* Adaptation mobile */
+        @media (max-width: 599px) {
+            .row-1, .row-2 {
                 grid-template-columns: 1fr;
             }
-        }
-        
-        @media (min-width: 450px) {
-            .dates-strip {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (min-width: 1200px) {
-            .dates-strip {
-                grid-template-columns: repeat(2, 1fr);
+            .row-3 .country-card {
+                max-width: 100%;
             }
         }
         
@@ -927,7 +945,7 @@
             </div>
         </div>
 
-        <!-- Bande des intervalles de dates par pays - GRILLE RESPONSIVE -->
+        <!-- Bande des intervalles de dates par pays - DISPOSITION PERSONNALISÉE -->
         <div id="datesStrip" class="dates-strip">
             <!-- injecté dynamiquement -->
         </div>
@@ -1276,13 +1294,14 @@
         }
     };
 
-    // Affichage des intervalles par pays - CARTES COLORÉES
+    // Affichage des intervalles par pays - DISPOSITION PERSONNALISÉE
     function renderDateStrip() {
         const strip = document.getElementById('datesStrip');
         if (!strip) return;
-        let html = '';
         
-        // Utiliser les pays uniques basés sur les programmes
+        // Préparer les cartes par pays
+        const countryCards = {};
+        
         uniqueCountries.forEach(pays => {
             const progs = programsByCountry[pays] || [];
             if (progs.length === 0) return;
@@ -1291,34 +1310,63 @@
             if (intervals.length === 0) return;
             
             const flagClass = COUNTRY_FLAG_CLASS[pays] || 'flag-fr';
-            const emoji = COUNTRY_EMOJI[pays] || '🇪🇺';
             const paysDisplay = pays.charAt(0) + pays.slice(1).toLowerCase();
             const cardClass = getBadgeClassForCountry(pays);
             
-            // Créer une carte par pays (fond coloré)
-            html += `<div class="country-card ${cardClass}" onclick="scrollToCountry('${pays}')" title="Voir les programmes de ${paysDisplay}">`;
+            // Générer le HTML de la carte
+            let cardHtml = `<div class="country-card ${cardClass}" onclick="scrollToCountry('${pays}')" title="Voir les programmes de ${paysDisplay}">`;
+            cardHtml += `<div class="country-card-header">`;
+            cardHtml += `<div class="country-card-flag ${flagClass}"></div>`;
+            cardHtml += `<span class="country-card-name">${paysDisplay}</span>`;
+            cardHtml += `<div style="width:40px;"></div>`;
+            cardHtml += `</div>`;
+            cardHtml += `<div class="country-card-intervals">`;
             
-            // En-tête avec drapeau et nom centré
-            html += `<div class="country-card-header">`;
-            html += `<div class="country-card-flag ${flagClass}"></div>`;
-            html += `<span class="country-card-name">${paysDisplay}</span>`;
-            html += `<div style="width:40px;"></div>`; // Équilibre pour le centrage
-            html += `</div>`;
-            
-            // Intervalles centrés avec retour à la ligne si nécessaire
-            html += `<div class="country-card-intervals">`;
             intervals.forEach((interval, idx) => {
                 const startStr = formatIntervalDate(interval.start);
                 const endStr = formatIntervalDate(interval.end);
-                html += `<span class="interval-badge"><i class="far fa-calendar-alt"></i> <span>${startStr} – ${endStr}</span></span>`;
+                cardHtml += `<span class="interval-badge"><i class="far fa-calendar-alt"></i> <span>${startStr} – ${endStr}</span></span>`;
             });
-            html += `</div>`;
             
-            // Pied de carte avec invite
-            html += `<div class="country-card-footer"><i class="fas fa-hand-pointer"></i> Cliquer pour voir les détails des programmes</div>`;
+            cardHtml += `</div>`;
+            cardHtml += `<div class="country-card-footer"><i class="fas fa-hand-pointer"></i> Cliquer pour voir les détails des programmes</div>`;
+            cardHtml += `</div>`;
             
-            html += `</div>`;
+            countryCards[pays] = cardHtml;
         });
+        
+        // Construire la disposition selon l'ordre demandé
+        let html = '';
+        
+        // Ligne 1 : Suisse et Allemagne
+        if (countryCards['SUISSE'] || countryCards['ALLEMAGNE']) {
+            html += '<div class="cards-row row-1">';
+            html += countryCards['SUISSE'] || '<div></div>'; // Placeholder si absent
+            html += countryCards['ALLEMAGNE'] || '<div></div>';
+            html += '</div>';
+        }
+        
+        // Ligne 2 : Belgique et Wales
+        if (countryCards['BELGIQUE'] || countryCards['WALES']) {
+            html += '<div class="cards-row row-2">';
+            html += countryCards['BELGIQUE'] || '<div></div>';
+            html += countryCards['WALES'] || '<div></div>';
+            html += '</div>';
+        }
+        
+        // Ligne 3 : France centré
+        if (countryCards['FRANCE']) {
+            html += '<div class="cards-row row-3">';
+            html += countryCards['FRANCE'];
+            html += '</div>';
+        }
+        
+        // Angleterre si présent (optionnel)
+        if (countryCards['ANGLETERRE']) {
+            html += '<div class="cards-row row-3" style="margin-top:16px;">';
+            html += countryCards['ANGLETERRE'];
+            html += '</div>';
+        }
         
         strip.innerHTML = html;
     }
