@@ -42,27 +42,7 @@
             border-color: #ffd966;
         }
         
-        .flag-button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255,255,255,0.2);
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        
-        .flag-button:hover::after {
-            opacity: 1;
-        }
-        
         /* Tooltip au survol */
-        .flag-button {
-            position: relative;
-        }
-        
         .flag-button::before {
             content: attr(data-country);
             position: absolute;
@@ -81,6 +61,7 @@
             transition: opacity 0.2s, right 0.2s;
             box-shadow: 0 2px 8px rgba(0,0,0,0.2);
             border: 1px solid rgba(255,255,255,0.2);
+            z-index: 1000;
         }
         
         .flag-button:hover::before {
@@ -88,10 +69,27 @@
             right: 70px;
         }
         
-        /* Drapeaux pour les boutons */
-        .flag-btn-ch { background: #D52B1E; position: relative; }
-        .flag-btn-ch::after {
-            content: '';
+        /* Bouton spécial (Accueil, Calendrier) */
+        .special-button {
+            background: #f97316;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            border: 3px solid white;
+        }
+        
+        .special-button:hover {
+            background: #fb923c;
+        }
+        
+        /* Drapeaux pour les boutons - CORRECTION SUISSE ET WALES */
+        .flag-btn-ch { 
+            background: #D52B1E; 
+            position: relative;
+        }
+        .flag-btn-ch .cross {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -100,7 +98,7 @@
             height: 20%;
             background: white;
         }
-        .flag-btn-ch::before {
+        .flag-btn-ch .cross::after {
             content: '';
             position: absolute;
             top: 50%;
@@ -109,16 +107,27 @@
             width: 20%;
             height: 60%;
             background: white;
-            z-index: 2;
         }
         
-        .flag-btn-fr { background: linear-gradient(90deg, #002395 33.33%, #fff 33.33%, #fff 66.66%, #ED2939 66.66%); }
-        .flag-btn-de { background: linear-gradient(0deg, #000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); }
-        .flag-btn-be { background: linear-gradient(90deg, #000 33.33%, #FAE042 33.33%, #FAE042 66.66%, #ED2939 66.66%); }
+        .flag-btn-fr { 
+            background: linear-gradient(90deg, #002395 33.33%, #fff 33.33%, #fff 66.66%, #ED2939 66.66%); 
+        }
+        
+        .flag-btn-de { 
+            background: linear-gradient(0deg, #000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); 
+        }
+        
+        .flag-btn-be { 
+            background: linear-gradient(90deg, #000 33.33%, #FAE042 33.33%, #FAE042 66.66%, #ED2939 66.66%); 
+        }
+        
         .flag-btn-wales { 
             background: #fff; 
             position: relative; 
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .flag-btn-wales::before {
             content: '';
@@ -128,17 +137,15 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(135deg, #fff 50%, #D21034 50%);
+            z-index: 1;
         }
-        .flag-btn-wales::after {
-            content: '🐉';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 20px;
-            color: #D21034;
-            text-shadow: 0 0 2px #fff;
+        .flag-btn-wales .dragon {
+            position: relative;
             z-index: 2;
+            font-size: 24px;
+            color: #D21034;
+            text-shadow: 0 0 3px white;
+            line-height: 1;
         }
         
         .flag-btn-uk { 
@@ -1131,7 +1138,7 @@
 
     <!-- RANGÉE HAUTE : CALENDRIER + 3 PROCHES -->
     <div class="top-row">
-        <div class="calendrier-panel">
+        <div class="calendrier-panel" id="calendrierSection">
             <div class="calendrier-header">
                 <button class="btn-nav" id="prevMonthBtn"><i class="fas fa-chevron-left"></i></button>
                 <span class="mois-annee" id="moisAnnee">Avril 2026</span>
@@ -1483,12 +1490,33 @@
         }
     };
 
+    // Fonction pour revenir en haut de page
+    window.scrollToTop = function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // Fonction pour aller au calendrier
+    window.scrollToCalendar = function() {
+        const calendarSection = document.getElementById('calendrierSection');
+        if (calendarSection) {
+            calendarSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
     // Affichage des boutons flottants
     function renderFlagButtons() {
         const container = document.getElementById('flagButtons');
         if (!container) return;
         
         let html = '';
+        
+        // Bouton Accueil
+        html += `<div class="flag-button special-button" data-country="Accueil" onclick="scrollToTop()" title="Retour en haut"><i class="fas fa-home"></i></div>`;
+        
+        // Bouton Calendrier
+        html += `<div class="flag-button special-button" data-country="Calendrier" onclick="scrollToCalendar()" title="Voir le calendrier"><i class="fas fa-calendar-alt"></i></div>`;
+        
+        // Boutons des pays
         uniqueCountries.forEach(pays => {
             const progs = programsByCountry[pays] || [];
             if (progs.length === 0) return;
@@ -1496,7 +1524,13 @@
             const flagClass = FLAG_BUTTON_CLASS[pays] || 'flag-btn-fr';
             const paysDisplay = pays.charAt(0) + pays.slice(1).toLowerCase();
             
-            html += `<div class="flag-button ${flagClass}" data-country="${paysDisplay}" onclick="scrollToCountry('${pays}')" title="${paysDisplay}"></div>`;
+            if (pays === 'SUISSE') {
+                html += `<div class="flag-button ${flagClass}" data-country="${paysDisplay}" onclick="scrollToCountry('${pays}')" title="${paysDisplay}"><div class="cross"></div></div>`;
+            } else if (pays === 'WALES') {
+                html += `<div class="flag-button ${flagClass}" data-country="${paysDisplay}" onclick="scrollToCountry('${pays}')" title="${paysDisplay}"><span class="dragon">🐉</span></div>`;
+            } else {
+                html += `<div class="flag-button ${flagClass}" data-country="${paysDisplay}" onclick="scrollToCountry('${pays}')" title="${paysDisplay}"></div>`;
+            }
         });
         
         container.innerHTML = html;
