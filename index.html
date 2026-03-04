@@ -1,1837 +1,2338 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
-    <title>TOURNÉE EUROPE 2026 - NY AKO</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <style>
-        /* Tous les styles originaux sont conservés intacts */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: #f4f7fb; color: #1e293b; padding: 16px; min-height: 100vh; position: relative; }
-        .container { max-width: 1400px; margin: 0 auto; }
-        
-        .flag-buttons {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 999;
-        }
-        
-        .flag-button {
-            width: 50px;
-            height: 50px;
-            border-radius: 8px;
-            border: 3px solid white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-size: cover;
-            background-position: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .flag-button:hover {
-            transform: scale(1.15) translateX(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            border-color: #ffd966;
-        }
-        
-        .flag-button::before {
-            content: attr(data-country);
-            position: absolute;
-            right: 60px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: #1e293b;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            white-space: nowrap;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s, right 0.2s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            border: 1px solid rgba(255,255,255,0.2);
-            z-index: 1000;
-        }
-        
-        .flag-button:hover::before {
-            opacity: 1;
-            right: 70px;
-        }
-        
-        .special-button {
-            background: #f97316;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            border: 3px solid white;
-        }
-        
-        .special-button:hover {
-            background: #fb923c;
-        }
-        
-        .flag-btn-ch { 
-            background: #D52B1E; 
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .flag-btn-ch .cross {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .flag-btn-ch .cross::before {
-            content: '';
-            position: absolute;
-            width: 60%;
-            height: 20%;
-            background: white;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        .flag-btn-ch .cross::after {
-            content: '';
-            position: absolute;
-            width: 20%;
-            height: 60%;
-            background: white;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        .flag-btn-fr { background: linear-gradient(90deg, #002395 33.33%, #fff 33.33%, #fff 66.66%, #ED2939 66.66%); }
-        .flag-btn-de { background: linear-gradient(0deg, #000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); }
-        .flag-btn-be { background: linear-gradient(90deg, #000 33.33%, #FAE042 33.33%, #FAE042 66.66%, #ED2939 66.66%); }
-        
-        .flag-btn-wales { 
-            background: #fff; 
-            position: relative; 
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .flag-btn-wales::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #fff 50%, #D21034 50%);
-            z-index: 1;
-        }
-        .flag-btn-wales .dragon {
-            position: relative;
-            z-index: 2;
-            font-size: 28px;
-            color: #D21034;
-            text-shadow: 0 0 3px white;
-            line-height: 1;
-        }
-        
-        .flag-btn-uk { 
-            background: #012169; 
-            position: relative;
-            background-image: 
-                linear-gradient(45deg, #fff 25%, transparent 25%),
-                linear-gradient(-45deg, #fff 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #fff 75%),
-                linear-gradient(-45deg, transparent 75%, #fff 75%);
-            background-size: 12px 12px;
-            background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
-        }
-        .flag-btn-uk::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 20%;
-            background: #fff;
-            transform: translateY(-50%);
-            z-index: 1;
-        }
-        .flag-btn-uk::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            bottom: 0;
-            width: 20%;
-            background: #fff;
-            transform: translateX(-50%);
-            z-index: 1;
-        }
-        
-        .header-section {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 30px;
-        }
-        
-        @media (min-width: 1200px) {
-            .header-section {
-                flex-direction: row;
-                gap: 30px;
-                align-items: flex-start;
-            }
-            .header-polaroid {
-                flex: 0 0 400px;
-            }
-            .dates-strip {
-                flex: 1;
-                margin-top: 0 !important;
-            }
-        }
-        
-        .header-polaroid {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .polaroid-frame {
-            background: white;
-            padding: 12px 12px 30px 12px;
-            border-radius: 8px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,255,255,0.5), inset 0 0 0 1px rgba(0,0,0,0.1);
-            transform: rotate(-1deg);
-            max-width: 500px;
-            width: 100%;
-            margin-bottom: 15px;
-            transition: transform 0.3s;
-        }
-        .polaroid-frame:hover {
-            transform: rotate(0.5deg) translateY(-5px);
-        }
-        .polaroid-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 4px;
-            display: block;
-        }
-        .polaroid-caption {
-            text-align: center;
-            margin-top: 15px;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-            color: #2d3748;
-            font-size: 1.2rem;
-        }
-        h1 { 
-            font-size: 2.2rem; 
-            font-weight: 800; 
-            background: linear-gradient(145deg, #0f2b4b, #1e3a6f); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            letter-spacing: -0.02em;
-            margin-top: 5px;
-            text-align: center;
-        }
-        .subhead { font-size: 1rem; color: #5b6e8c; margin-top: 6px; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NY AKO · Europe Tour 2026</title>
 
-        .flags-strip { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 20px 0 10px; }
-        .flag-mini { width: 36px; height: 24px; border-radius: 4px; box-shadow: 0 3px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
-        .flag-mini:hover { transform: scale(1.1); }
-        .flag-fr { background: linear-gradient(90deg, #002395 33.33%, #fff 33.33%, #fff 66.66%, #ED2939 66.66%); }
-        .flag-de { background: linear-gradient(0deg, #000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); }
-        .flag-be { background: linear-gradient(90deg, #000 33.33%, #FAE042 33.33%, #FAE042 66.66%, #ED2939 66.66%); }
-        .flag-ch { 
-            background: #D52B1E; 
-            position: relative; 
-            overflow: hidden;
-        }
-        .flag-ch::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 60%;
-            height: 20%;
-            background: white;
-        }
-        .flag-ch::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 20%;
-            height: 60%;
-            background: white;
-        }
-        .flag-uk { 
-            background: #012169; 
-            position: relative;
-            background-image: 
-                linear-gradient(45deg, #fff 25%, transparent 25%),
-                linear-gradient(-45deg, #fff 25%, transparent 25%),
-                linear-gradient(45deg, transparent 75%, #fff 75%),
-                linear-gradient(-45deg, transparent 75%, #fff 75%);
-            background-size: 12px 12px;
-            background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
-        }
-        .flag-uk::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 20%;
-            background: #fff;
-            transform: translateY(-50%);
-            z-index: 1;
-        }
-        .flag-uk::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            bottom: 0;
-            width: 20%;
-            background: #fff;
-            transform: translateX(-50%);
-            z-index: 1;
-        }
-        .flag-wales { 
-            background: #fff; 
-            position: relative; 
-            overflow: hidden;
-        }
-        .flag-wales::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #fff 50%, #D21034 50%);
-        }
-        .flag-wales::after {
-            content: '🐉';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 14px;
-            color: #D21034;
-            text-shadow: 0 0 2px #fff;
-            z-index: 2;
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
-        .dates-strip {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            margin: 20px 0 25px;
-            padding: 20px;
-            background: rgba(255,255,255,0.7);
-            backdrop-filter: blur(4px);
-            border-radius: 16px;
-            box-shadow: 0 5px 15px rgba(0,30,60,0.1);
-            border: 1px solid rgba(255,255,255,0.8);
-        }
-        
-        .cards-row {
-            display: grid;
-            gap: 16px;
-        }
-        
-        .row-1 {
-            grid-template-columns: 1fr 1fr;
-        }
-        
-        .row-2 {
-            grid-template-columns: 1fr 1fr;
-        }
-        
-        .row-3 {
-            display: flex;
-            justify-content: center;
-        }
-        .row-3 .country-card {
-            max-width: 50%;
-            flex: 0 0 auto;
-        }
-        
-        @media (max-width: 599px) {
-            .row-1, .row-2 {
-                grid-template-columns: 1fr;
-            }
-            .row-3 .country-card {
-                max-width: 100%;
-            }
-            .flag-buttons {
-                bottom: 10px;
-                right: 10px;
-                gap: 8px;
-            }
-            .flag-button {
-                width: 40px;
-                height: 40px;
-            }
-        }
-        
-        .country-card {
-            border-radius: 12px;
-            padding: 20px 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            border: 2px solid white;
-            height: fit-content;
-        }
-        .country-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-            border-color: #ffd966;
-        }
-        
-        .country-card.suisse { background: #D52B1E; }
-        .country-card.france { background: #002395; }
-        .country-card.allemagne { background: #000000; }
-        .country-card.belgique { background: #FDDA25; }
-        .country-card.wales { background: #00A859; }
-        .country-card.angleterre { background: #012169; }
-        
-        .country-card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            justify-content: center;
-            position: relative;
-        }
-        .country-card-flag {
-            width: 40px;
-            height: 28px;
-            border-radius: 6px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            border: 2px solid white;
-        }
-        .country-card-name {
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: white;
-            letter-spacing: -0.01em;
-            text-align: center;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .country-card-intervals {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 12px;
-            padding: 5px 0;
-        }
-        
-        .interval-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 700;
-            background: white;
-            color: #1e293b;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            border: 2px solid rgba(255,255,255,0.5);
-            white-space: normal;
-            text-align: center;
-            word-break: keep-all;
-            max-width: 100%;
-        }
-        .interval-badge i {
-            color: #f97316;
-            font-size: 1rem;
-        }
-        
-        .interval-badge span {
-            white-space: normal;
-            word-break: keep-all;
-        }
-        
-        .country-card-footer {
-            text-align: center;
-            font-size: 0.85rem;
-            color: white;
-            font-weight: 600;
-            border-top: 1px solid rgba(255,255,255,0.4);
-            padding-top: 12px;
-            margin-top: 5px;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-        }
-        .country-card-footer i {
-            margin-right: 5px;
-        }
+  <style>
+    /* =========================
+       THEME (bannière)
+       ========================= */
+    :root{
+      --bg: #f7fbfb;
+      --surface: #ffffff;
+      --surface2: #f3fbfb;
+      --text: #0b1f33;
+      --muted: #4b6476;
+      --line: rgba(12, 40, 60, .10);
 
-        .top-row { display: flex; flex-direction: column; gap: 24px; margin-bottom: 30px; }
-        @media (min-width: 900px) { .top-row { flex-direction: row; } }
+      --teal: #46777a;
+      --teal2: #cad9da;
 
-        .calendrier-panel {
-            flex: 1 1 50%;
-            background: white;
-            border-radius: 28px;
-            padding: 20px;
-            box-shadow: 0 15px 30px -10px rgba(0,50,80,0.15);
-            border: 1px solid rgba(0,80,150,0.1);
-            min-width: 280px;
-            position: relative;
-            overflow: hidden;
-        }
-        .calendrier-panel::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center 30%;
-            opacity: 0.25;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .calendrier-panel > * { position: relative; z-index: 1; }
+      --cream: #f5dcc0;
+      --peach: #f1caa3;
+      --sunset: #e9a97f;
 
-        .next-three-panel {
-            flex: 1 1 40%;
-            background: linear-gradient(145deg, #ffffff, #f2f6fd);
-            border-radius: 28px;
-            padding: 20px;
-            box-shadow: 0 15px 30px -10px rgba(0,55,100,0.15);
-            border: 1px solid rgba(0,90,150,0.1);
-            min-width: 280px;
-        }
-        .next-three-panel h2 { 
-            font-size: 1.4rem; 
-            margin-bottom: 16px; 
-            display: flex; 
-            align-items: center; 
-            gap: 8px; 
-            color: #163a5f; 
-        }
+      --gold: #e4a015;
 
-        .calendrier-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        .mois-annee { font-weight: 800; font-size: 1.3rem; color: #1e3f64; }
-        .btn-nav {
-            background: #e7effa;
-            border: none;
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            font-size: 1.2rem;
-            cursor: pointer;
-            color: #255f91;
-            transition: 0.2s;
-        }
-        .btn-nav:hover { background: #d0e2f5; }
-        .calendrier-grille {
-            display: grid;
-            grid-template-columns: repeat(7,1fr);
-            gap: 6px;
-        }
-        .jour-nom {
-            text-align: center;
-            font-weight: 700;
-            color: #6b7c93;
-            font-size: 0.8rem;
-            padding: 6px 0;
-        }
-        .case-jour {
-            background: rgba(255,255,255,0.6);
-            backdrop-filter: blur(2px);
-            border-radius: 16px;
-            padding: 8px 4px;
-            min-height: 80px;
-            border: 1px solid rgba(255,255,255,0.3);
-            transition: 0.1s;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-size: 0.7rem;
-            position: relative;
-        }
-        .case-jour:hover { background: rgba(255,255,255,0.85); border-color: #a1c4e5; }
-        .case-jour.autre-mois { opacity: 0.3; background: rgba(240,240,240,0.3); }
-        .numero-jour { font-weight: 700; font-size: 0.85rem; margin-bottom: 2px; }
+      --shadow1: 0 12px 30px rgba(12,40,60,.10);
+      --shadow2: 0 18px 44px rgba(12,40,60,.14);
 
-        .jour-localite {
-            font-weight: 600;
-            color: #166b8f;
-            font-size: 0.65rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 80px;
-            margin-top: 2px;
-        }
-        .jour-programme {
-            color: #f97316;
-            font-weight: 500;
-            font-size: 0.6rem;
-            background: rgba(255,240,229,0.9);
-            border-radius: 10px;
-            padding: 2px 6px;
-            margin-top: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 80px;
-        }
-        .mini-flag { width: 18px; height: 12px; border-radius: 2px; display: inline-block; margin: 2px auto; }
+      --r-xl: 28px;
+      --r-lg: 20px;
+      --r-md: 14px;
 
-        .next-cards-vertical { display: flex; flex-direction: column; gap: 14px; }
-        .next-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 16px;
-            box-shadow: 0 5px 12px rgba(0,0,0,0.03);
-            border: 1px solid #d9e5f0;
-            transition: 0.15s;
-            cursor: pointer;
-            position: relative;
-        }
-        .next-card:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,90,150,0.1); background: #fafdff; }
-        .next-date { 
-            font-weight: 700; 
-            color: #1e5b9c; 
-            background: #e2ecfb; 
-            padding: 4px 10px; 
-            border-radius: 30px; 
-            display: inline-block; 
-            margin-bottom: 8px; 
-            font-size:0.85rem;
-        }
-        .next-localite { 
-            font-weight: 800; 
-            font-size: 1.1rem; 
-            color: #0b2b4a;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .next-lieu { color: #f15a24; font-weight: 600; font-size: 0.85rem; }
-        .next-flag { width: 22px; height: 14px; border-radius: 3px; display: inline-block; }
-        
-        .j-counter {
-            position: absolute;
-            top: 12px;
-            right: 16px;
-            background: #f97316;
-            color: white;
-            font-weight: 800;
-            font-size: 0.9rem;
-            padding: 4px 12px;
-            border-radius: 30px;
-            box-shadow: 0 2px 8px rgba(249,115,22,0.3);
-            border: 2px solid white;
-        }
+      --focus: rgba(70,119,122,.35);
+      
+      --grain: .045;         /* intensité du grain (0.03 à 0.07) */
+      --bgAnim: 38s;         /* vitesse animation (plus grand = plus lent) */
+    }
 
-        .programs-grid { display: flex; flex-direction: column; gap: 24px; margin: 30px 0; }
-        
-        .country-block { 
-            border-radius: 16px;
-            padding: 20px 18px; 
-            box-shadow: 0 12px 30px -8px rgba(0,20,40,0.15); 
-            transition: transform 0.2s;
-            background: #ffffff;
-            border: 1px solid #e2eaf2;
-        }
-        .country-block:hover { transform: translateY(-3px); }
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
+      background: #fff;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+      isolation: isolate;
+    }
+    
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    
+      /* On anime légèrement les positions + rotation via transform */
+      animation: bgFloat var(--bgAnim, 38s) ease-in-out infinite alternate;
+      will-change: transform, filter;
+    
+      background-image:
+        /* wash pêche */
+        radial-gradient(900px 600px at 15% 10%, rgba(241,202,163,.45), rgba(241,202,163,0) 70%),
+    
+        /* wash bleu doux */
+        radial-gradient(900px 600px at 85% -5%, rgba(202,217,218,.55), rgba(202,217,218,0) 65%),
+    
+        /* wash global */
+        radial-gradient(1200px 800px at 50% 20%, rgba(255,255,255,.85), rgba(255,255,255,0) 70%),
+        linear-gradient(180deg,#fff,var(--bg)),
+    
+        /* TILE seamless */
+        radial-gradient(700px 520px at 0% 0%,rgba(241,202,163,.30),rgba(241,202,163,0) 70%),
+        radial-gradient(700px 520px at 100% 0%,rgba(241,202,163,.30),rgba(241,202,163,0) 70%),
+        radial-gradient(820px 600px at 0% 100%,rgba(202,217,218,.40),rgba(202,217,218,0) 72%),
+        radial-gradient(820px 600px at 100% 100%,rgba(202,217,218,.40),rgba(202,217,218,0) 72%);
+    
+      background-size:
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        100% 100%,
+        1400px 900px,
+        1400px 900px,
+        1400px 900px,
+        1400px 900px;
+    
+      background-repeat:
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        no-repeat,
+        repeat,
+        repeat,
+        repeat,
+        repeat;
+    
+      background-position:
+        center,
+        center,
+        center,
+        center,
+        0 0,
+        0 0,
+        0 0,
+        0 0;
+    
+      /* très léger */
+      filter: blur(0.25px);
+      transform: scale(1.02);
+    }
+    
+    @keyframes bgFloat{
+      0%   { transform: translate3d(0,0,0) scale(1.02) rotate(0deg);   filter: blur(0.25px); }
+      100% { transform: translate3d(-18px,12px,0) scale(1.04) rotate(.35deg); filter: blur(0.35px); }
+    }
+    
+    body::after{
+      content:"";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    
+      /* Grain sans image (deux couches croisées) */
+      background-image:
+        repeating-linear-gradient(0deg,
+          rgba(0,0,0,var(--grain, .045)) 0px,
+          rgba(0,0,0,0) 1px,
+          rgba(0,0,0,var(--grain, .045)) 2px),
+        repeating-linear-gradient(90deg,
+          rgba(0,0,0,var(--grain, .045)) 0px,
+          rgba(0,0,0,0) 1px,
+          rgba(0,0,0,var(--grain, .045)) 2px);
+    
+      background-size: 3px 3px, 4px 4px;
+      mix-blend-mode: soft-light;
+      opacity: .28;
+    
+      animation: grainShift 8s steps(6) infinite;
+      will-change: transform;
+    }
+    
+    @keyframes grainShift{
+      0%   { transform: translate3d(0,0,0); }
+      100% { transform: translate3d(-12px,8px,0); }
+    }
+    
+    @media (prefers-reduced-motion: reduce){
+      body::before, body::after{ animation: none !important; }
+    }
 
-        .country-header { 
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-        .country-flag-large { 
-            width: 40px; 
-            height: 28px; 
-            border-radius: 4px; 
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1); 
-        }
-        .country-name { 
-            font-size: 1.5rem; 
-            font-weight: 800; 
-            color: #0b1f33;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .country-emoji { font-size: 1.5rem; }
-        .country-stats { 
-            margin-left: auto; 
-            background: rgba(255,255,255,0.8);
-            padding: 4px 12px; 
-            border-radius: 30px; 
-            font-size: 0.85rem; 
-            font-weight: 600; 
-            color: #1e3a6f; 
-            border: 1px solid rgba(0,0,0,0.05);
-        }
+    a{ color: inherit; text-decoration: none; }
+    img{ max-width: 100%; display:block; }
+    button, input{ font-family: inherit; }
 
-        .program-list {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
+    .wrap{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 18px;
+    }
 
-        .program-card {
-            border-radius: 8px;
-            padding: 16px;
-            transition: 0.15s;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            border: 1px solid rgba(0,0,0,0.1);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            background: #ffffff;
-        }
-        .program-card:hover { 
-            transform: translateY(-3px); 
-            box-shadow: 0 8px 16px rgba(0,55,120,0.15); 
-            background: #fafdff;
-        }
+    /* =========================
+       HERO (bannière)
+       ========================= */
+    .hero{
+      border-radius: var(--r-xl);
+      overflow: hidden;
+      box-shadow: var(--shadow2);
+      border: 1px solid rgba(12,40,60,.08);
+      background: #fff;
+    }
+    .hero-media{
+      position: relative;
+      min-height: 320px;
+      background:
+        url("./assets/Banner.webp") center/cover no-repeat;
+      isolation: isolate;
+    }
+    /* overlay lisibilité */
+    .hero-media::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 500px at 70% 35%, rgba(255,255,255,.20), transparent 55%),
+        linear-gradient(90deg, rgba(11,31,51,.78) 0%, rgba(11,31,51,.38) 45%, rgba(11,31,51,.08) 72%),
+        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.05));
+      z-index: 0;
+    }
+    .hero-content{
+      position:absolute; inset:0;
+      padding: 22px;
+      display:flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 12px;
+      color: #fff;
+      z-index: 1;
+    }
+    .hero-badge{
+      width: fit-content;
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.22);
+      backdrop-filter: blur(10px);
+      font-weight: 900;
+      letter-spacing: .02em;
+      text-transform: uppercase;
+      font-size: 12px;
+    }
+    .hero-title{
+      margin: 0;
+      font-weight: 950;
+      letter-spacing: -0.03em;
+      line-height: 1.03;
+      font-size: clamp(28px, 4vw, 46px);
+      text-shadow: 0 14px 30px rgba(0,0,0,.26);
+    }
+    .hero-sub{
+      margin: 0;
+      max-width: 72ch;
+      color: rgba(255,255,255,.92);
+      font-weight: 650;
+      line-height: 1.35;
+    }
+    .hero-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight: 900;
+      cursor:pointer;
+      border: 1px solid rgba(255,255,255,.20);
+      background: rgba(255,255,255,.14);
+      color: #fff;
+      transition: transform .12s ease, background .12s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.20); }
+    .btn.primary{
+      background: rgba(228,160,21,.95);
+      border-color: rgba(228,160,21,.75);
+      color: #1a1406;
+    }
+    .btn.primary:hover{ background: rgba(228,160,21,1); }
 
-        .country-block[data-pays="SUISSE"] .program-card { 
-            background: #ffe6e6; 
-            border-color: #D52B1E; 
-        }
-        .country-block[data-pays="FRANCE"] .program-card { 
-            background: #e6edff; 
-            border-color: #002395; 
-        }
-        .country-block[data-pays="ALLEMAGNE"] .program-card { 
-            background: #e8e8e8; 
-            border-color: #000000; 
-        }
-        .country-block[data-pays="BELGIQUE"] .program-card { 
-            background: #fff9db; 
-            border-color: #FDDA25; 
-        }
-        .country-block[data-pays="WALES"] .program-card { 
-            background: #e6f7e6; 
-            border-color: #00A859; 
-        }
-        .country-block[data-pays="ANGLETERRE"] .program-card { 
-            background: #e6f0ff; 
-            border-color: #012169; 
-        }
+    /* =========================
+       STICKY COMMAND BAR
+       ========================= */
+    .commandbar{
+      margin-top: 14px;
+      position: sticky;
+      top: 10px;
+      z-index: 50;
+      border-radius: var(--r-xl);
+      background: rgba(255,255,255,.78);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow1);
+      overflow: visible;
+    }
+    .commandbar-inner{
+      padding: 12px;
+      display:flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
 
-        .program-country-name {
-            font-weight: 700;
-            font-size: 0.9rem;
-            color: #1e3f64;
-            margin-bottom: 4px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .program-country-name i {
-            font-size: 0.8rem;
-            color: #f97316;
-        }
+    .segmented{
+      display:flex;
+      background: rgba(70,119,122,.10);
+      border: 1px solid rgba(70,119,122,.18);
+      border-radius: 999px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .segmented button{
+      border: 0;
+      background: transparent;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      color: var(--teal);
+      cursor:pointer;
+    }
+    .segmented button.active{
+      background: #fff;
+      color: var(--text);
+      box-shadow: 0 10px 20px rgba(12,40,60,.08);
+      border: 1px solid rgba(12,40,60,.08);
+    }
 
-        .program-date-badge { 
-            display: flex; 
-            align-items: center; 
-            gap: 6px; 
-            font-weight: 700; 
-            color: #ffffff; 
-            padding: 6px 12px; 
-            border-radius: 20px; 
-            width: fit-content; 
-            font-size: 0.9rem; 
-            border: 1px solid rgba(255,255,255,0.3);
-            margin-top: 4px;
-        }
-        
-        .country-block[data-pays="SUISSE"] .program-card .program-date-badge { background: #D52B1E; }
-        .country-block[data-pays="FRANCE"] .program-card .program-date-badge { background: #002395; }
-        .country-block[data-pays="ALLEMAGNE"] .program-card .program-date-badge { background: #000000; }
-        .country-block[data-pays="BELGIQUE"] .program-card .program-date-badge { background: #FDDA25; color: #000000; }
-        .country-block[data-pays="WALES"] .program-card .program-date-badge { background: #00A859; }
-        .country-block[data-pays="ANGLETERRE"] .program-card .program-date-badge { background: #012169; }
-        
-        .program-card.private-event .program-date-badge {
-            background: #6b7280 !important;
-            border-color: #4b5563;
-        }
+    .search{
+      flex: 1 1 260px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: #fff;
+      box-shadow: 0 10px 20px rgba(12,40,60,.06);
+      min-width: 240px;
+    }
+    .search i{ color: var(--teal); }
+    .search input{
+      border:0; outline:0;
+      width: 100%;
+      font-weight: 700;
+      color: var(--text);
+      background: transparent;
+    }
+    .pillrow{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items:center;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.9);
+      cursor:pointer;
+      font-weight: 900;
+      color: var(--text);
+      user-select:none;
+    }
+    .pill .dot{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: var(--teal);
+      box-shadow: 0 0 0 3px rgba(70,119,122,.15);
+    }
+    .pill.active{
+      border-color: rgba(70,119,122,.32);
+      background: rgba(70,119,122,.10);
+    }
 
-        .program-localite { 
-            font-weight: 700; 
-            font-size: 1rem; 
-            color: #122b44; 
-        }
-        .program-lieu { 
-            color: #f15a24; 
-            font-weight: 600; 
-            font-size: 0.85rem; 
-            display: flex; 
-            align-items: center; 
-            gap: 4px; 
-            background: rgba(255,255,255,0.6); 
-            padding: 4px 10px; 
-            border-radius: 20px; 
-            width: fit-content; 
-            border: 1px solid #fecaca;
-        }
-        .programme-text { 
-            font-weight: 600; 
-            color: #f97316; 
-            font-size: 0.85rem; 
-            background: rgba(255,255,255,0.6); 
-            padding: 4px 10px; 
-            border-radius: 20px; 
-            display: inline-block; 
-            border: 1px solid #fed7aa;
-        }
-        .program-card.private-event .programme-text {
-            background: #9ca3af !important;
-            color: #1e293b !important;
-            border-color: #6b7280;
-        }
+    /* =========================
+       LANGUAGE SWITCH (sticky)
+       ========================= */
+    .lang-wrap{
+      margin-left: auto;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    @media (max-width: 980px){
+      .lang-wrap{ margin-left: 0; width: 100%; justify-content: flex-end; }
+    }
+    .langbtn{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 10px 20px rgba(12,40,60,.06);
+      cursor:pointer;
+      font-weight: 950;
+      color: var(--text);
+      user-select:none;
+    }
+    .langbtn .mini-flag{
+      width: 18px; height: 12px;
+      border-radius: 3px;
+      border: 1px solid rgba(12,40,60,.10);
+    }
+    .langdrop{ position: relative; }
+    .langmenu{
+      position:absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: 220px;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow2);
+      padding: 8px;
+      display:none;
+      z-index: 2000;
+    }
+    .langmenu.open{ display:block; }
+    .langopt{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 10px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight: 900;
+    }
+    .langopt:hover{ background: rgba(70,119,122,.10); }
+    .langopt .left{ display:flex; align-items:center; gap: 10px; }
+    .langkbd{
+      font-size: 11px;
+      font-weight: 950;
+      color: var(--muted);
+      border: 1px solid rgba(12,40,60,.10);
+      background: #fff;
+      padding: 4px 8px;
+      border-radius: 999px;
+    }
 
-        footer { margin-top: 50px; text-align: center; color: #8094a8; font-size: 0.85rem; border-top: 1px solid #dce5ed; padding-top: 25px; }
+    /* =========================
+       SECTIONS
+       ========================= */
+    .grid{
+      margin-top: 14px;
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+      .hero-media{ min-height: 260px; }
+    }
 
-        .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
-        .modal-content { background: white; max-width: 600px; width: 90%; border-radius: 28px; padding: 24px; box-shadow: 0 30px 50px rgba(0,0,0,0.3); max-height: 80vh; overflow-y: auto; }
-        .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e7edf4; padding-bottom: 14px; margin-bottom: 20px; }
-        .modal-header h3 { font-weight: 800; color: #1e293b; }
-        .close-btn { background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #7c8ba0; }
-        .modal-program-card {
-            background: #f9fbfe;
-            border-radius: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            border-left: 4px solid #f97316;
-            cursor: pointer;
-        }
-        .modal-program-card:hover { background: #fff4e6; }
-        
-        .modal-program-card .modal-date {
-            font-weight: 800;
-            font-size: 1.2rem;
-            color: #ffffff;
-            padding: 6px 14px;
-            border-radius: 40px;
-            display: inline-block;
-            margin-bottom: 10px;
-            border: 2px solid #ffd966;
-        }
-        
-        .modal-program-card[data-pays="SUISSE"] .modal-date { background: #D52B1E; }
-        .modal-program-card[data-pays="FRANCE"] .modal-date { background: #002395; }
-        .modal-program-card[data-pays="ALLEMAGNE"] .modal-date { background: #000; }
-        .modal-program-card[data-pays="BELGIQUE"] .modal-date { background: #FDDA25; color: #000; }
-        .modal-program-card[data-pays="WALES"] .modal-date { background: #00A859; }
-        .modal-program-card[data-pays="ANGLETERRE"] .modal-date { background: #012169; }
-        
-        .modal-loc {
-            font-size: 0.85rem;
-            color: #1e6f9f;
-            margin-top: 6px;
-            word-break: break-word;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            gap: 8px;
-        }
-        .modal-loc .link-container {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            max-width: 100%;
-            overflow: hidden;
-        }
-        .modal-loc .link-container a {
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 200px;
-            color: #1e6f9f;
-        }
-        .modal-loc .action-icons {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            flex-shrink: 0;
-        }
-        .modal-loc .action-icons i {
-            font-size: 0.9rem;
-            color: #4a6f8e;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-        .modal-loc .action-icons i:hover {
-            color: #f97316;
-        }
-        
-        .modal-program-card.private-event {
-            border-left-color: #6b7280;
-            opacity: 0.9;
-        }
-        .modal-program-card.private-event .modal-date {
-            background: #6b7280 !important;
-            border-color: #4b5563;
-            color: #ffffff;
-        }
-        
-        .modal-flag {
-            width: 24px;
-            height: 16px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-right: 6px;
-            vertical-align: middle;
-        }
-        .modal-country-badge {
-            display: inline-flex;
-            align-items: center;
-            background: rgba(0,0,0,0.05);
-            padding: 4px 10px;
-            border-radius: 30px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
+    .panel{
+      background: rgba(255,255,255,.82);
+      border: 1px solid var(--line);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow1);
+      overflow: hidden;
+    }
+    .panel-head{
+      padding: 14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(241,202,163,.35), rgba(255,255,255,0));
+    }
+    .panel-title{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      color: var(--text);
+      font-size: 16px;
+    }
+    .panel-title i{ color: var(--teal); }
+    .panel-body{ padding: 14px; }
 
-        @media (max-width: 768px) {
-            .calendrier-panel {
-                width: 100%;
-                overflow: hidden;
-                padding: 12px;
-            }
-            .calendrier-grille { 
-                gap: 2px;
-                width: 100%;
-                display: grid;
-                grid-template-columns: repeat(7, minmax(0, 1fr));
-            }
-            .case-jour { 
-                min-height: 70px; 
-                padding: 4px 2px;
-                font-size: 0.6rem;
-                background: rgba(255,255,255,0.5);
-                border-radius: 8px;
-                width: 100%;
-                max-width: 100%;
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: flex-start;
-            }
-            .jour-localite { 
-                font-size: 0.6rem; 
-                max-width: 100%;
-                width: 100%;
-                padding: 2px 2px;
-                text-align: center;
-                word-break: break-word;
-                display: -webkit-box;
-                -webkit-line-clamp: 2;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-                line-height: 1.2;
-                max-height: 2.4em;
-                color: #166b8f;
-                font-weight: 600;
-            }
-            .jour-programme { 
-                display: none;
-            }
-            .mini-flag { 
-                width: 16px; 
-                height: 10px; 
-                margin: 2px auto; 
-                display: block;
-            }
-            .numero-jour { 
-                font-size: 0.7rem;
-                margin-bottom: 2px;
-            }
-            .jour-contenu {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                width: 100%;
-            }
-            
-            .next-three-panel { padding: 12px; }
-            .next-three-panel h2 { font-size: 1.1rem; }
-            .next-card { padding: 10px; }
-            .next-localite { font-size: 0.9rem; }
-            .j-counter { font-size: 0.7rem; padding: 2px 8px; top: 6px; right: 8px; }
-            
-            .country-header { gap: 8px; }
-            .country-flag-large { width: 32px; height: 22px; }
-            .country-name { font-size: 1.2rem; }
-            .country-emoji { font-size: 1.2rem; }
-            .country-stats { font-size: 0.7rem; padding: 3px 8px; }
-            
-            .program-list { 
-                grid-template-columns: repeat(2, 1fr) !important;
-                gap: 8px;
-                width: 100%;
-                max-width: 100%;
-                overflow: hidden;
-            }
-            .program-card { 
-                padding: 12px; 
-                gap: 6px;
-                width: 100%;
-                max-width: 100%;
-                min-width: 0;
-                box-sizing: border-box;
-            }
-            .program-card * {
-                max-width: 100%;
-                overflow-wrap: break-word;
-                word-wrap: break-word;
-            }
-            .program-date-badge { 
-                font-size: 0.75rem; 
-                padding: 4px 8px;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 100%;
-            }
-            .program-localite { 
-                font-size: 0.8rem; 
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 100%;
-            }
-            .program-lieu { 
-                font-size: 0.65rem; 
-                padding: 3px 6px;
-                max-width: 100%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            .programme-text { 
-                font-size: 0.65rem; 
-                padding: 3px 6px;
-                max-width: 100%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: block;
-            }
-            
-            .country-card {
-                padding: 15px 12px;
-            }
-            .country-card-name {
-                font-size: 1.3rem;
-            }
-            .interval-badge {
-                padding: 8px 15px;
-                font-size: 0.9rem;
-            }
-        }
+    /* =========================
+       CALENDAR
+       ========================= */
+    .cal-header{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .cal-month{
+      font-weight: 950;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+    }
+    .cal-nav{
+      display:flex;
+      gap: 10px;
+    }
+    .iconbtn{
+      width: 40px; height: 40px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      cursor:pointer;
+      color: var(--teal);
+      box-shadow: 0 10px 20px rgba(12,40,60,.06);
+      transition: transform .12s ease;
+    }
+    .iconbtn:hover{ transform: translateY(-1px); }
+    .iconbtn:focus{ outline: 3px solid var(--focus); outline-offset: 2px; }
 
-        img, svg, iframe, video, audio, embed, canvas, object {
-            max-width: 100%;
-        }
-    </style>
+    .cal-grid{
+      margin-top: 12px;
+      display:grid;
+      grid-template-columns: repeat(7, minmax(0,1fr));
+      gap: 8px;
+    }
+    .cal-dow{
+      text-align:center;
+      font-size: 12px;
+      font-weight: 950;
+      color: var(--muted);
+      padding: 6px 0;
+    }
+    .cal-day{
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      min-height: 88px;
+      padding: 8px 8px 10px;
+      cursor:pointer;
+      transition: transform .10s ease, box-shadow .10s ease, background .10s ease;
+      display:flex;
+      flex-direction: column;
+      align-items:center;
+      text-align: center;
+      gap: 6px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cal-day:hover{
+      transform: translateY(-1px);
+      background: #fff;
+      box-shadow: 0 16px 28px rgba(12,40,60,.10);
+    }
+    .cal-day.other{ opacity:.35; }
+    .cal-num{ font-weight: 950; }
+    .cal-tag{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: linear-gradient(145deg, rgba(202,217,218,.60), rgba(241,202,163,.28));
+      border: 1px solid rgba(12,40,60,.08);
+      width: fit-content;
+      margin: 0 auto;
+    }
+    .cal-tag .mini-flag{
+      width: 18px; height: 12px;
+      border-radius: 3px;
+      border: 1px solid rgba(12,40,60,.10);
+      flex: 0 0 auto;
+    }
+    .cal-loc{
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--teal);
+      line-height: 1.2;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      width: 100%;
+      text-align: center;
+    }
+
+    /* =========================
+       RIGHT SIDE: "Prochains"
+       ========================= */
+    .next-list{
+      display:flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .next-card{
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--r-xl);
+      box-shadow: 0 12px 24px rgba(12,40,60,.08);
+      padding: 14px;
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+      position: relative;
+    }
+    .next-card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 40px rgba(12,40,60,.12);
+    }
+    .countdown{
+      position:absolute;
+      top: 12px; right: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(228,160,21,.95);
+      border: 1px solid rgba(228,160,21,.70);
+      color: #1a1406;
+      font-weight: 950;
+      font-size: 12px;
+    }
+    .next-date{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 950;
+      font-size: 12px;
+      background: rgba(70,119,122,.10);
+      border: 1px solid rgba(70,119,122,.18);
+      color: var(--teal);
+    }
+    .next-title{
+      margin-top: 10px;
+      font-weight: 950;
+      font-size: 16px;
+      letter-spacing: -0.02em;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+    .next-sub{
+      margin-top: 6px;
+      color: var(--muted);
+      font-weight: 750;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      margin-top: 10px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-weight: 950;
+      font-size: 12px;
+      color: var(--text);
+      background: linear-gradient(145deg, rgba(241,202,163,.55), rgba(202,217,218,.35));
+      border: 1px solid rgba(12,40,60,.10);
+    }
+    .badge.private{
+      background: rgba(75,100,118,.12);
+      border-color: rgba(75,100,118,.18);
+      color: var(--muted);
+    }
+
+    /* =========================
+       MAIN CONTENT: views
+       ========================= */
+    .views{
+      margin-top: 14px;
+    }
+
+    .view{
+      display:none;
+      margin-top: 14px;
+    }
+    .view.active{ display:block; }
+
+    .timeline{
+      display:flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .daygroup{
+      background: rgba(255,255,255,.82);
+      border: 1px solid var(--line);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow1);
+      overflow: hidden;
+    }
+    .dayhead{
+      padding: 14px 16px;
+      display:flex;
+      align-items:flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(180deg, rgba(202,217,218,.55), rgba(255,255,255,0));
+    }
+    .daydate{
+      display:flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .daydate h3{
+      margin:0;
+      font-size: 16px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+    }
+    .daymeta{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items:center;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .daymeta .pillmini{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid rgba(12,40,60,.10);
+    }
+
+    .events{
+      padding: 14px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+    @media (max-width: 980px){
+      .events{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 640px){
+      .events{ grid-template-columns: 1fr; }
+    }
+
+    .event{
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--r-xl);
+      padding: 14px;
+      box-shadow: 0 12px 22px rgba(12,40,60,.06);
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .event:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px rgba(12,40,60,.10);
+    }
+
+    .event-top{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .event-country{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 950;
+      font-size: 12px;
+      background: rgba(70,119,122,.10);
+      border: 1px solid rgba(70,119,122,.18);
+      color: var(--teal);
+    }
+    .event-country .flag{
+      width: 18px; height: 12px;
+      border-radius: 3px;
+      border: 1px solid rgba(12,40,60,.08);
+      flex: 0 0 auto;
+    }
+    .event-time{
+      font-weight: 950;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .event-title{
+      margin-top: 10px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+    .event-sub{
+      margin-top: 6px;
+      color: var(--muted);
+      font-weight: 750;
+      font-size: 13px;
+      line-height: 1.35;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+      min-height: 2.7em;
+    }
+    .event-badges{
+      margin-top: 10px;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items:center;
+    }
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-weight: 950;
+      font-size: 12px;
+      border: 1px solid rgba(12,40,60,.10);
+      background: linear-gradient(145deg, rgba(241,202,163,.52), rgba(202,217,218,.32));
+      color: var(--text);
+      max-width: 100%;
+    }
+    .tag.private{
+      background: rgba(75,100,118,.12);
+      color: var(--muted);
+    }
+
+    /* =========================
+       FLAGS classes (compat)
+       ========================= */
+    .flag-fr { background: linear-gradient(90deg, #002395 33.33%, #fff 33.33%, #fff 66.66%, #ED2939 66.66%); }
+    .flag-de { background: linear-gradient(0deg, #000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); }
+    .flag-be { background: linear-gradient(90deg, #000 33.33%, #FAE042 33.33%, #FAE042 66.66%, #ED2939 66.66%); }
+    .flag-ch { background:#D52B1E; position:relative; overflow:hidden; }
+    .flag-ch::before{ content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:60%; height:20%; background:#fff; }
+    .flag-ch::after{ content:''; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:20%; height:60%; background:#fff; }
+    .flag-wales{ background:#fff; position:relative; overflow:hidden; }
+    .flag-wales::before{ content:''; position:absolute; inset:0; background: linear-gradient(135deg, #fff 50%, #D21034 50%); }
+    .flag-wales::after{ content:'🐉'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-size: 14px; z-index:2; }
+    .flag-uk{ background:#012169; position:relative;
+      background-image:
+        linear-gradient(45deg, #fff 25%, transparent 25%),
+        linear-gradient(-45deg, #fff 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #fff 75%),
+        linear-gradient(-45deg, transparent 75%, #fff 75%);
+      background-size: 12px 12px;
+      background-position: 0 0, 0 6px, 6px -6px, -6px 0px;
+    }
+    .flag-uk::before{ content:''; position:absolute; top:50%; left:0; right:0; height:20%; background:#fff; transform:translateY(-50%); }
+    .flag-uk::after{ content:''; position:absolute; top:0; bottom:0; left:50%; width:20%; background:#fff; transform:translateX(-50%); }
+
+    /* =========================
+       PAYS VIEW (layout "original" par sections + grille)
+       ========================= */
+    .countries{
+      display:flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .country-block{
+      background: rgba(255,255,255,.86);
+      border: 1px solid var(--line);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow1);
+      overflow: hidden;
+    }
+
+    .country-header{
+      padding: 14px 16px;
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(241,202,163,.35), rgba(255,255,255,0));
+    }
+
+    .country-flag-large{
+      width: 40px;
+      height: 26px;
+      border-radius: 6px;
+      border: 1px solid rgba(12,40,60,.10);
+      box-shadow: 0 10px 18px rgba(0,0,0,.10);
+      flex: 0 0 auto;
+    }
+
+    .country-name{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 16px;
+      display:flex;
+      align-items:center;
+      gap: 10px;
+    }
+
+    .country-stats{
+      margin-left:auto;
+      font-weight: 950;
+      color: var(--teal);
+      background: rgba(70,119,122,.10);
+      border: 1px solid rgba(70,119,122,.18);
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+    }
+
+    .country-body{ padding: 14px; }
+
+    .program-list{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+    }
+    @media (max-width: 980px){
+      .program-list{ grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+    @media (max-width: 640px){
+      .program-list{ grid-template-columns: 1fr; }
+    }
+
+    .program-card{
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--r-xl);
+      padding: 14px;
+      box-shadow: 0 12px 22px rgba(12,40,60,.06);
+      cursor:pointer;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .program-card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px rgba(12,40,60,.10);
+    }
+
+    .program-top{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .program-date-badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-weight: 950;
+      font-size: 12px;
+      background: rgba(70,119,122,.10);
+      border: 1px solid rgba(70,119,122,.18);
+      color: var(--teal);
+    }
+
+    .program-time{
+      font-weight: 950;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .program-title{
+      margin-top: 10px;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+      font-size: 16px;
+      line-height: 1.2;
+    }
+
+    .program-sub{
+      margin-top: 6px;
+      color: var(--muted);
+      font-weight: 750;
+      font-size: 13px;
+      line-height: 1.35;
+      display:-webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow:hidden;
+      min-height: 2.7em;
+    }
+
+    /* =========================
+       MODAL
+       ========================= */
+    .modal{
+      display:none;
+      position: fixed;
+      inset: 0;
+      background: rgba(11,31,51,.55);
+      z-index: 1000;
+      align-items:center;
+      justify-content:center;
+      padding: 16px;
+    }
+    .modal-card{
+      width: min(820px, 96vw);
+      max-height: 84vh;
+      overflow:auto;
+      background: #fff;
+      border-radius: var(--r-xl);
+      box-shadow: 0 30px 60px rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.20);
+    }
+    .modal-head{
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+    }
+    .modal-head h3{
+      margin:0;
+      font-weight: 950;
+      letter-spacing: -0.02em;
+    }
+    .close{
+      width: 42px; height: 42px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+      cursor:pointer;
+      color: var(--teal);
+      box-shadow: 0 10px 20px rgba(12,40,60,.06);
+    }
+    .close:focus{ outline: 3px solid var(--focus); outline-offset: 2px; }
+    .modal-body{ padding: 16px; }
+
+    .detail-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+    }
+    @media (max-width: 900px){
+      .detail-grid{ grid-template-columns: 1fr; }
+    }
+    .detail-block{
+      border: 1px solid var(--line);
+      border-radius: var(--r-xl);
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 12px 22px rgba(12,40,60,.06);
+      padding: 14px;
+    }
+    .detail-title{
+      font-weight: 950;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      margin: 0 0 8px 0;
+    }
+    .detail-row{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      margin-top: 10px;
+      color: var(--text);
+      font-weight: 700;
+    }
+    .detail-row i{ color: var(--teal); margin-top: 2px; width: 18px; }
+    .detail-row .muted{ color: var(--muted); font-weight: 750; }
+
+    .linkcard{
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .linkbtn{
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(12,40,60,.10);
+      background: linear-gradient(145deg, rgba(241,202,163,.35), rgba(202,217,218,.20));
+      font-weight: 950;
+      cursor:pointer;
+      transition: transform .12s ease;
+    }
+    .linkbtn:hover{ transform: translateY(-1px); }
+    .linkbtn .left{ display:flex; align-items:center; gap: 10px; }
+    .linkbtn i{ color: var(--teal); }
+    .linkbtn .small{ font-size: 12px; font-weight: 850; color: var(--muted); }
+
+    footer{
+      margin: 26px 0 10px;
+      text-align:center;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: 12px;
+    }
+  </style>
 </head>
+
 <body>
-<div class="container">
-    <div id="flagButtons" class="flag-buttons"></div>
+  <div class="wrap">
+    <!-- HERO -->
+    <section class="hero" aria-label="NY AKO Tour">
+      <div class="hero-media" id="heroMedia">
+        <div class="hero-content">
+          <div class="hero-badge"><i class="fa-solid fa-music"></i> NY AKO · Europe Tour 2026</div>
+          <h1 class="hero-title">Toutes mes sources sont en Toi</h1>
+          <p class="hero-sub">
+            Retrouvez les dates, lieux et programmes. Utilisez la recherche, filtrez par pays, ou explorez la timeline.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" href="#calendar" onclick="document.getElementById('calendar').scrollIntoView({behavior:'smooth'}); return false;">
+              <i class="fa-solid fa-calendar-days"></i> Calendrier
+            </a>
+            <a class="btn" href="#content" onclick="document.getElementById('content').scrollIntoView({behavior:'smooth'}); return false;">
+              <i class="fa-solid fa-route"></i> Voir le programme
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
-    <div class="header-section">
-        <div class="header-polaroid">
-            <div class="polaroid-frame">
-                <img class="polaroid-img" src="https://drive.google.com/thumbnail?id=193k18u5i7g3JvpQWTK4xFoi7uzJl1vhI&sz=w800" alt="Tournée Europe">
-                <div class="polaroid-caption">✨ Toutes nos source sont en TOI✨</div>
+    <!-- COMMAND BAR -->
+    <section class="commandbar" id="content" aria-label="Barre de navigation">
+      <div class="commandbar-inner">
+        <div class="segmented" role="tablist" aria-label="Vue">
+          <button id="tabTimeline" class="active" aria-selected="true" onclick="setView('timeline')"><i class="fa-solid fa-clock"></i> Timeline</button>
+          <button id="tabCountries" aria-selected="false" onclick="setView('countries')"><i class="fa-solid fa-flag"></i> Pays</button>
+        </div>
+
+        <div class="search" role="search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="searchInput" type="search" placeholder="Rechercher : ville, lieu, programme… (ex: concert, culte, Paris)" />
+        </div>
+
+        <div class="pillrow" id="countryPills" aria-label="Filtres pays">
+          <!-- injecté -->
+        </div>
+
+        <div class="pill" id="togglePrivate" onclick="togglePrivate()" title="Afficher/masquer les événements privés">
+          <span class="dot" style="background: var(--gold)"></span>
+          Privé : <span id="privateState">masqué</span>
+        </div>
+
+        <!-- LANG SWITCH -->
+        <div class="lang-wrap" aria-label="Langue">
+          <div class="langdrop">
+            <button class="langbtn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false">
+              <span class="mini-flag flag-fr" id="langFlag"></span>
+              <span id="langLabel">FR</span>
+              <i class="fa-solid fa-chevron-down" style="color:var(--teal)"></i>
+            </button>
+
+            <div class="langmenu" id="langMenu" role="menu" aria-label="Choisir la langue">
+              <div class="langopt" role="menuitem" onclick="setLang('fr')">
+                <div class="left"><span class="mini-flag flag-fr"></span> Français</div>
+                <span class="langkbd">FR</span>
+              </div>
+              <div class="langopt" role="menuitem" onclick="setLang('en')">
+                <div class="left"><span class="mini-flag flag-uk"></span> English</div>
+                <span class="langkbd">EN</span>
+              </div>
+              <div class="langopt" role="menuitem" onclick="setLang('de')">
+                <div class="left"><span class="mini-flag flag-de"></span> Deutsch</div>
+                <span class="langkbd">DE</span>
+              </div>
             </div>
-            <h1>🇪🇺 TOURNÉE EUROPE 2026 - NY AKO</h1>
-            <div class="flags-strip">
-                <div class="flag-mini flag-ch" title="Suisse"></div>
-                <div class="flag-mini flag-fr" title="France"></div>
-                <div class="flag-mini flag-de" title="Allemagne"></div>
-                <div class="flag-mini flag-be" title="Belgique"></div>
-                <div class="flag-mini flag-uk" title="Angleterre"></div>
-                <div class="flag-mini flag-wales" title="Wales"></div>
-            </div>
+          </div>
         </div>
 
-        <div id="datesStrip" class="dates-strip"></div>
+      </div>
+    </section>
+
+    <!-- TOP GRID (Calendar + Next) -->
+    <section class="grid" id="calendar">
+      <div class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title" id="panelCalendarTitle"><i class="fa-solid fa-calendar-days"></i> Calendrier</h2>
+          <div class="cal-nav">
+            <button class="iconbtn" id="prevMonthBtn" aria-label="Mois précédent"><i class="fas fa-chevron-left"></i></button>
+            <button class="iconbtn" id="nextMonthBtn" aria-label="Mois suivant"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="cal-header">
+            <div class="cal-month" id="monthLabel">Avril 2026</div>
+          </div>
+          <div class="cal-grid" id="calendarGrid"></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2 class="panel-title" id="panelNextTitle"><i class="fa-solid fa-hourglass-half"></i> À venir</h2>
+        </div>
+        <div class="panel-body">
+          <div class="next-list" id="nextList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEWS -->
+    <section class="views">
+      <div class="view active" id="viewTimeline">
+        <div class="timeline" id="timeline"></div>
+      </div>
+
+      <div class="view" id="viewCountries">
+        <div class="countries" id="countriesGrid"></div>
+      </div>
+    </section>
+
+    <footer id="footerText"><i class="fa-solid fa-music"></i> Données extraites automatiquement · programme grand public</footer>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="modalTitle">Détail</h3>
+        <button class="close" onclick="closeModal()" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
     </div>
+  </div>
 
-    <div class="top-row">
-        <div class="calendrier-panel" id="calendrierSection">
-            <div class="calendrier-header">
-                <button class="btn-nav" id="prevMonthBtn"><i class="fas fa-chevron-left"></i></button>
-                <span class="mois-annee" id="moisAnnee">Avril 2026</span>
-                <button class="btn-nav" id="nextMonthBtn"><i class="fas fa-chevron-right"></i></button>
-            </div>
-            <div class="calendrier-grille" id="calendrierGrille"></div>
-        </div>
-
-        <div class="next-three-panel" id="nextThreePanel">
-            <h2><i class="fas fa-hourglass-half"></i> 3 programmes les plus proches</h2>
-            <div id="nextCardsContainer" class="next-cards-vertical"></div>
-        </div>
-    </div>
-
-    <div id="programmesPublic" class="programs-grid"></div>
-
-    <footer><i class="fas fa-music"></i> Données extraites automatiquement · version grand public</footer>
-</div>
-
-<div id="dateProgramsModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="modalDateTitle">Programmes du <span id="modalDateDay"></span></h3>
-            <button class="close-btn" onclick="closeDateModal()"><i class="fas fa-times"></i></button>
-        </div>
-        <div id="modalProgramsList"></div>
-    </div>
-</div>
-
-<div id="programDetailModal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 id="detailModalTitle">Détail du programme</h3>
-            <button class="close-btn" onclick="closeDetailModal()"><i class="fas fa-times"></i></button>
-        </div>
-        <div id="detailModalBody"></div>
-    </div>
-</div>
-
-<script>
-(function() {
+  <script>
+  (function(){
+    /* =========================
+       CONFIG
+       ========================= */
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
-    
-    // Mots exclus : si le programme contient l'un de ces mots, il est ignoré (pas affiché du tout)
+
     const EXCLUDED_KEYWORDS = ['apéro','apero','repas','installation','visite','visites','repos','trajet','trajets','départ','retour','rest','relax','marche','shopping','marché','détente','voyage','transfert'];
-    
     const PRIVATE_KEYWORDS = ['animation enfant','ecole','school','enfant','kids','child','élève','classe','scolaire','périscolaire','garderie'];
+
     const COUNTRY_FLAG_CLASS = { 'SUISSE':'flag-ch','FRANCE':'flag-fr','ALLEMAGNE':'flag-de','BELGIQUE':'flag-be','WALES':'flag-wales','ANGLETERRE':'flag-uk' };
-    const COUNTRY_EMOJI = {
-        'SUISSE': '🇨🇭', 'FRANCE': '🇫🇷', 'ALLEMAGNE': '🇩🇪', 'BELGIQUE': '🇧🇪',
-        'WALES': '🏴󠁧󠁢󠁷󠁬󠁳󠁿', 'ANGLETERRE': '🏴󠁧󠁢󠁥󠁮󠁧󠁿'
-    };
+    const ORDER = ['SUISSE','FRANCE','ALLEMAGNE','BELGIQUE','WALES','ANGLETERRE'];
+
     const COLUMNS = { DATE:0, LOCALITE:1, LIEU:2, HEURES:3, ADRESSE:4, HEBERGEMENT:5, PROGRAMME:6, LOCALISATION:7, SITE:8, PAYS:9, COORDS:10, TRAJETS:11 };
 
-    let allData = [];
-    let programsByCountry = {};
-    let uniqueCountries = [];
-    let flatPrograms = [];
-    let countryByDate = new Map();
+    /* =========================
+       I18N (no sheet changes)
+       ========================= */
+    const LANGS = ['fr','en','de'];
+    let lang = localStorage.getItem('lang') || 'fr';
+    if(!LANGS.includes(lang)) lang='fr';
 
-    let today = new Date(); 
-    today.setHours(0,0,0,0);
-    
-    let currentCalMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    const startDate = new Date(2026, 3, 1);
-    if (currentCalMonth < startDate) {
-        currentCalMonth = new Date(2026, 3, 1);
-    }
+    const I18N = {
+      fr: {
+        heroTitle: "Toutes mes sources sont en Toi",
+        heroSub: "Retrouvez les dates, lieux et programmes. Utilisez la recherche, filtrez par pays, ou explorez la timeline.",
+        btnCalendar: "Calendrier",
+        btnProgram: "Voir le programme",
 
-    const FLAG_BUTTON_CLASS = {
-        'SUISSE': 'flag-btn-ch',
-        'FRANCE': 'flag-btn-fr',
-        'ALLEMAGNE': 'flag-btn-de',
-        'BELGIQUE': 'flag-btn-be',
-        'WALES': 'flag-btn-wales',
-        'ANGLETERRE': 'flag-btn-uk'
+        viewTimeline: "Timeline",
+        viewCountries: "Pays",
+
+        searchPlaceholder: "Rechercher : ville, lieu, programme… (ex: concert, culte, Paris)",
+        privateLabel: "Privé",
+        privateShown: "affiché",
+        privateHidden: "masqué",
+        privateTooltip: "Afficher/masquer les événements privés",
+
+        panelCalendar: "Calendrier",
+        panelNext: "À venir",
+
+        footer: "Données extraites automatiquement · programme grand public",
+
+        noMatch: "Aucun programme ne correspond à vos filtres.",
+        loadError: "Erreur de chargement des données.",
+        noneUpcoming: "Aucun programme à venir.",
+
+        dow: ['L','M','M','J','V','S','D'],
+        monthLabel: (d)=> d.toLocaleDateString('fr-FR', {month:'long', year:'numeric'}),
+
+        clickCard: "Cliquez sur une carte",
+        programsCount: (n)=> `${n} programme${n>1?'s':''}`,
+
+        today: "Aujourd'hui",
+        tomorrow: "Demain",
+        jMinus: (d)=> `J-${d}`,
+
+        detail: "Détail",
+        detailsUsefulLinks: "Liens utiles",
+        copyMainLink: "Copier le lien principal",
+        copied: "📋 Copié !",
+
+        programsOfDayTitle: (d)=> `Programmes du ${d}`,
+        programs: "Programmes",
+        clickEventForDetails: "Cliquez sur un événement pour afficher les détails.",
+        noPublicProgram: "Aucun programme public",
+        groupInCountryDay: (country)=> `Le groupe est en <strong>${country}</strong> ce jour.`,
+        noPublicInfoDay: "Aucune information publique pour ce jour.",
+
+        location: "Localisation",
+        open: "Ouvrir",
+        linkDriveSite: "Lien / Drive / Site",
+        noLocationLink: "Aucun lien de localisation disponible.",
+
+        cityMissing: "Ville non précisée",
+        placeTBD: "Lieu à préciser",
+        programTBD: "Programme",
+
+        privateEvent: "Événement privé",
+        privateHint: "(école/enfants)",
+        publicEvent: "Événement public",
+        privateTag: "Privé",
+
+        prevMonth: "Mois précédent",
+        nextMonth: "Mois suivant",
+      },
+
+      en: {
+        heroTitle: "All my sources are in You",
+        heroSub: "Find dates, places and programs. Use search, filter by country, or explore the timeline.",
+        btnCalendar: "Calendar",
+        btnProgram: "View schedule",
+
+        viewTimeline: "Timeline",
+        viewCountries: "Countries",
+
+        searchPlaceholder: "Search: city, venue, program… (e.g. concert, service, Paris)",
+        privateLabel: "Private",
+        privateShown: "shown",
+        privateHidden: "hidden",
+        privateTooltip: "Show/hide private events",
+
+        panelCalendar: "Calendar",
+        panelNext: "Coming up",
+
+        footer: "Data extracted automatically · public schedule",
+
+        noMatch: "No events match your filters.",
+        loadError: "Error while loading data.",
+        noneUpcoming: "No upcoming events.",
+
+        dow: ['M','T','W','T','F','S','S'],
+        monthLabel: (d)=> d.toLocaleDateString('en-GB', {month:'long', year:'numeric'}),
+
+        clickCard: "Click a card",
+        programsCount: (n)=> `${n} program${n>1?'s':''}`,
+
+        today: "Today",
+        tomorrow: "Tomorrow",
+        jMinus: (d)=> `D-${d}`,
+
+        detail: "Details",
+        detailsUsefulLinks: "Useful links",
+        copyMainLink: "Copy main link",
+        copied: "📋 Copied!",
+
+        programsOfDayTitle: (d)=> `Programs on ${d}`,
+        programs: "Programs",
+        clickEventForDetails: "Click an event to see details.",
+        noPublicProgram: "No public program",
+        groupInCountryDay: (country)=> `The group is in <strong>${country}</strong> on this day.`,
+        noPublicInfoDay: "No public information for this day.",
+
+        location: "Location",
+        open: "Open",
+        linkDriveSite: "Link / Drive / Website",
+        noLocationLink: "No location link available.",
+
+        cityMissing: "City not specified",
+        placeTBD: "Venue to be confirmed",
+        programTBD: "Program",
+
+        privateEvent: "Private event",
+        privateHint: "(school/kids)",
+        publicEvent: "Public event",
+        privateTag: "Private",
+
+        prevMonth: "Previous month",
+        nextMonth: "Next month",
+      },
+
+      de: {
+        heroTitle: "All meine Quellen sind in Dir",
+        heroSub: "Finde Termine, Orte und Programme. Nutze die Suche, filtere nach Land oder erkunde die Timeline.",
+        btnCalendar: "Kalender",
+        btnProgram: "Programm ansehen",
+
+        viewTimeline: "Timeline",
+        viewCountries: "Länder",
+
+        searchPlaceholder: "Suche: Stadt, Ort, Programm… (z.B. Konzert, Gottesdienst, Paris)",
+        privateLabel: "Privat",
+        privateShown: "sichtbar",
+        privateHidden: "ausgeblendet",
+        privateTooltip: "Private Events ein-/ausblenden",
+
+        panelCalendar: "Kalender",
+        panelNext: "Demnächst",
+
+        footer: "Daten automatisch importiert · öffentliches Programm",
+
+        noMatch: "Keine Ergebnisse für deine Filter.",
+        loadError: "Fehler beim Laden der Daten.",
+        noneUpcoming: "Keine kommenden Termine.",
+
+        dow: ['M','D','M','D','F','S','S'],
+        monthLabel: (d)=> d.toLocaleDateString('de-DE', {month:'long', year:'numeric'}),
+
+        clickCard: "Karte anklicken",
+        programsCount: (n)=> `${n} Program${n>1?'me':''}`,
+
+        today: "Heute",
+        tomorrow: "Morgen",
+        jMinus: (d)=> `T-${d}`,
+
+        detail: "Details",
+        detailsUsefulLinks: "Nützliche Links",
+        copyMainLink: "Hauptlink kopieren",
+        copied: "📋 Kopiert!",
+
+        programsOfDayTitle: (d)=> `Programme am ${d}`,
+        programs: "Programme",
+        clickEventForDetails: "Klicke auf ein Event für Details.",
+        noPublicProgram: "Kein öffentliches Programm",
+        groupInCountryDay: (country)=> `Die Gruppe ist an diesem Tag in <strong>${country}</strong>.`,
+        noPublicInfoDay: "Keine öffentlichen Infos für diesen Tag.",
+
+        location: "Standort",
+        open: "Öffnen",
+        linkDriveSite: "Link / Drive / Website",
+        noLocationLink: "Kein Standort-Link verfügbar.",
+
+        cityMissing: "Stadt nicht angegeben",
+        placeTBD: "Ort folgt",
+        programTBD: "Programm",
+
+        privateEvent: "Privates Event",
+        privateHint: "(Schule/Kinder)",
+        publicEvent: "Öffentliches Event",
+        privateTag: "Privat",
+
+        prevMonth: "Vorheriger Monat",
+        nextMonth: "Nächster Monat",
+      }
     };
 
-    function parseCSV(text) {
-        const lines = []; let cur=[], field='', inQuotes=false;
-        for (let i=0; i<text.length; i++) {
-            let c = text[i];
-            if (c === '"' && !inQuotes) { inQuotes=true; continue; }
-            if (c === '"' && inQuotes && text[i+1]==='"') { field+='"'; i++; continue; }
-            if (c === '"' && inQuotes) { inQuotes=false; continue; }
-            if (c === ',' && !inQuotes) { cur.push(field); field=''; continue; }
-            if ((c === '\n' || c === '\r') && !inQuotes) {
-                if (c === '\r' && text[i+1]==='\n') i++;
-                if (field || cur.length) { cur.push(field); lines.push(cur); }
-                cur = []; field = '';
-                continue;
-            }
-            field += c;
-        }
-        if (field || cur.length) { cur.push(field); lines.push(cur); }
-        return lines;
-    }
-    
-    function parseDate(s) {
-        if (!s) return null;
-        let parts = s.split(/[/\-.]/);
-        if (parts.length===3) {
-            let d = parseInt(parts[0],10), m = parseInt(parts[1],10)-1, y = parseInt(parts[2],10);
-            if (y<100) y+=2000;
-            return new Date(y,m,d);
-        }
-        let d = new Date(s);
-        return isNaN(d) ? null : d;
-    }
-    
-    function formatDateFr(d) {
-        if (!d) return '';
-        let dd = d.getDate().toString().padStart(2,'0');
-        let mm = (d.getMonth()+1).toString().padStart(2,'0');
-        let yy = d.getFullYear().toString().slice(-2);
-        return `${dd}/${mm}/${yy}`;
-    }
-    
-    function formatIntervalDate(d) {
-        if (!d) return '';
-        const jours = ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'];
-        let jourSem = jours[d.getDay()];
-        let dd = d.getDate().toString().padStart(2,'0');
-        let mm = (d.getMonth()+1).toString().padStart(2,'0');
-        return `${jourSem} ${dd}-${mm}`;
-    }
-    
-    function getEmoji(p) {
-        if (!p) return '📋';
-        let low = p.toLowerCase();
-        if (low.includes('concert')) return '🎤';
-        if (low.includes('animation')||low.includes('jeux')) return '🎪';
-        if (low.includes('culte')||low.includes('eglise')) return '⛪';
-        if (low.includes('rencontre')) return '🤝';
-        return '📋';
-    }
-    
-    function isExcluded(prog, lieu) {
-        let txt = (prog+' '+(lieu||'')).toLowerCase();
-        return EXCLUDED_KEYWORDS.some(k => txt.includes(k));
-    }
-    
-    function isPrivateEvent(prog, lieu) {
-        let txt = (prog+' '+(lieu||'')).toLowerCase();
-        return PRIVATE_KEYWORDS.some(k => txt.includes(k));
-    }
-    
-    // Règle métier corrigée :
-    // 1. Si programme contient un mot exclu (ex: "visite") → pas affiché du tout (return null)
-    // 2. Sinon si programme non vide → on prend le nom du programme
-    // 3. Sinon si localité non vide → "Concert"
-    // 4. Sinon pas de programme
-    function getProgramDisplay(prog, loc, lieu) {
-        // ÉTAPE 1 : Si le programme existe mais contient un mot exclu, on ignore complètement
-        if (prog && prog.trim() !== '' && isExcluded(prog, lieu)) {
-            return null; // Ne pas afficher du tout
-        }
-        
-        // ÉTAPE 2 : Si programme existe et n'est pas exclu, on le garde
-        if (prog && prog.trim() !== '') {
-            return prog.trim();
-        }
-        
-        // ÉTAPE 3 : Sinon, si localité existe (non vide), on retourne "Concert"
-        if (loc && loc.trim() !== '') {
-            return 'Concert';
-        }
-        
-        // Sinon, pas de programme
-        return null;
-    }
-    
-    function isPastProgram(prog) { return prog.date < today; }
-    
-    function daysUntil(date) {
-        const diff = date - today;
-        return Math.ceil(diff / (1000 * 60 * 60 * 24));
+    function t(key, ...args){
+      const v = I18N[lang]?.[key];
+      return typeof v === 'function' ? v(...args) : (v ?? I18N.fr[key] ?? key);
     }
 
-    function createLocationHTML(text, coords) {
-        if (!text && !coords) return '';
-        
-        let url = '';
-        let displayText = '';
-        let googleMapsUrl = '';
-        let wazeUrl = '';
-        
-        if (coords) {
-            let m = coords.match(/([-+]?\d+\.\d+)[,\s]+([-+]?\d+\.\d+)/);
-            if (m) {
-                let lat = m[1];
-                let lng = m[2];
-                googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-                wazeUrl = `https://www.waze.com/ul?ll=${lat},${lng}&navigate=yes`;
-                displayText = `${lat.substring(0,6)}…, ${lng.substring(0,6)}…`;
-                url = googleMapsUrl;
-            }
-        } else if (text) {
-            url = text.match(/^https?:\/\//) ? text : 'https://www.google.com/search?q='+encodeURIComponent(text);
-            displayText = text.length > 30 ? text.substring(0, 27) + '…' : text;
-            googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(text)}`;
-            wazeUrl = `https://www.waze.com/ul?q=${encodeURIComponent(text)}&navigate=yes`;
-        }
-        
-        if (!url) return '';
-        
-        return `
-            <div class="modal-loc">
-                <i class="fas fa-map-marker-alt"></i>
-                <div class="link-container">
-                    <a href="${url}" target="_blank" rel="noopener">${displayText}</a>
-                </div>
-                <div class="action-icons">
-                    <i class="fas fa-copy" onclick="copyText('${url}', event)" title="Copier le lien"></i>
-                    <i class="fab fa-google" onclick="window.open('${googleMapsUrl || url}', '_blank')" title="Google Maps"></i>
-                    <i class="fab fa-waze" onclick="window.open('${wazeUrl || url}', '_blank')" title="Waze"></i>
-                </div>
-            </div>
+    const COUNTRY_LABEL_I18N = {
+      fr: { 'SUISSE':'Suisse','FRANCE':'France','ALLEMAGNE':'Allemagne','BELGIQUE':'Belgique','WALES':'Pays de Galles','ANGLETERRE':'Angleterre' },
+      en: { 'SUISSE':'Switzerland','FRANCE':'France','ALLEMAGNE':'Germany','BELGIQUE':'Belgium','WALES':'Wales','ANGLETERRE':'England' },
+      de: { 'SUISSE':'Schweiz','FRANCE':'Frankreich','ALLEMAGNE':'Deutschland','BELGIQUE':'Belgien','WALES':'Wales','ANGLETERRE':'England' }
+    };
+
+    function countryLabel(code){
+      return (COUNTRY_LABEL_I18N[lang]?.[code]) || (COUNTRY_LABEL_I18N.fr?.[code]) || code;
+    }
+
+    function translateProgramText(s){
+      if(!s) return s;
+      const x = s.toString();
+      if(lang==='fr') return x;
+
+      const map = {
+        en: [
+          [/concert/ig,'concert'],
+          [/culte/ig,'service'],
+          [/animation/ig,'activity'],
+          [/rencontre/ig,'meetup'],
+          [/répétition/ig,'rehearsal'],
+        ],
+        de: [
+          [/concert/ig,'Konzert'],
+          [/culte/ig,'Gottesdienst'],
+          [/animation/ig,'Programm'],
+          [/rencontre/ig,'Treffen'],
+          [/répétition/ig,'Probe'],
+        ]
+      };
+
+      return (map[lang]||[]).reduce((acc,[re,rep])=>acc.replace(re,rep), x);
+    }
+
+    function applyLangUI(){
+      // sticky lang button
+      const flag = document.getElementById('langFlag');
+      const lab = document.getElementById('langLabel');
+      if(flag){
+        flag.className = 'mini-flag ' + (lang==='fr' ? 'flag-fr' : lang==='en' ? 'flag-uk' : 'flag-de');
+      }
+      if(lab) lab.textContent = lang.toUpperCase();
+
+      // Hero texts
+      const heroTitle = document.querySelector('.hero-title');
+      const heroSub = document.querySelector('.hero-sub');
+      if(heroTitle) heroTitle.textContent = t('heroTitle');
+      if(heroSub) heroSub.textContent = t('heroSub');
+
+      // Buttons
+      const btnCal = document.querySelector('.btn.primary');
+      const btnProg = document.querySelector('.hero-actions .btn:not(.primary)');
+      if(btnCal) btnCal.innerHTML = `<i class="fa-solid fa-calendar-days"></i> ${t('btnCalendar')}`;
+      if(btnProg) btnProg.innerHTML = `<i class="fa-solid fa-route"></i> ${t('btnProgram')}`;
+
+      // Tabs
+      const tabT = document.getElementById('tabTimeline');
+      const tabC = document.getElementById('tabCountries');
+      if(tabT) tabT.innerHTML = `<i class="fa-solid fa-clock"></i> ${t('viewTimeline')}`;
+      if(tabC) tabC.innerHTML = `<i class="fa-solid fa-flag"></i> ${t('viewCountries')}`;
+
+      // Search placeholder
+      const s = document.getElementById('searchInput');
+      if(s) s.placeholder = t('searchPlaceholder');
+
+      // Private pill label (keep dot + state span)
+      const priv = document.getElementById('togglePrivate');
+      const state = document.getElementById('privateState');
+      if(priv && state){
+        priv.title = t('privateTooltip');
+        priv.innerHTML = `
+          <span class="dot" style="background: var(--gold)"></span>
+          ${t('privateLabel')} : <span id="privateState">${state.textContent}</span>
         `;
+      }
+
+      // Panels
+      const calTitle = document.getElementById('panelCalendarTitle');
+      const nextTitle = document.getElementById('panelNextTitle');
+      if(calTitle) calTitle.innerHTML = `<i class="fa-solid fa-calendar-days"></i> ${t('panelCalendar')}`;
+      if(nextTitle) nextTitle.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> ${t('panelNext')}`;
+
+      // Footer
+      const ft = document.getElementById('footerText');
+      if(ft) ft.innerHTML = `<i class="fa-solid fa-music"></i> ${t('footer')}`;
+
+      // Calendar nav aria
+      const prev = document.getElementById('prevMonthBtn');
+      const next = document.getElementById('nextMonthBtn');
+      if(prev) prev.setAttribute('aria-label', t('prevMonth'));
+      if(next) next.setAttribute('aria-label', t('nextMonth'));
     }
 
-    async function loadData() {
-        const urls = [ SHEET_URL, 'https://api.allorigins.win/raw?url='+encodeURIComponent(SHEET_URL), 'https://corsproxy.io/?'+encodeURIComponent(SHEET_URL) ];
-        let csvText = null;
-        for (let url of urls) {
-            try { let r = await fetch(url, {cache:'no-store'}); if (r.ok) { csvText = await r.text(); break; } } catch(e) {}
+    window.setLang = function(newLang){
+      lang = newLang;
+      localStorage.setItem('lang', lang);
+      closeLangMenu();
+      applyLangUI();
+      // update dynamic sections
+      buildPrograms(); // rebuild country labels & program keyword translations
+      renderAll();
+    };
+
+    function openLangMenu(){
+      const m = document.getElementById('langMenu');
+      const b = document.getElementById('langBtn');
+      if(m){ m.classList.add('open'); }
+      if(b){ b.setAttribute('aria-expanded','true'); }
+    }
+    function closeLangMenu(){
+      const m = document.getElementById('langMenu');
+      const b = document.getElementById('langBtn');
+      if(m){ m.classList.remove('open'); }
+      if(b){ b.setAttribute('aria-expanded','false'); }
+    }
+    function toggleLangMenu(){
+      const m = document.getElementById('langMenu');
+      if(!m) return;
+      m.classList.contains('open') ? closeLangMenu() : openLangMenu();
+    }
+
+    /* =========================
+       STATE
+       ========================= */
+    let allRows = [];
+    let programs = []; // flatten public programs
+    let countryByDate = new Map(); // dateKey -> country (même si pas public)
+    let activeCountry = 'ALL';
+    let showPrivate = false;
+    let query = '';
+
+    let today = new Date(); today.setHours(0,0,0,0);
+    let currentMonth = new Date(Math.max(new Date(2026,3,1), new Date(today.getFullYear(), today.getMonth(), 1)));
+
+    /* =========================
+       UTILS
+       ========================= */
+    function parseCSV(text){
+      const lines=[]; let cur=[], field='', inQuotes=false;
+      for(let i=0;i<text.length;i++){
+        let c=text[i];
+        if(c === '"' && !inQuotes){ inQuotes=true; continue; }
+        if(c === '"' && inQuotes && text[i+1]==='"'){ field+='"'; i++; continue; }
+        if(c === '"' && inQuotes){ inQuotes=false; continue; }
+        if(c === ',' && !inQuotes){ cur.push(field); field=''; continue; }
+        if((c === '\n' || c === '\r') && !inQuotes){
+          if(c === '\r' && text[i+1]==='\n') i++;
+          if(field || cur.length){ cur.push(field); lines.push(cur); }
+          cur=[]; field='';
+          continue;
         }
-        if (!csvText) throw new Error('Impossible de charger');
-        let rows = parseCSV(csvText);
-        if (rows.length<5) throw new Error('Format CSV invalide');
-        
-        allData = rows.slice(4).filter(r => r.length >= 12);
-        
-        buildData();
-        renderCalendrier(currentCalMonth);
-        renderNextThree();
-        renderCountries();
-        renderDateStrip();
-        renderFlagButtons();
+        field += c;
+      }
+      if(field || cur.length){ cur.push(field); lines.push(cur); }
+      return lines;
     }
 
-    function buildData() {
-        programsByCountry = {};
-        flatPrograms = [];
-        countryByDate.clear();
+    function parseDate(s){
+      if(!s) return null;
+      let parts = s.split(/[/\-.]/);
+      if(parts.length===3){
+        let d=parseInt(parts[0],10), m=parseInt(parts[1],10)-1, y=parseInt(parts[2],10);
+        if(y<100) y+=2000;
+        let dt = new Date(y,m,d);
+        return isNaN(dt) ? null : dt;
+      }
+      let dt = new Date(s);
+      return isNaN(dt) ? null : dt;
+    }
 
-        allData.forEach(row => {
-            let pays = (row[COLUMNS.PAYS] || '').trim().toUpperCase();
-            
-            if (pays === 'MADAGASCAR') return;
-            
-            let date = parseDate(row[COLUMNS.DATE]);
-            
-            if (!pays || !date) return;
-            
-            let dateKey = date.toISOString().split('T')[0];
-            
-            countryByDate.set(dateKey, pays);
-            
-            let loc = row[COLUMNS.LOCALITE] || '';
-            if (loc.toUpperCase().includes('RETOUR MADAGASCAR')) return;
-            
-            let progRaw = row[COLUMNS.PROGRAMME] || '';
-            let lieu = row[COLUMNS.LIEU] || '';
-            let progDisplay = getProgramDisplay(progRaw, loc, lieu);
-            
-            if (!progDisplay) return;
-            
-            let isPrivate = isPrivateEvent(progRaw, lieu);
-            
-            let item = {
-                date, dateStr: formatDateFr(date),
-                localite: loc, lieu, heures: row[COLUMNS.HEURES]||'',
-                programme: progDisplay,
-                adresse: row[COLUMNS.ADRESSE]||'',
-                localisation: row[COLUMNS.LOCALISATION]||'',
-                site: row[COLUMNS.SITE]||'',
-                coords: row[COLUMNS.COORDS]||'',
-                pays,
-                isPrivate,
-                flagClass: COUNTRY_FLAG_CLASS[pays] || 'flag-fr',
-                countryEmoji: COUNTRY_EMOJI[pays] || '🇪🇺'
-            };
-            
-            if (!programsByCountry[pays]) programsByCountry[pays] = [];
-            programsByCountry[pays].push(item);
-            flatPrograms.push(item);
+    function fmtDateLong(d){
+      const locale = lang==='fr' ? 'fr-FR' : (lang==='en' ? 'en-GB' : 'de-DE');
+      return d.toLocaleDateString(locale, {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+    }
+
+    function fmtDateShort(d){
+      const dd = String(d.getDate()).padStart(2,'0');
+      const mm = String(d.getMonth()+1).padStart(2,'0');
+      const yy = String(d.getFullYear()).slice(-2);
+      return `${dd}/${mm}/${yy}`;
+    }
+
+    function isExcluded(prog, lieu){
+      const tt = (prog+' '+(lieu||'')).toLowerCase();
+      return EXCLUDED_KEYWORDS.some(k => tt.includes(k));
+    }
+
+    function isPrivateEvent(prog, lieu){
+      const tt = (prog+' '+(lieu||'')).toLowerCase();
+      return PRIVATE_KEYWORDS.some(k => tt.includes(k));
+    }
+
+    function getProgramDisplay(prog, loc, lieu){
+      if(prog && prog.trim()!=='' && !isExcluded(prog, lieu)) return prog.trim();
+      if((loc && loc.trim()!=='') || (lieu && lieu.trim()!=='')) return t('programTBD');
+      return null;
+    }
+
+    function emojiFor(prog){
+      if(!prog) return '📋';
+      const tt = prog.toLowerCase();
+      if(tt.includes('concert') || tt.includes('konzert')) return '🎤';
+      if(tt.includes('animation')||tt.includes('activity')||tt.includes('programm')||tt.includes('jeux')) return '🎪';
+      if(tt.includes('culte')||tt.includes('service')||tt.includes('gottesdienst')||tt.includes('eglise')) return '⛪';
+      if(tt.includes('rencontre')||tt.includes('meetup')||tt.includes('treffen')) return '🤝';
+      return '📋';
+    }
+
+    function daysUntil(date){
+      const diff = date - today;
+      return Math.ceil(diff/(1000*60*60*24));
+    }
+
+    function buildLocationLinks(text, coords){
+      let googleMapsUrl = '';
+      let wazeUrl = '';
+      let primaryUrl = '';
+      let label = '';
+
+      if(coords){
+        let m = coords.match(/([-+]?\d+\.\d+)[,\s]+([-+]?\d+\.\d+)/);
+        if(m){
+          const lat=m[1], lng=m[2];
+          googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+          wazeUrl = `https://www.waze.com/ul?ll=${lat},${lng}&navigate=yes`;
+          primaryUrl = googleMapsUrl;
+          label = `${lat.substring(0,6)}…, ${lng.substring(0,6)}…`;
+        }
+      }
+      if(!primaryUrl && text){
+        const isUrl = /^https?:\/\//.test(text.trim());
+        primaryUrl = isUrl ? text.trim() : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(text)}`;
+        googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(text)}`;
+        wazeUrl = `https://www.waze.com/ul?q=${encodeURIComponent(text)}&navigate=yes`;
+        label = text.trim().length > 38 ? text.trim().slice(0,35)+'…' : text.trim();
+      }
+      return { primaryUrl, googleMapsUrl, wazeUrl, label };
+    }
+
+    function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
+
+    /* =========================
+       DATA LOAD
+       ========================= */
+    async function load(){
+      const urls = [
+        SHEET_URL,
+        'https://api.allorigins.win/raw?url=' + encodeURIComponent(SHEET_URL),
+        'https://corsproxy.io/?' + encodeURIComponent(SHEET_URL)
+      ];
+      let csv = null;
+      for(const u of urls){
+        try{
+          const r = await fetch(u, {cache:'no-store'});
+          if(r.ok){ csv = await r.text(); break; }
+        }catch(e){}
+      }
+      if(!csv) throw new Error("Impossible de charger le CSV");
+
+      const rows = parseCSV(csv);
+      allRows = rows.slice(4).filter(r => r.length >= 12);
+
+      buildPrograms();
+      applyLangUI();
+      renderAll();
+      wire();
+    }
+
+    function buildPrograms(){
+      programs = [];
+      countryByDate.clear();
+
+      allRows.forEach(row=>{
+        const pays = (row[COLUMNS.PAYS]||'').trim().toUpperCase();
+        if(!pays || pays === 'MADAGASCAR') return;
+
+        const date = parseDate(row[COLUMNS.DATE]);
+        if(!date) return;
+
+        const dateKey = date.toISOString().split('T')[0];
+        countryByDate.set(dateKey, pays);
+
+        const loc = row[COLUMNS.LOCALITE] || '';
+        if(loc.toUpperCase().includes('RETOUR MADAGASCAR')) return;
+
+        const progRaw = row[COLUMNS.PROGRAMME] || '';
+        const lieu = row[COLUMNS.LIEU] || '';
+        const progDisplay = getProgramDisplay(progRaw, loc, lieu);
+        if(!progDisplay) return;
+
+        const priv = isPrivateEvent(progRaw, lieu);
+
+        programs.push({
+          date,
+          dateKey,
+          dateStr: fmtDateShort(date),
+          dateLong: fmtDateLong(date),
+          localite: loc,
+          lieu,
+          heures: row[COLUMNS.HEURES]||'',
+          programme: translateProgramText(progDisplay),
+          adresse: row[COLUMNS.ADRESSE]||'',
+          localisation: row[COLUMNS.LOCALISATION]||'',
+          site: row[COLUMNS.SITE]||'',
+          coords: row[COLUMNS.COORDS]||'',
+          pays,
+          isPrivate: priv,
+          flagClass: COUNTRY_FLAG_CLASS[pays] || 'flag-fr',
+          countryLabel: countryLabel(pays)
         });
+      });
 
-        for (let p in programsByCountry) {
-            programsByCountry[p].sort((a,b)=>a.date-b.date);
-        }
-        flatPrograms.sort((a,b)=>a.date-b.date);
-        
-        const order = ['SUISSE','FRANCE','ALLEMAGNE','BELGIQUE','WALES','ANGLETERRE'];
-        uniqueCountries = order.filter(c => programsByCountry[c] && programsByCountry[c].length > 0);
+      programs.sort((a,b)=>a.date-b.date);
     }
 
-    function getDateIntervalsForCountry(pays) {
-        const dates = [];
-        countryByDate.forEach((p, dateKey) => {
-            if (p === pays) {
-                dates.push(new Date(dateKey + 'T00:00:00'));
-            }
-        });
-        
-        if (dates.length === 0) return [];
-        
-        dates.sort((a, b) => a - b);
-        
-        const intervals = [];
-        let start = dates[0];
-        let end = dates[0];
-        
-        for (let i = 1; i < dates.length; i++) {
-            const prev = dates[i-1];
-            const curr = dates[i];
-            if ((curr - prev) > (24 * 60 * 60 * 1000)) {
-                intervals.push({ start, end });
-                start = curr;
-                end = curr;
-            } else {
-                end = curr;
-            }
+    /* =========================
+       FILTERING
+       ========================= */
+    function filteredPrograms(){
+      return programs.filter(p=>{
+        if(p.date < today) return false;
+        if(!showPrivate && p.isPrivate) return false;
+
+        if(activeCountry !== 'ALL' && p.pays !== activeCountry) return false;
+
+        if(query){
+          const q = normalize(query);
+          const hay = normalize([
+            p.localite, p.lieu, p.programme, p.pays, p.countryLabel, p.heures, p.adresse
+          ].join(' '));
+          if(!hay.includes(q)) return false;
         }
-        intervals.push({ start, end });
-        
-        return intervals;
+        return true;
+      });
     }
 
-    function getBadgeClassForCountry(pays) {
-        const map = {
-            'SUISSE': 'suisse',
-            'FRANCE': 'france',
-            'ALLEMAGNE': 'allemagne',
-            'BELGIQUE': 'belgique',
-            'WALES': 'wales',
-            'ANGLETERRE': 'angleterre'
-        };
-        return map[pays] || 'france';
+    /* =========================
+       RENDER: pills / views
+       ========================= */
+    function renderCountryPills(){
+      const el = document.getElementById('countryPills');
+    
+      // On garde la liste des pills stable (ALL + ordre défini)
+      const pills = ['ALL', ...ORDER.filter(c => programs.some(p=>p.pays===c))];
+    
+      // (Optionnel) dispo "soft" pour juste griser si aucun résultat avec les filtres courants
+      // IMPORTANT: on calcule la dispo sans bloquer le clic
+      const availableWithCurrentFilters = new Set(
+        programs
+          .filter(p=>{
+            if(p.date < today) return false;
+            if(!showPrivate && p.isPrivate) return false;
+    
+            if(query){
+              const q = normalize(query);
+              const hay = normalize([
+                p.localite, p.lieu, p.programme, p.pays, p.countryLabel, p.heures, p.adresse
+              ].join(' '));
+              if(!hay.includes(q)) return false;
+            }
+            return true;
+          })
+          .map(p=>p.pays)
+      );
+    
+      el.innerHTML = pills.map(code=>{
+        const label = code==='ALL'
+          ? (lang==='fr' ? 'Tous' : (lang==='en' ? 'All' : 'Alle'))
+          : countryLabel(code);
+    
+        const isActive = activeCountry === code;
+    
+        // On grise si aucun résultat possible avec search/private actuels, MAIS toujours cliquable
+        const isSoftDisabled = (code !== 'ALL' && !availableWithCurrentFilters.has(code));
+    
+        const flag = code==='ALL' ? '' : `<span class="dot" style="background: var(--teal)"></span>`;
+    
+        return `
+          <div class="pill ${isActive?'active':''}"
+               style="${isSoftDisabled ? 'opacity:.55;' : ''}"
+               onclick="setCountry('${code}')">
+            ${flag}${escapeHtml(label)}
+          </div>
+        `;
+      }).join('');
     }
 
-    window.scrollToCountry = function(pays) {
-        const countryBlock = document.getElementById('block-' + pays);
-        if (countryBlock) {
-            countryBlock.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    };
-
-    window.scrollToTop = function() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    window.scrollToCalendar = function() {
-        const calendarSection = document.getElementById('calendrierSection');
-        if (calendarSection) {
-            calendarSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    };
-
-    function renderFlagButtons() {
-        const container = document.getElementById('flagButtons');
-        if (!container) return;
-        
-        let html = '';
-        
-        html += `<div class="flag-button special-button" data-country="Accueil" onclick="scrollToTop()" title="Retour en haut"><i class="fas fa-home"></i></div>`;
-        html += `<div class="flag-button special-button" data-country="Calendrier" onclick="scrollToCalendar()" title="Voir le calendrier"><i class="fas fa-calendar-alt"></i></div>`;
-        
-        uniqueCountries.forEach(pays => {
-            const progs = programsByCountry[pays] || [];
-            if (progs.length === 0) return;
-            
-            const flagClass = FLAG_BUTTON_CLASS[pays] || 'flag-btn-fr';
-            const paysDisplay = pays.charAt(0) + pays.slice(1).toLowerCase();
-            
-            if (pays === 'SUISSE') {
-                html += `<div class="flag-button ${flagClass}" data-country="${paysDisplay}" onclick="scrollToCountry('${pays}')" title="${paysDisplay}"><div class="cross"></div></div>`;
-            } else if (pays === 'WALES') {
-                html += `<div class="flag-button ${flagClass}" data-country="${paysDisplay}" onclick="scrollToCountry('${pays}')" title="${paysDisplay}"><span class="dragon">🐉</span></div>`;
-            } else {
-                html += `<div class="flag-button ${flagClass}" data-country="${paysDisplay}" onclick="scrollToCountry('${pays}')" title="${paysDisplay}"></div>`;
-            }
-        });
-        
-        container.innerHTML = html;
+    function groupByDate(list){
+      const m = new Map();
+      list.forEach(p=>{
+        const key = p.dateKey;
+        if(!m.has(key)) m.set(key, []);
+        m.get(key).push(p);
+      });
+      return [...m.entries()].sort((a,b)=>new Date(a[0])-new Date(b[0]));
     }
 
-    function renderDateStrip() {
-        const strip = document.getElementById('datesStrip');
-        if (!strip) return;
-        
-        const countryCards = {};
-        
-        uniqueCountries.forEach(pays => {
-            const progs = programsByCountry[pays] || [];
-            if (progs.length === 0) return;
-            
-            const intervals = getDateIntervalsForCountry(pays);
-            if (intervals.length === 0) return;
-            
-            const flagClass = COUNTRY_FLAG_CLASS[pays] || 'flag-fr';
-            const paysDisplay = pays.charAt(0) + pays.slice(1).toLowerCase();
-            const cardClass = getBadgeClassForCountry(pays);
-            
-            let cardHtml = `<div class="country-card ${cardClass}" onclick="scrollToCountry('${pays}')" title="Voir les programmes de ${paysDisplay}">`;
-            cardHtml += `<div class="country-card-header">`;
-            cardHtml += `<div class="country-card-flag ${flagClass}"></div>`;
-            cardHtml += `<span class="country-card-name">${paysDisplay}</span>`;
-            cardHtml += `<div style="width:40px;"></div>`;
-            cardHtml += `</div>`;
-            cardHtml += `<div class="country-card-intervals">`;
-            
-            intervals.forEach((interval, idx) => {
-                const startStr = formatIntervalDate(interval.start);
-                const endStr = formatIntervalDate(interval.end);
-                cardHtml += `<span class="interval-badge"><i class="far fa-calendar-alt"></i> <span>${startStr} – ${endStr}</span></span>`;
-            });
-            
-            cardHtml += `</div>`;
-            cardHtml += `<div class="country-card-footer"><i class="fas fa-hand-pointer"></i> Cliquer pour voir les détails des programmes</div>`;
-            cardHtml += `</div>`;
-            
-            countryCards[pays] = cardHtml;
-        });
-        
-        let html = '';
-        
-        if (countryCards['SUISSE'] || countryCards['ALLEMAGNE']) {
-            html += '<div class="cards-row row-1">';
-            html += countryCards['SUISSE'] || '<div></div>';
-            html += countryCards['ALLEMAGNE'] || '<div></div>';
-            html += '</div>';
-        }
-        
-        if (countryCards['BELGIQUE'] || countryCards['WALES']) {
-            html += '<div class="cards-row row-2">';
-            html += countryCards['BELGIQUE'] || '<div></div>';
-            html += countryCards['WALES'] || '<div></div>';
-            html += '</div>';
-        }
-        
-        if (countryCards['FRANCE']) {
-            html += '<div class="cards-row row-3">';
-            html += countryCards['FRANCE'];
-            html += '</div>';
-        }
-        
-        if (countryCards['ANGLETERRE']) {
-            html += '<div class="cards-row row-3" style="margin-top:16px;">';
-            html += countryCards['ANGLETERRE'];
-            html += '</div>';
-        }
-        
-        strip.innerHTML = html;
-    }
+    function renderTimeline(){
+      const el = document.getElementById('timeline');
+      const list = filteredPrograms();
+      if(list.length===0){
+        el.innerHTML = `<div class="panel"><div class="panel-body" style="text-align:center; font-weight:900; color: var(--muted);">${t('noMatch')}</div></div>`;
+        return;
+      }
 
-    function renderCalendrier(date) {
-        let mois = date.getMonth(), an = date.getFullYear();
-        document.getElementById('moisAnnee').innerText = date.toLocaleDateString('fr-FR',{month:'long',year:'numeric'});
-        let premier = new Date(an, mois, 1);
-        let dernier = new Date(an, mois+1, 0);
-        let debutSem = premier.getDay();
-        if (debutSem===0) debutSem=7;
-        let joursPrev = debutSem-1;
+      const groups = groupByDate(list);
+      el.innerHTML = groups.map(([dateKey, events])=>{
+        const country = events[0].countryLabel || events[0].pays;
+        const flagClass = events[0].flagClass;
 
-        let html = '<div class="jour-nom">L</div><div class="jour-nom">M</div><div class="jour-nom">M</div><div class="jour-nom">J</div><div class="jour-nom">V</div><div class="jour-nom">S</div><div class="jour-nom">D</div>';
-
-        let prevMonth = new Date(an, mois, 0);
-        let prevDays = prevMonth.getDate();
-        for (let i=0; i<joursPrev; i++) {
-            let jour = prevDays - joursPrev + i + 1;
-            html += `<div class="case-jour autre-mois"><span class="numero-jour">${jour}</span></div>`;
-        }
-
-        for (let d=1; d<=dernier.getDate(); d++) {
-            let curDate = new Date(an, mois, d);
-            let dateKey = curDate.toISOString().split('T')[0];
-            
-            let programmesDuJour = flatPrograms.filter(p => p.date.toDateString() === curDate.toDateString() && !isPastProgram(p));
-            
-            let paysDuJour = null;
-            if (programmesDuJour.length > 0) {
-                paysDuJour = programmesDuJour[0].pays;
-            } else if (countryByDate.has(dateKey)) {
-                paysDuJour = countryByDate.get(dateKey);
-            }
-            
-            let flagHtml = paysDuJour ? `<div class="mini-flag ${COUNTRY_FLAG_CLASS[paysDuJour]||'flag-fr'}"></div>` : '';
-            let localite = programmesDuJour.length > 0 ? programmesDuJour[0].localite : '';
-
-            html += `<div class="case-jour" onclick="showProgramsForDate('${curDate}')">`;
-            html += `<span class="numero-jour">${d}</span>`;
-            if (paysDuJour) {
-                html += `<div class="jour-contenu">`;
-                html += flagHtml;
-                if (localite) html += `<div class="jour-localite">${localite}</div>`;
-                html += `</div>`;
-            }
-            html += `</div>`;
-        }
-
-        let totalCases = joursPrev + dernier.getDate();
-        let reste = 42 - totalCases;
-        for (let i=1; i<=reste; i++) {
-            html += `<div class="case-jour autre-mois"><span class="numero-jour">${i}</span></div>`;
-        }
-        document.getElementById('calendrierGrille').innerHTML = html;
-    }
-
-    window.showProgramsForDate = function(dateStr) {
-        try {
-            let d = new Date(dateStr);
-            let programmes = flatPrograms.filter(p => p.date && p.date.toDateString() === d.toDateString() && !isPastProgram(p));
-            let modal = document.getElementById('dateProgramsModal');
-            let daySpan = document.getElementById('modalDateDay');
-            daySpan.innerText = d.toLocaleDateString('fr-FR', {day:'numeric', month:'long', year:'numeric'});
-
-            let listDiv = document.getElementById('modalProgramsList');
-            listDiv.innerHTML = '';
-
-            if (programmes.length===0) {
-                let dateKey = d.toISOString().split('T')[0];
-                if (countryByDate.has(dateKey)) {
-                    listDiv.innerHTML = `<div style="padding:20px; text-align:center;">Aucun programme public, mais le groupe est en ${countryByDate.get(dateKey)}</div>`;
-                } else {
-                    listDiv.innerHTML = '<div style="padding:20px; text-align:center;">Aucun programme public ce jour</div>';
-                }
-            } else {
-                programmes.forEach(p => {
-                    if (!p) return;
-                    let card = document.createElement('div');
-                    card.className = 'modal-program-card' + (p.isPrivate ? ' private-event' : '');
-                    card.setAttribute('data-pays', p.pays);
-                    
-                    card.addEventListener('click', function() {
-                        closeDateModal();
-                        openDetailModal(p);
-                    });
-
-                    let locHTML = p.localisation || p.coords ? createLocationHTML(p.localisation, p.coords) : '';
-                    let siteHTML = p.site ? createLocationHTML(p.site, null) : '';
-
-                    card.innerHTML = `
-                        <div class="modal-country-badge">
-                            <div class="mini-flag ${p.flagClass}" style="width:20px; height:14px; margin-right:6px;"></div>
-                            ${p.countryEmoji} ${p.pays}
-                        </div>
-                        <div class="modal-date">📅 ${p.dateStr} ${p.heures ? '· ' + p.heures : ''}</div>
-                        <div style="font-weight:600;">📍 ${p.localite || 'Lieu non précisé'}</div>
-                        ${locHTML}
-                        ${siteHTML}
-                        <div style="margin-top:8px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme || 'Programme'}</span></div>
-                        ${p.isPrivate ? '<div style="margin-top:6px; font-size:0.75rem; color:#6b7280;"><i class="fas fa-lock"></i> Événement privé (école/enfants)</div>' : ''}
-                    `;
-                    listDiv.appendChild(card);
-                });
-            }
-            modal.style.display = 'flex';
-        } catch (e) {
-            console.error('Erreur dans showProgramsForDate:', e);
-        }
-    };
-
-    window.closeDateModal = function() {
-        document.getElementById('dateProgramsModal').style.display = 'none';
-    };
-
-    window.openDetailModal = function(p) {
-        try {
-            if (!p) return;
-            let modal = document.getElementById('programDetailModal');
-            let title = document.getElementById('detailModalTitle');
-            title.innerText = (p.localite || 'Lieu') + ' · ' + (p.pays || 'Pays') + (p.isPrivate ? ' (Privé)' : '');
-            let body = document.getElementById('detailModalBody');
-
-            let locHTML = p.localisation || p.coords ? createLocationHTML(p.localisation, p.coords) : '';
-            let siteHTML = p.site ? createLocationHTML(p.site, null) : '';
-
-            body.innerHTML = `
-                <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px;">
-                    <div class="mini-flag ${p.flagClass}" style="width:30px; height:20px;"></div>
-                    <span style="font-weight:700; font-size:1.2rem;">${p.countryEmoji || '🇪🇺'} ${p.pays || ''}</span>
+        return `
+          <div class="daygroup">
+            <div class="dayhead">
+              <div class="daydate">
+                <h3>${escapeHtml(events[0].dateLong)}</h3>
+                <div class="daymeta">
+                  <span class="pillmini"><span class="mini-flag ${flagClass}" style="width:16px;height:11px;border-radius:3px;"></span> ${escapeHtml(country)}</span>
+                  <span class="pillmini"><i class="fa-solid fa-list-check" style="color:var(--teal)"></i> ${t('programsCount', events.length)}</span>
                 </div>
-                <div class="modal-detail-row"><span class="modal-icon">📅</span><span class="modal-info"><strong>${p.dateStr || ''} ${p.heures ? '· ' + p.heures : ''}</strong></span></div>
-                <div class="modal-detail-row"><span class="modal-icon">🏷️</span><span class="modal-info"><strong>${p.programme || 'Programme'}</strong></span></div>
-                <div class="modal-detail-row"><span class="modal-icon">📍</span><span class="modal-info"><strong>${p.lieu || 'Lieu non précisé'}</strong>${p.adresse ? '<br>'+p.adresse : ''}</span></div>
-                ${locHTML}
-                ${siteHTML}
-                <hr>
-                <div class="modal-detail-row"><span class="modal-icon">ℹ️</span><span class="modal-info">${p.isPrivate ? 'Événement privé (école/enfants)' : 'Événement public'}</span></div>
-            `;
-            modal.style.display = 'flex';
-        } catch (e) {
-            console.error('Erreur dans openDetailModal:', e);
-        }
-    };
-
-    window.closeDetailModal = function() {
-        document.getElementById('programDetailModal').style.display = 'none';
-    };
-
-    document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
-        currentCalMonth.setMonth(currentCalMonth.getMonth()-1);
-        renderCalendrier(currentCalMonth);
-    });
-    document.getElementById('nextMonthBtn').addEventListener('click', ()=>{
-        currentCalMonth.setMonth(currentCalMonth.getMonth()+1);
-        renderCalendrier(currentCalMonth);
-    });
-
-    function renderNextThree() {
-        try {
-            let upcoming = flatPrograms.filter(p => !isPastProgram(p)).slice(0,3);
-            let container = document.getElementById('nextCardsContainer');
-            let panel = document.getElementById('nextThreePanel');
-            if (upcoming.length===0) { panel.style.display='none'; return; }
-            panel.style.display='block';
-            container.innerHTML = '';
-            upcoming.forEach(p => {
-                if (!p) return;
-                let card = document.createElement('div');
-                card.className = 'next-card';
-                
-                card.addEventListener('click', function() {
-                    openDetailModal(p);
-                });
-                
-                let jours = daysUntil(p.date);
-                let jourText = jours === 0 ? "Aujourd'hui" : jours === 1 ? "Demain" : `J-${jours}`;
-                
-                let locDisplay = p.lieu || 'Lieu à préciser';
-                
-                card.innerHTML = `
-                    <div class="j-counter">${jourText}</div>
-                    <div class="next-date">📅 ${p.dateStr} ${p.heures ? '· ' + p.heures : ''}</div>
-                    <div class="next-localite">
-                        <div class="next-flag ${p.flagClass}"></div>
-                        📍 ${p.localite || '?'}
+              </div>
+              <div class="daymeta">
+                <span class="pillmini"><i class="fa-solid fa-arrow-up-right-from-square" style="color:var(--teal)"></i> ${t('clickCard')}</span>
+              </div>
+            </div>
+            <div class="events">
+              ${events.map(p => `
+                <div class="event" onclick='openModal(${escapeJson(p)})'>
+                  <div class="event-top">
+                    <div class="event-country">
+                      <span class="flag ${p.flagClass}"></span>
+                      ${escapeHtml(p.countryLabel)}
                     </div>
-                    <div class="next-lieu" style="font-size:0.8rem;">${locDisplay}</div>
-                    <div style="margin-top:8px;"><span class="programme-text">${getEmoji(p.programme)} ${p.programme || 'Programme'}</span></div>
-                    ${p.isPrivate ? '<div style="margin-top:4px; font-size:0.7rem; color:#6b7280;"><i class="fas fa-lock"></i> Privé</div>' : ''}
-                `;
-                container.appendChild(card);
-            });
-        } catch (e) {
-            console.error('Erreur dans renderNextThree:', e);
-        }
+                    <div class="event-time">${p.heures ? '⏰ '+escapeHtml(p.heures) : ''}</div>
+                  </div>
+                  <div class="event-title">${emojiFor(p.programme)} ${escapeHtml(p.localite || '?')}</div>
+                  <div class="event-sub">
+                    ${escapeHtml(p.lieu || t('placeTBD'))} · ${escapeHtml(p.programme || t('programTBD'))}
+                  </div>
+                  <div class="event-badges">
+                    <span class="tag"><i class="fa-solid fa-calendar-days" style="color:var(--teal)"></i> ${escapeHtml(p.dateStr)}</span>
+                    ${p.isPrivate ? `<span class="tag private"><i class="fa-solid fa-lock"></i> ${t('privateTag')}</span>` : ``}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
-    function renderCountries() {
-        try {
-            let container = document.getElementById('programmesPublic');
-            if (!container) return;
-            if (uniqueCountries.length===0) { container.innerHTML = '<div style="padding:40px; text-align:center;">Aucun programme à venir.</div>'; return; }
+    function renderCountries(){
+      const el = document.getElementById('countriesGrid');
 
-            let html = '';
-            uniqueCountries.forEach(pays => {
-                let programmes = programsByCountry[pays] ? programsByCountry[pays].filter(p => !isPastProgram(p)) : [];
-                if (programmes.length===0) return;
-                let flagClass = COUNTRY_FLAG_CLASS[pays]||'flag-fr';
-                let paysDisplay = pays.charAt(0)+pays.slice(1).toLowerCase();
-                let emoji = COUNTRY_EMOJI[pays] || '🇪🇺';
+      const list = filteredPrograms();
 
-                html += `<div class="country-block" data-pays="${pays}" id="block-${pays}">`;
-                html += `<div class="country-header">`;
-                html += `<div class="country-flag-large ${flagClass}"></div>`;
-                html += `<span class="country-name"><span class="country-emoji">${emoji}</span> ${paysDisplay}</span>`;
-                html += `<span class="country-stats"><i class="far fa-calendar-alt"></i> ${programmes.length} programme${programmes.length>1?'s':''}</span>`;
-                html += `</div>`;
-                html += `<div class="program-list" id="list-${pays}">`;
-                programmes.forEach(p => {
-                    if (!p) return;
-                    let emojiProg = getEmoji(p.programme);
-                    let lieuAffiche = p.lieu || 'Lieu à préciser';
-                    if (lieuAffiche.length>30) lieuAffiche = lieuAffiche.slice(0,27)+'…';
-                    
-                    let cardClass = 'program-card' + (p.isPrivate ? ' private-event' : '');
-                    
-                    let programData = JSON.stringify(p).replace(/'/g, "&#39;").replace(/"/g, "&quot;");
-                    
-                    html += `<div class="${cardClass}" data-pays="${pays}" data-program='${programData}'>`;
-                    html += `<div class="program-country-name"><i class="fas fa-map-pin"></i> ${paysDisplay}</div>`;
-                    html += `<div class="program-date-badge"><i class="far fa-calendar"></i> ${p.dateStr} ${p.heures ? '· '+p.heures : ''}</div>`;
-                    html += `<div class="program-localite"><i class="fas fa-map-pin"></i> ${p.localite||'?'}</div>`;
-                    if (p.lieu) html += `<div class="program-lieu"><i class="fas fa-location-dot"></i> ${lieuAffiche}</div>`;
-                    // Affichage du programme (peut être "Concert" si déduit)
-                    html += `<div><span class="programme-text">${emojiProg} ${p.programme || 'Programme'}</span></div>`;
-                    if (p.isPrivate) html += `<div style="margin-top:4px; font-size:0.7rem; color:#6b7280;"><i class="fas fa-lock"></i> Privé</div>`;
-                    html += `</div>`;
-                });
-                html += `</div></div>`;
-            });
-            container.innerHTML = html;
-            
-            setTimeout(() => {
-                document.querySelectorAll('.program-card').forEach(card => {
-                    if (!card.hasAttribute('data-listener')) {
-                        card.setAttribute('data-listener', 'true');
-                        card.addEventListener('click', function(e) {
-                            e.stopPropagation();
-                            try {
-                                let programData = this.getAttribute('data-program');
-                                if (programData) {
-                                    let p = JSON.parse(programData);
-                                    openDetailModal(p);
-                                }
-                            } catch (err) {
-                                console.error('Erreur lors du clic sur la carte:', err);
-                            }
-                        });
-                    }
-                });
-            }, 100);
-            
-        } catch (e) {
-            console.error('Erreur dans renderCountries:', e);
-        }
+      const byCountry = new Map();
+      list.forEach(p=>{
+        if(!byCountry.has(p.pays)) byCountry.set(p.pays, []);
+        byCountry.get(p.pays).push(p);
+      });
+
+      for(const [k, arr] of byCountry.entries()){
+        arr.sort((a,b)=>a.date-b.date);
+      }
+
+      if(list.length === 0){
+        el.innerHTML = `
+          <div class="panel">
+            <div class="panel-body" style="text-align:center; font-weight:900; color: var(--muted);">
+              ${t('noMatch')}
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      const sections = ORDER
+        .filter(code => programs.some(p=>p.pays===code))
+        .map(code=>{
+          const items = byCountry.get(code) || [];
+
+          if(activeCountry !== 'ALL' && code !== activeCountry) return '';
+          if(items.length === 0) return '';
+
+          const flagClass = COUNTRY_FLAG_CLASS[code] || 'flag-fr';
+          const name = countryLabel(code);
+
+          return `
+            <div class="country-block">
+              <div class="country-header">
+                <span class="country-flag-large ${flagClass}"></span>
+                <div class="country-name">${escapeHtml(name)}</div>
+                <div class="country-stats">${items.length} ${lang==='fr'?'prog.':(lang==='en'?'prog.':'Prog.')}</div>
+              </div>
+
+              <div class="country-body">
+                <div class="program-list">
+                  ${items.map(p => `
+                    <div class="program-card" onclick='openModal(${escapeJson(p)})'>
+                      <div class="program-top">
+                        <div class="program-date-badge">
+                          <i class="fa-solid fa-calendar-days"></i> ${escapeHtml(p.dateStr)}
+                        </div>
+                        <div class="program-time">${p.heures ? '⏰ '+escapeHtml(p.heures) : ''}</div>
+                      </div>
+
+                      <div class="program-title">${emojiFor(p.programme)} ${escapeHtml(p.localite || '?')}</div>
+                      <div class="program-sub">
+                        ${escapeHtml(p.lieu || t('placeTBD'))} · ${escapeHtml(p.programme || t('programTBD'))}
+                      </div>
+
+                      <div class="event-badges">
+                        ${p.isPrivate ? `<span class="tag private"><i class="fa-solid fa-lock"></i> ${t('privateTag')}</span>` : ``}
+                        ${p.site ? `<span class="tag"><i class="fa-solid fa-link" style="color:var(--teal)"></i> Link</span>` : ``}
+                        ${p.localisation || p.coords ? `<span class="tag"><i class="fa-solid fa-location-dot" style="color:var(--teal)"></i> Maps</span>` : ``}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            </div>
+          `;
+        })
+        .filter(Boolean)
+        .join('');
+
+      el.innerHTML = sections || `
+        <div class="panel">
+          <div class="panel-body" style="text-align:center; font-weight:900; color: var(--muted);">
+            ${t('noMatch')}
+          </div>
+        </div>
+      `;
     }
 
-    window.copyText = function(text, ev) { 
-        ev.stopPropagation(); 
-        navigator.clipboard.writeText(text).then(()=>alert('📋 Copié!')); 
+    /* =========================
+       CALENDAR
+       ========================= */
+    function renderCalendar(){
+      const grid = document.getElementById('calendarGrid');
+      const label = document.getElementById('monthLabel');
+      label.textContent = t('monthLabel', currentMonth);
+
+      const an = currentMonth.getFullYear();
+      const mois = currentMonth.getMonth();
+      const first = new Date(an, mois, 1);
+      const last = new Date(an, mois+1, 0);
+
+      let startDow = first.getDay(); // 0 dim ... 6 sam
+      if(startDow===0) startDow=7;
+      const prevCount = startDow-1;
+
+      const dow = t('dow').map(d=>`<div class="cal-dow">${d}</div>`).join('');
+      let html = dow;
+
+      const prevLast = new Date(an, mois, 0).getDate();
+      for(let i=0;i<prevCount;i++){
+        const day = prevLast - prevCount + i + 1;
+        html += `<div class="cal-day other"><div class="cal-num">${day}</div></div>`;
+      }
+
+      for(let d=1; d<=last.getDate(); d++){
+        const cur = new Date(an, mois, d);
+        const dateKey = cur.toISOString().split('T')[0];
+
+        const list = filteredPrograms().filter(p => p.dateKey === dateKey);
+        let country = list[0]?.pays || countryByDate.get(dateKey) || null;
+        let flagClass = country ? (COUNTRY_FLAG_CLASS[country]||'flag-fr') : '';
+        let loc = list[0]?.localite || '';
+
+        const tag = country ? `
+          <div class="cal-tag" title="${escapeHtml(countryLabel(country))}">
+            <span class="mini-flag ${flagClass}"></span>
+          </div>` : '';
+
+        const locHtml = loc ? `<div class="cal-loc">${escapeHtml(loc)}</div>` : '';
+
+        html += `
+          <div class="cal-day" onclick="openDay('${dateKey}')">
+            <div class="cal-num">${d}</div>
+            ${tag}
+            ${locHtml}
+          </div>
+        `;
+      }
+
+      const total = prevCount + last.getDate();
+      const rest = 42 - total;
+      for(let i=1;i<=rest;i++){
+        html += `<div class="cal-day other"><div class="cal-num">${i}</div></div>`;
+      }
+
+      grid.innerHTML = html;
+    }
+
+    window.openDay = function(dateKey){
+      const list = filteredPrograms().filter(p => p.dateKey === dateKey);
+      const d = new Date(dateKey+'T00:00:00');
+      if(list.length===0){
+        const country = countryByDate.get(dateKey);
+        openModalRaw(
+          `${t('programs')} · ${fmtDateLong(d)}`,
+          `<div class="detail-block">
+             <div class="detail-title">${t('noPublicProgram')}</div>
+             <div style="color:var(--muted); font-weight:800;">
+               ${country ? t('groupInCountryDay', countryLabel(country)) : t('noPublicInfoDay')}
+             </div>
+           </div>`
+        );
+        return;
+      }
+
+      const body = `
+        <div class="detail-block">
+          <div class="detail-title">${t('programsOfDayTitle', escapeHtml(fmtDateLong(d)))}</div>
+          <div style="color:var(--muted); font-weight:800; margin-top:6px;">${t('clickEventForDetails')}</div>
+        </div>
+        <div style="margin-top:14px; display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px;">
+          ${list.map(p => `
+            <div class="detail-block" style="cursor:pointer;" onclick='openModal(${escapeJson(p)})'>
+              <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start;">
+                <div style="font-weight:950; letter-spacing:-0.02em;">${emojiFor(p.programme)} ${escapeHtml(p.localite || '?')}</div>
+                <div style="font-weight:950; color:var(--muted); font-size:12px;">${escapeHtml(p.heures||'')}</div>
+              </div>
+              <div style="margin-top:6px; color:var(--muted); font-weight:800;">${escapeHtml(p.lieu || t('placeTBD'))}</div>
+              <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap;">
+                <span class="tag"><span class="flag ${p.flagClass}" style="width:18px;height:12px;border-radius:3px;"></span> ${escapeHtml(p.countryLabel)}</span>
+                ${p.isPrivate? `<span class="tag private"><i class="fa-solid fa-lock"></i> ${t('privateTag')}</span>`:''}
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      openModalRaw(t('programs'), body);
     };
 
-    window.onclick = function(e) {
-        if (e.target.classList.contains('modal')) e.target.style.display = 'none';
+    /* =========================
+       NEXT
+       ========================= */
+    function renderNext(){
+      const el = document.getElementById('nextList');
+      const list = filteredPrograms().slice(0,3);
+      if(list.length===0){
+        el.innerHTML = `<div style="text-align:center; color:var(--muted); font-weight:900;">${t('noneUpcoming')}</div>`;
+        return;
+      }
+      el.innerHTML = list.map(p=>{
+        const d = daysUntil(p.date);
+        const label = d===0 ? t('today') : d===1 ? t('tomorrow') : t('jMinus', d);
+        return `
+          <div class="next-card" onclick='openModal(${escapeJson(p)})'>
+            <div class="countdown">${escapeHtml(label)}</div>
+            <div class="next-date"><i class="fa-solid fa-calendar-days"></i> ${escapeHtml(p.dateStr)} ${p.heures ? '· '+escapeHtml(p.heures) : ''}</div>
+            <div class="next-title">
+              <span class="flag ${p.flagClass}" style="width:22px;height:14px;border-radius:4px;border:1px solid rgba(12,40,60,.10)"></span>
+              ${escapeHtml(p.localite || '?')}
+            </div>
+            <div class="next-sub">${escapeHtml(p.lieu || t('placeTBD'))} · ${escapeHtml(p.programme || t('programTBD'))}</div>
+            <div class="badge">${emojiFor(p.programme)} ${escapeHtml(p.programme || t('programTBD'))}</div>
+            ${p.isPrivate ? `<div class="badge private"><i class="fa-solid fa-lock"></i> ${t('privateEvent')}</div>` : ``}
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* =========================
+       MODAL DETAILS
+       ========================= */
+    function escapeHtml(s){
+      return (s||'').toString()
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&#39;');
+    }
+
+    function escapeJson(obj){
+      return JSON.stringify(obj)
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/\n/g, "\\n");
+    }
+
+    window.openModal = function(p){
+      const title = `${p.localite || t('detail')} · ${p.countryLabel || p.pays}${p.isPrivate ? ' ('+t('privateTag')+')' : ''}`;
+
+      const loc = buildLocationLinks(p.localisation, p.coords);
+      const site = buildLocationLinks(p.site, null);
+
+      const locBtn = loc.primaryUrl ? `
+        <div class="linkbtn" onclick="window.open('${loc.primaryUrl}','_blank')">
+          <div class="left">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <div>${t('location')}</div>
+              <div class="small">${escapeHtml(loc.label || t('open'))}</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+          <div class="linkbtn" onclick="window.open('${loc.googleMapsUrl}','_blank')">
+            <div class="left"><i class="fa-brands fa-google"></i><div>Google Maps</div></div>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </div>
+          <div class="linkbtn" onclick="window.open('${loc.wazeUrl}','_blank')">
+            <div class="left"><i class="fa-brands fa-waze"></i><div>Waze</div></div>
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </div>
+        </div>
+      ` : `<div style="color:var(--muted); font-weight:800;">${t('noLocationLink')}</div>`;
+
+      const siteBtn = site.primaryUrl ? `
+        <div class="linkbtn" onclick="window.open('${site.primaryUrl}','_blank')">
+          <div class="left">
+            <i class="fa-solid fa-link"></i>
+            <div>
+              <div>${t('linkDriveSite')}</div>
+              <div class="small">${escapeHtml(site.label || t('open'))}</div>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+        </div>
+      ` : '';
+
+      const body = `
+        <div class="detail-grid">
+          <div class="detail-block">
+            <div class="detail-title">${emojiFor(p.programme)} ${escapeHtml(p.programme || t('programTBD'))}</div>
+
+            <div class="detail-row">
+              <i class="fa-solid fa-calendar-days"></i>
+              <div>
+                <div><strong>${escapeHtml(p.dateStr)}</strong> <span class="muted">${p.heures ? '· '+escapeHtml(p.heures) : ''}</span></div>
+                <div class="muted">${escapeHtml(p.dateLong || '')}</div>
+              </div>
+            </div>
+
+            <div class="detail-row">
+              <i class="fa-solid fa-flag"></i>
+              <div><strong>${escapeHtml(p.countryLabel || p.pays)}</strong></div>
+            </div>
+
+            <div class="detail-row">
+              <i class="fa-solid fa-location-dot"></i>
+              <div>
+                <div><strong>${escapeHtml(p.localite || t('cityMissing'))}</strong></div>
+                <div class="muted">${escapeHtml(p.lieu || t('placeTBD'))}</div>
+                ${p.adresse ? `<div class="muted" style="margin-top:6px;">${escapeHtml(p.adresse)}</div>` : ``}
+              </div>
+            </div>
+
+            ${p.isPrivate ? `
+              <div class="detail-row">
+                <i class="fa-solid fa-lock"></i>
+                <div class="muted"><strong>${t('privateEvent')}</strong> ${t('privateHint')}</div>
+              </div>
+            ` : `
+              <div class="detail-row">
+                <i class="fa-solid fa-door-open"></i>
+                <div class="muted"><strong>${t('publicEvent')}</strong></div>
+              </div>
+            `}
+          </div>
+
+          <div class="detail-block linkcard">
+            <div style="font-weight:950; letter-spacing:-0.02em;">${t('detailsUsefulLinks')}</div>
+            ${locBtn}
+            ${siteBtn}
+            <div class="linkbtn" onclick="copyText('${escapeHtml((loc.primaryUrl||site.primaryUrl||''))}')">
+              <div class="left"><i class="fa-solid fa-copy"></i><div>${t('copyMainLink')}</div></div>
+              <i class="fa-solid fa-check"></i>
+            </div>
+          </div>
+        </div>
+      `;
+
+      openModalRaw(title, body);
     };
 
-    loadData().catch(e => console.error('Erreur chargement données:', e));
-})();
-</script>
+    function openModalRaw(title, bodyHtml){
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalBody').innerHTML = bodyHtml;
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    window.closeModal = function(){
+      document.getElementById('modal').style.display = 'none';
+    };
+
+    window.copyText = function(tt){
+      if(!tt) return;
+      navigator.clipboard.writeText(tt).then(()=>alert(t('copied')));
+    };
+
+    window.onclick = function(e){
+      if(e.target && e.target.id === 'modal') closeModal();
+    };
+
+    /* =========================
+       UI ACTIONS (global)
+       ========================= */
+    window.setCountry = function(code){
+      activeCountry = code;
+      renderAll();
+    };
+
+    window.togglePrivate = function(){
+      showPrivate = !showPrivate;
+      document.getElementById('privateState').textContent = showPrivate ? t('privateShown') : t('privateHidden');
+      renderAll();
+      applyLangUI();
+    };
+
+    window.setView = function(view){
+      const tBtn = document.getElementById('tabTimeline');
+      const cBtn = document.getElementById('tabCountries');
+      const vT = document.getElementById('viewTimeline');
+      const vC = document.getElementById('viewCountries');
+
+      if(view === 'countries'){
+        tBtn.classList.remove('active'); cBtn.classList.add('active');
+        vT.classList.remove('active'); vC.classList.add('active');
+      }else{
+        cBtn.classList.remove('active'); tBtn.classList.add('active');
+        vC.classList.remove('active'); vT.classList.add('active');
+      }
+    };
+
+    /* =========================
+       RENDER ALL
+       ========================= */
+    function renderAll(){
+      renderCountryPills();
+      renderCalendar();
+      renderNext();
+      renderTimeline();
+      renderCountries();
+    }
+
+    function wire(){
+      // search
+      const s = document.getElementById('searchInput');
+      s.addEventListener('input', (e)=>{
+        query = e.target.value || '';
+        renderAll();
+      });
+
+      // calendar nav
+      document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
+        currentMonth.setMonth(currentMonth.getMonth()-1);
+        renderCalendar();
+      });
+      document.getElementById('nextMonthBtn').addEventListener('click', ()=>{
+        currentMonth.setMonth(currentMonth.getMonth()+1);
+        renderCalendar();
+      });
+
+      // private status init
+      document.getElementById('privateState').textContent = showPrivate ? t('privateShown') : t('privateHidden');
+      applyLangUI();
+
+      // language menu
+      const langBtn = document.getElementById('langBtn');
+      if(langBtn) langBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleLangMenu(); });
+
+      document.addEventListener('click', (e)=>{
+        const menu = document.getElementById('langMenu');
+        const btn = document.getElementById('langBtn');
+        if(!menu || !btn) return;
+        if(menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)){
+          closeLangMenu();
+        }
+      });
+
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') closeLangMenu();
+      });
+    }
+
+    /* =========================
+       INIT
+       ========================= */
+    load().catch(err=>{
+      console.error(err);
+      document.getElementById('timeline').innerHTML =
+        `<div class="panel"><div class="panel-body" style="text-align:center; font-weight:900; color: var(--muted);">${t('loadError')}</div></div>`;
+    });
+  })();
+  </script>
 </body>
 </html>
