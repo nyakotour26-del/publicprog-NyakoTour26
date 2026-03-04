@@ -1503,6 +1503,12 @@
     @media (min-width: 641px){
       .cb-right .lang-wrap{ margin-left: 0 !important; width: auto !important; }
     }
+    /* ===== Mobile: hide "Voir le programme" button ===== */
+    @media (max-width: 640px){
+      .hero-actions .btn:not(.primary){
+        display: none !important;
+      }
+    }
   </style>
 </head>
 
