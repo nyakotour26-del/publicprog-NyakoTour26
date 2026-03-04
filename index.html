@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <style>
+        /* Tous les styles originaux sont conservés intacts */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
         body { background: #f4f7fb; color: #1e293b; padding: 16px; min-height: 100vh; position: relative; }
         .container { max-width: 1400px; margin: 0 auto; }
         
-        /* Boutons flottants des drapeaux - FORME CARRÉE */
         .flag-buttons {
             position: fixed;
             bottom: 20px;
@@ -25,7 +25,7 @@
         .flag-button {
             width: 50px;
             height: 50px;
-            border-radius: 8px; /* Coins légèrement arrondis mais carrés */
+            border-radius: 8px;
             border: 3px solid white;
             box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             cursor: pointer;
@@ -42,7 +42,6 @@
             border-color: #ffd966;
         }
         
-        /* Tooltip au survol */
         .flag-button::before {
             content: attr(data-country);
             position: absolute;
@@ -69,7 +68,6 @@
             right: 70px;
         }
         
-        /* Bouton spécial (Accueil, Calendrier) */
         .special-button {
             background: #f97316;
             color: white;
@@ -84,7 +82,6 @@
             background: #fb923c;
         }
         
-        /* Drapeaux pour les boutons - CORRECTION SUISSE */
         .flag-btn-ch { 
             background: #D52B1E; 
             position: relative;
@@ -121,17 +118,9 @@
             transform: translate(-50%, -50%);
         }
         
-        .flag-btn-fr { 
-            background: linear-gradient(90deg, #002395 33.33%, #fff 33.33%, #fff 66.66%, #ED2939 66.66%); 
-        }
-        
-        .flag-btn-de { 
-            background: linear-gradient(0deg, #000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); 
-        }
-        
-        .flag-btn-be { 
-            background: linear-gradient(90deg, #000 33.33%, #FAE042 33.33%, #FAE042 66.66%, #ED2939 66.66%); 
-        }
+        .flag-btn-fr { background: linear-gradient(90deg, #002395 33.33%, #fff 33.33%, #fff 66.66%, #ED2939 66.66%); }
+        .flag-btn-de { background: linear-gradient(0deg, #000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); }
+        .flag-btn-be { background: linear-gradient(90deg, #000 33.33%, #FAE042 33.33%, #FAE042 66.66%, #ED2939 66.66%); }
         
         .flag-btn-wales { 
             background: #fff; 
@@ -194,7 +183,6 @@
             z-index: 1;
         }
         
-        /* Header avec photo style polaroid */
         .header-section {
             display: flex;
             flex-direction: column;
@@ -352,7 +340,6 @@
             z-index: 2;
         }
 
-        /* Bande des intervalles de dates par pays - GRILLE PERSONNALISÉE */
         .dates-strip {
             display: flex;
             flex-direction: column;
@@ -366,23 +353,19 @@
             border: 1px solid rgba(255,255,255,0.8);
         }
         
-        /* Lignes de cartes */
         .cards-row {
             display: grid;
             gap: 16px;
         }
         
-        /* Première ligne : Suisse et Allemagne (2 colonnes) */
         .row-1 {
             grid-template-columns: 1fr 1fr;
         }
         
-        /* Deuxième ligne : Belgique et Wales (2 colonnes) */
         .row-2 {
             grid-template-columns: 1fr 1fr;
         }
         
-        /* Troisième ligne : France centré */
         .row-3 {
             display: flex;
             justify-content: center;
@@ -392,7 +375,6 @@
             flex: 0 0 auto;
         }
         
-        /* Adaptation mobile */
         @media (max-width: 599px) {
             .row-1, .row-2 {
                 grid-template-columns: 1fr;
@@ -411,7 +393,6 @@
             }
         }
         
-        /* Carte par pays avec fond coloré */
         .country-card {
             border-radius: 12px;
             padding: 20px 20px;
@@ -430,7 +411,6 @@
             border-color: #ffd966;
         }
         
-        /* Couleurs de fond par pays */
         .country-card.suisse { background: #D52B1E; }
         .country-card.france { background: #002395; }
         .country-card.allemagne { background: #000000; }
@@ -461,7 +441,6 @@
             text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
         
-        /* Conteneur des dates - centré */
         .country-card-intervals {
             display: flex;
             flex-wrap: wrap;
@@ -470,7 +449,6 @@
             padding: 5px 0;
         }
         
-        /* Badges de date - fond blanc pour contraste */
         .interval-badge {
             display: inline-flex;
             align-items: center;
@@ -493,7 +471,6 @@
             font-size: 1rem;
         }
         
-        /* Ajustement pour texte long */
         .interval-badge span {
             white-space: normal;
             word-break: keep-all;
@@ -513,7 +490,6 @@
             margin-right: 5px;
         }
 
-        /* DISPOSITION RESPONSIVE : côte à côte à partir de 900px */
         .top-row { display: flex; flex-direction: column; gap: 24px; margin-bottom: 30px; }
         @media (min-width: 900px) { .top-row { flex-direction: row; } }
 
@@ -637,7 +613,6 @@
         }
         .mini-flag { width: 18px; height: 12px; border-radius: 2px; display: inline-block; margin: 2px auto; }
 
-        /* 3 prochains cards (vertical) */
         .next-cards-vertical { display: flex; flex-direction: column; gap: 14px; }
         .next-card {
             background: #ffffff;
@@ -671,7 +646,6 @@
         .next-lieu { color: #f15a24; font-weight: 600; font-size: 0.85rem; }
         .next-flag { width: 22px; height: 14px; border-radius: 3px; display: inline-block; }
         
-        /* Compteur J-xxx */
         .j-counter {
             position: absolute;
             top: 12px;
@@ -686,16 +660,14 @@
             border: 2px solid white;
         }
 
-        /* pays blocks avec couleurs et emojis personnalisés */
         .programs-grid { display: flex; flex-direction: column; gap: 24px; margin: 30px 0; }
         
-        /* Styles de base pour tous les blocs pays */
         .country-block { 
-            border-radius: 16px; /* Coins légèrement arrondis */
+            border-radius: 16px;
             padding: 20px 18px; 
             box-shadow: 0 12px 30px -8px rgba(0,20,40,0.15); 
             transition: transform 0.2s;
-            background: #ffffff; /* fond blanc pour les blocs */
+            background: #ffffff;
             border: 1px solid #e2eaf2;
         }
         .country-block:hover { transform: translateY(-3px); }
@@ -732,14 +704,12 @@
             border: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* Grille desktop : 4 colonnes */
         .program-list {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 12px;
         }
 
-        /* STYLE ORIGINAL DES CARTES (revenue à la version précédente) */
         .program-card {
             border-radius: 8px;
             padding: 16px;
@@ -750,7 +720,7 @@
             gap: 8px;
             border: 1px solid rgba(0,0,0,0.1);
             box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-            background: #ffffff; /* fond blanc */
+            background: #ffffff;
         }
         .program-card:hover { 
             transform: translateY(-3px); 
@@ -758,7 +728,6 @@
             background: #fafdff;
         }
 
-        /* Couleurs par pays pour les cartes (version originale) */
         .country-block[data-pays="SUISSE"] .program-card { 
             background: #ffe6e6; 
             border-color: #D52B1E; 
@@ -784,7 +753,6 @@
             border-color: #012169; 
         }
 
-        /* Nom du pays au-dessus des dates */
         .program-country-name {
             font-weight: 700;
             font-size: 0.9rem;
@@ -799,7 +767,6 @@
             color: #f97316;
         }
 
-        /* Dates dans les cartes */
         .program-date-badge { 
             display: flex; 
             align-items: center; 
@@ -814,7 +781,6 @@
             margin-top: 4px;
         }
         
-        /* Couleurs par pays pour les badges de date */
         .country-block[data-pays="SUISSE"] .program-card .program-date-badge { background: #D52B1E; }
         .country-block[data-pays="FRANCE"] .program-card .program-date-badge { background: #002395; }
         .country-block[data-pays="ALLEMAGNE"] .program-card .program-date-badge { background: #000000; }
@@ -822,7 +788,6 @@
         .country-block[data-pays="WALES"] .program-card .program-date-badge { background: #00A859; }
         .country-block[data-pays="ANGLETERRE"] .program-card .program-date-badge { background: #012169; }
         
-        /* Badge privé pour animations écoles */
         .program-card.private-event .program-date-badge {
             background: #6b7280 !important;
             border-color: #4b5563;
@@ -864,7 +829,6 @@
 
         footer { margin-top: 50px; text-align: center; color: #8094a8; font-size: 0.85rem; border-top: 1px solid #dce5ed; padding-top: 25px; }
 
-        /* MODAL pour les détails d'une date (multi-programmes) */
         .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); align-items: center; justify-content: center; z-index: 1000; }
         .modal-content { background: white; max-width: 600px; width: 90%; border-radius: 28px; padding: 24px; box-shadow: 0 30px 50px rgba(0,0,0,0.3); max-height: 80vh; overflow-y: auto; }
         .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e7edf4; padding-bottom: 14px; margin-bottom: 20px; }
@@ -880,7 +844,6 @@
         }
         .modal-program-card:hover { background: #fff4e6; }
         
-        /* Date dans la modal agrandie et colorée par pays */
         .modal-program-card .modal-date {
             font-weight: 800;
             font-size: 1.2rem;
@@ -892,7 +855,6 @@
             border: 2px solid #ffd966;
         }
         
-        /* Couleurs par pays pour les dates dans les modales */
         .modal-program-card[data-pays="SUISSE"] .modal-date { background: #D52B1E; }
         .modal-program-card[data-pays="FRANCE"] .modal-date { background: #002395; }
         .modal-program-card[data-pays="ALLEMAGNE"] .modal-date { background: #000; }
@@ -900,7 +862,6 @@
         .modal-program-card[data-pays="WALES"] .modal-date { background: #00A859; }
         .modal-program-card[data-pays="ANGLETERRE"] .modal-date { background: #012169; }
         
-        /* Lien sur une ligne avec options */
         .modal-loc {
             font-size: 0.85rem;
             color: #1e6f9f;
@@ -941,7 +902,6 @@
             color: #f97316;
         }
         
-        /* Badge privé dans la modal */
         .modal-program-card.private-event {
             border-left-color: #6b7280;
             opacity: 0.9;
@@ -952,7 +912,6 @@
             color: #ffffff;
         }
         
-        /* Mini drapeau dans les modales */
         .modal-flag {
             width: 24px;
             height: 16px;
@@ -971,7 +930,6 @@
             font-weight: 600;
         }
 
-        /* ===== VERSION MOBILE OPTIMISÉE POUR 768px ===== */
         @media (max-width: 768px) {
             .calendrier-panel {
                 width: 100%;
@@ -1099,7 +1057,6 @@
                 display: block;
             }
             
-            /* Adaptation mobile pour les cartes colorées */
             .country-card {
                 padding: 15px 12px;
             }
@@ -1119,12 +1076,8 @@
 </head>
 <body>
 <div class="container">
-    <!-- Boutons flottants des drapeaux -->
-    <div id="flagButtons" class="flag-buttons">
-        <!-- injecté dynamiquement -->
-    </div>
+    <div id="flagButtons" class="flag-buttons"></div>
 
-    <!-- Header avec photo polaroid -->
     <div class="header-section">
         <div class="header-polaroid">
             <div class="polaroid-frame">
@@ -1142,13 +1095,9 @@
             </div>
         </div>
 
-        <!-- Bande des intervalles de dates par pays -->
-        <div id="datesStrip" class="dates-strip">
-            <!-- injecté dynamiquement -->
-        </div>
+        <div id="datesStrip" class="dates-strip"></div>
     </div>
 
-    <!-- RANGÉE HAUTE : CALENDRIER + 3 PROCHES -->
     <div class="top-row">
         <div class="calendrier-panel" id="calendrierSection">
             <div class="calendrier-header">
@@ -1165,13 +1114,11 @@
         </div>
     </div>
 
-    <!-- LISTE PAYS - toujours visible (cartes version originale) -->
     <div id="programmesPublic" class="programs-grid"></div>
 
     <footer><i class="fas fa-music"></i> Données extraites automatiquement · version grand public</footer>
 </div>
 
-<!-- MODAL MULTI-PROGRAMMES POUR UNE DATE -->
 <div id="dateProgramsModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -1182,7 +1129,6 @@
     </div>
 </div>
 
-<!-- MODAL DÉTAIL D'UN PROGRAMME (individuel) -->
 <div id="programDetailModal" class="modal">
     <div class="modal-content">
         <div class="modal-header">
@@ -1195,9 +1141,11 @@
 
 <script>
 (function() {
-    // ----------------------------- CONFIG ---------------------------------
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
+    
+    // Mots exclus : si le programme contient l'un de ces mots, il est ignoré (pas affiché du tout)
     const EXCLUDED_KEYWORDS = ['apéro','apero','repas','installation','visite','visites','repos','trajet','trajets','départ','retour','rest','relax','marche','shopping','marché','détente','voyage','transfert'];
+    
     const PRIVATE_KEYWORDS = ['animation enfant','ecole','school','enfant','kids','child','élève','classe','scolaire','périscolaire','garderie'];
     const COUNTRY_FLAG_CLASS = { 'SUISSE':'flag-ch','FRANCE':'flag-fr','ALLEMAGNE':'flag-de','BELGIQUE':'flag-be','WALES':'flag-wales','ANGLETERRE':'flag-uk' };
     const COUNTRY_EMOJI = {
@@ -1210,7 +1158,7 @@
     let programsByCountry = {};
     let uniqueCountries = [];
     let flatPrograms = [];
-    let countryByDate = new Map(); // Carte dateKey -> pays (même sans programme)
+    let countryByDate = new Map();
 
     let today = new Date(); 
     today.setHours(0,0,0,0);
@@ -1221,7 +1169,6 @@
         currentCalMonth = new Date(2026, 3, 1);
     }
 
-    // Mapping des classes CSS pour les boutons flottants
     const FLAG_BUTTON_CLASS = {
         'SUISSE': 'flag-btn-ch',
         'FRANCE': 'flag-btn-fr',
@@ -1231,7 +1178,6 @@
         'ANGLETERRE': 'flag-btn-uk'
     };
 
-    // ----------------------------- OUTILS ---------------------------------
     function parseCSV(text) {
         const lines = []; let cur=[], field='', inQuotes=false;
         for (let i=0; i<text.length; i++) {
@@ -1272,7 +1218,6 @@
         return `${dd}/${mm}/${yy}`;
     }
     
-    // Format jour abrégé + jj-mm (ex: "lun 02-04")
     function formatIntervalDate(d) {
         if (!d) return '';
         const jours = ['dim', 'lun', 'mar', 'mer', 'jeu', 'ven', 'sam'];
@@ -1302,9 +1247,28 @@
         return PRIVATE_KEYWORDS.some(k => txt.includes(k));
     }
     
+    // Règle métier corrigée :
+    // 1. Si programme contient un mot exclu (ex: "visite") → pas affiché du tout (return null)
+    // 2. Sinon si programme non vide → on prend le nom du programme
+    // 3. Sinon si localité non vide → "Concert"
+    // 4. Sinon pas de programme
     function getProgramDisplay(prog, loc, lieu) {
-        if (prog && prog.trim()!=='' && !isExcluded(prog, lieu)) return prog.trim();
-        if ((loc&&loc.trim()!=='') || (lieu&&lieu.trim()!=='')) return "Programme";
+        // ÉTAPE 1 : Si le programme existe mais contient un mot exclu, on ignore complètement
+        if (prog && prog.trim() !== '' && isExcluded(prog, lieu)) {
+            return null; // Ne pas afficher du tout
+        }
+        
+        // ÉTAPE 2 : Si programme existe et n'est pas exclu, on le garde
+        if (prog && prog.trim() !== '') {
+            return prog.trim();
+        }
+        
+        // ÉTAPE 3 : Sinon, si localité existe (non vide), on retourne "Concert"
+        if (loc && loc.trim() !== '') {
+            return 'Concert';
+        }
+        
+        // Sinon, pas de programme
         return null;
     }
     
@@ -1315,7 +1279,6 @@
         return Math.ceil(diff / (1000 * 60 * 60 * 24));
     }
 
-    // Fonction pour créer un lien avec options de navigation
     function createLocationHTML(text, coords) {
         if (!text && !coords) return '';
         
@@ -1358,7 +1321,6 @@
         `;
     }
 
-    // ----------------------------- CHARGEMENT -----------------------------
     async function loadData() {
         const urls = [ SHEET_URL, 'https://api.allorigins.win/raw?url='+encodeURIComponent(SHEET_URL), 'https://corsproxy.io/?'+encodeURIComponent(SHEET_URL) ];
         let csvText = null;
@@ -1369,15 +1331,14 @@
         let rows = parseCSV(csvText);
         if (rows.length<5) throw new Error('Format CSV invalide');
         
-        // La ligne 4 (index 3) contient les en-têtes - on garde la structure
-        allData = rows.slice(4).filter(r => r.length >= 12); // On garde toutes les lignes de données
+        allData = rows.slice(4).filter(r => r.length >= 12);
         
         buildData();
         renderCalendrier(currentCalMonth);
         renderNextThree();
         renderCountries();
-        renderDateStrip(); // Affiche les intervalles avec nom du pays
-        renderFlagButtons(); // Affiche les boutons flottants
+        renderDateStrip();
+        renderFlagButtons();
     }
 
     function buildData() {
@@ -1385,23 +1346,19 @@
         flatPrograms = [];
         countryByDate.clear();
 
-        // D'abord, collecter toutes les entrées avec pays et date valide
         allData.forEach(row => {
             let pays = (row[COLUMNS.PAYS] || '').trim().toUpperCase();
             
-            // Exclure Madagascar
             if (pays === 'MADAGASCAR') return;
             
             let date = parseDate(row[COLUMNS.DATE]);
             
-            if (!pays || !date) return; // Ignorer si pas de pays ou date invalide
+            if (!pays || !date) return;
             
             let dateKey = date.toISOString().split('T')[0];
             
-            // Enregistrer le pays pour cette date (même si pas de programme)
             countryByDate.set(dateKey, pays);
             
-            // Traiter le programme s'il y en a un
             let loc = row[COLUMNS.LOCALITE] || '';
             if (loc.toUpperCase().includes('RETOUR MADAGASCAR')) return;
             
@@ -1409,7 +1366,6 @@
             let lieu = row[COLUMNS.LIEU] || '';
             let progDisplay = getProgramDisplay(progRaw, loc, lieu);
             
-            // Ne garder que les programmes valides (non exclus)
             if (!progDisplay) return;
             
             let isPrivate = isPrivateEvent(progRaw, lieu);
@@ -1433,20 +1389,16 @@
             flatPrograms.push(item);
         });
 
-        // Trier les programmes par pays
         for (let p in programsByCountry) {
             programsByCountry[p].sort((a,b)=>a.date-b.date);
         }
         flatPrograms.sort((a,b)=>a.date-b.date);
         
-        // Déterminer les pays uniques dans l'ordre souhaité (sans Madagascar)
         const order = ['SUISSE','FRANCE','ALLEMAGNE','BELGIQUE','WALES','ANGLETERRE'];
         uniqueCountries = order.filter(c => programsByCountry[c] && programsByCountry[c].length > 0);
     }
 
-    // Extrait les intervalles de dates pour un pays à partir de countryByDate
     function getDateIntervalsForCountry(pays) {
-        // Récupérer toutes les dates où ce pays est présent
         const dates = [];
         countryByDate.forEach((p, dateKey) => {
             if (p === pays) {
@@ -1456,10 +1408,8 @@
         
         if (dates.length === 0) return [];
         
-        // Trier les dates
         dates.sort((a, b) => a - b);
         
-        // Regrouper en intervalles consécutifs
         const intervals = [];
         let start = dates[0];
         let end = dates[0];
@@ -1467,7 +1417,6 @@
         for (let i = 1; i < dates.length; i++) {
             const prev = dates[i-1];
             const curr = dates[i];
-            // Si écart de plus d'un jour, on coupe l'intervalle
             if ((curr - prev) > (24 * 60 * 60 * 1000)) {
                 intervals.push({ start, end });
                 start = curr;
@@ -1481,7 +1430,6 @@
         return intervals;
     }
 
-    // Fonction pour obtenir la classe CSS du badge en fonction du pays
     function getBadgeClassForCountry(pays) {
         const map = {
             'SUISSE': 'suisse',
@@ -1494,7 +1442,6 @@
         return map[pays] || 'france';
     }
 
-    // Fonction pour faire défiler jusqu'au bloc d'un pays
     window.scrollToCountry = function(pays) {
         const countryBlock = document.getElementById('block-' + pays);
         if (countryBlock) {
@@ -1502,12 +1449,10 @@
         }
     };
 
-    // Fonction pour revenir en haut de page
     window.scrollToTop = function() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Fonction pour aller au calendrier
     window.scrollToCalendar = function() {
         const calendarSection = document.getElementById('calendrierSection');
         if (calendarSection) {
@@ -1515,20 +1460,15 @@
         }
     };
 
-    // Affichage des boutons flottants
     function renderFlagButtons() {
         const container = document.getElementById('flagButtons');
         if (!container) return;
         
         let html = '';
         
-        // Bouton Accueil
         html += `<div class="flag-button special-button" data-country="Accueil" onclick="scrollToTop()" title="Retour en haut"><i class="fas fa-home"></i></div>`;
-        
-        // Bouton Calendrier
         html += `<div class="flag-button special-button" data-country="Calendrier" onclick="scrollToCalendar()" title="Voir le calendrier"><i class="fas fa-calendar-alt"></i></div>`;
         
-        // Boutons des pays
         uniqueCountries.forEach(pays => {
             const progs = programsByCountry[pays] || [];
             if (progs.length === 0) return;
@@ -1548,12 +1488,10 @@
         container.innerHTML = html;
     }
 
-    // Affichage des intervalles par pays - DISPOSITION PERSONNALISÉE
     function renderDateStrip() {
         const strip = document.getElementById('datesStrip');
         if (!strip) return;
         
-        // Préparer les cartes par pays
         const countryCards = {};
         
         uniqueCountries.forEach(pays => {
@@ -1567,7 +1505,6 @@
             const paysDisplay = pays.charAt(0) + pays.slice(1).toLowerCase();
             const cardClass = getBadgeClassForCountry(pays);
             
-            // Générer le HTML de la carte
             let cardHtml = `<div class="country-card ${cardClass}" onclick="scrollToCountry('${pays}')" title="Voir les programmes de ${paysDisplay}">`;
             cardHtml += `<div class="country-card-header">`;
             cardHtml += `<div class="country-card-flag ${flagClass}"></div>`;
@@ -1589,10 +1526,8 @@
             countryCards[pays] = cardHtml;
         });
         
-        // Construire la disposition selon l'ordre demandé
         let html = '';
         
-        // Ligne 1 : Suisse et Allemagne
         if (countryCards['SUISSE'] || countryCards['ALLEMAGNE']) {
             html += '<div class="cards-row row-1">';
             html += countryCards['SUISSE'] || '<div></div>';
@@ -1600,7 +1535,6 @@
             html += '</div>';
         }
         
-        // Ligne 2 : Belgique et Wales
         if (countryCards['BELGIQUE'] || countryCards['WALES']) {
             html += '<div class="cards-row row-2">';
             html += countryCards['BELGIQUE'] || '<div></div>';
@@ -1608,14 +1542,12 @@
             html += '</div>';
         }
         
-        // Ligne 3 : France centré
         if (countryCards['FRANCE']) {
             html += '<div class="cards-row row-3">';
             html += countryCards['FRANCE'];
             html += '</div>';
         }
         
-        // Angleterre si présent (optionnel)
         if (countryCards['ANGLETERRE']) {
             html += '<div class="cards-row row-3" style="margin-top:16px;">';
             html += countryCards['ANGLETERRE'];
@@ -1647,10 +1579,8 @@
             let curDate = new Date(an, mois, d);
             let dateKey = curDate.toISOString().split('T')[0];
             
-            // Chercher d'abord les programmes du jour
             let programmesDuJour = flatPrograms.filter(p => p.date.toDateString() === curDate.toDateString() && !isPastProgram(p));
             
-            // Déterminer le pays (priorité aux programmes, sinon countryByDate)
             let paysDuJour = null;
             if (programmesDuJour.length > 0) {
                 paysDuJour = programmesDuJour[0].pays;
@@ -1841,7 +1771,6 @@
                 html += `<span class="country-name"><span class="country-emoji">${emoji}</span> ${paysDisplay}</span>`;
                 html += `<span class="country-stats"><i class="far fa-calendar-alt"></i> ${programmes.length} programme${programmes.length>1?'s':''}</span>`;
                 html += `</div>`;
-                // Les programmes sont toujours affichés
                 html += `<div class="program-list" id="list-${pays}">`;
                 programmes.forEach(p => {
                     if (!p) return;
@@ -1851,15 +1780,14 @@
                     
                     let cardClass = 'program-card' + (p.isPrivate ? ' private-event' : '');
                     
-                    // Échapper les données pour l'attribut data-program
                     let programData = JSON.stringify(p).replace(/'/g, "&#39;").replace(/"/g, "&quot;");
                     
                     html += `<div class="${cardClass}" data-pays="${pays}" data-program='${programData}'>`;
-                    // Nom du pays au-dessus des dates
                     html += `<div class="program-country-name"><i class="fas fa-map-pin"></i> ${paysDisplay}</div>`;
                     html += `<div class="program-date-badge"><i class="far fa-calendar"></i> ${p.dateStr} ${p.heures ? '· '+p.heures : ''}</div>`;
                     html += `<div class="program-localite"><i class="fas fa-map-pin"></i> ${p.localite||'?'}</div>`;
                     if (p.lieu) html += `<div class="program-lieu"><i class="fas fa-location-dot"></i> ${lieuAffiche}</div>`;
+                    // Affichage du programme (peut être "Concert" si déduit)
                     html += `<div><span class="programme-text">${emojiProg} ${p.programme || 'Programme'}</span></div>`;
                     if (p.isPrivate) html += `<div style="margin-top:4px; font-size:0.7rem; color:#6b7280;"><i class="fas fa-lock"></i> Privé</div>`;
                     html += `</div>`;
@@ -1868,7 +1796,6 @@
             });
             container.innerHTML = html;
             
-            // Ajouter les écouteurs d'événements après avoir inséré le HTML
             setTimeout(() => {
                 document.querySelectorAll('.program-card').forEach(card => {
                     if (!card.hasAttribute('data-listener')) {
