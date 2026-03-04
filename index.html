@@ -288,6 +288,20 @@
       align-items: center;
       flex-wrap: wrap;
     }
+    
+    /* ===== DESKTOP DEFAULT LAYOUT ===== */
+    .cb-desktop{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      flex-wrap:wrap;
+      width:100%;
+    }
+    
+    .cb-mobilebar,
+    .cb-drawer{
+      display:none;
+    }
 
     .segmented{
       display:flex;
@@ -1091,6 +1105,404 @@
       font-weight: 800;
       font-size: 12px;
     }
+    
+    /* =========================
+       ULTRA PREMIUM MOBILE COMMAND BAR
+       Desktop/tablet unchanged
+       ========================= */
+    .cb-mobilebar{ display:none; }
+    .cb-drawer{ display:none; }
+    .cb-desktop{ display:block; }
+    
+    @media (max-width: 640px){
+      /* On cache l'ancien layout desktop */
+      .cb-desktop{ display:none !important; }
+    
+      /* Mini-bar visible */
+      .cb-mobilebar{
+        display:flex;
+        width:100%;
+        align-items:center;
+        gap: 10px;
+      }
+    
+      .commandbar{
+        top: 8px;
+        border-radius: 22px;
+      }
+      .commandbar-inner{
+        padding: 10px;
+        display:flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+    
+      .cb-burger{
+        width: 44px; height: 44px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background:#fff;
+        box-shadow: 0 10px 20px rgba(12,40,60,.06);
+        cursor:pointer;
+        color: var(--teal);
+        flex: 0 0 auto;
+      }
+    
+      .cb-mobileSearch{
+        flex: 1 1 auto;
+        display:flex;
+        align-items:center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background:#fff;
+        box-shadow: 0 10px 20px rgba(12,40,60,.06);
+        min-width: 0;
+      }
+      .cb-mobileSearch i{ color: var(--teal); }
+      .cb-mobileSearch input{
+        border:0; outline:0;
+        width: 100%;
+        font-weight: 800;
+        background: transparent;
+        color: var(--text);
+      }
+    
+      /* Lang compact dans mini-bar */
+      .cb-lang{ width: auto; margin-left: 0; }
+      .cb-lang .langbtn{
+        padding: 10px 10px;
+        gap: 8px;
+      }
+    
+      /* Drawer (menu) */
+      .cb-drawer{
+        display:none;
+        width:100%;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,.92);
+        backdrop-filter: blur(12px);
+        box-shadow: var(--shadow1);
+        padding: 10px;
+        gap: 10px;
+        flex-direction: column;
+      }
+      .commandbar.open .cb-drawer{ display:flex; }
+    
+      .cb-drawerHead{
+        display:flex;
+        align-items:center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .cb-drawerTitle{
+        display:flex;
+        align-items:center;
+        gap: 10px;
+        font-weight: 950;
+        color: var(--text);
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,.92);
+        box-shadow: 0 10px 20px rgba(12,40,60,.06);
+        flex: 1 1 auto;
+        justify-content: center;
+      }
+      .cb-close{
+        width: 44px; height: 44px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background:#fff;
+        box-shadow: 0 10px 20px rgba(12,40,60,.06);
+        cursor:pointer;
+        color: var(--teal);
+        flex: 0 0 auto;
+      }
+    
+      /* Drawer content tightening */
+      .cb-drawer .segmented{ width:100%; justify-content:center; }
+      .cb-drawer .segmented button{ padding: 9px 10px; font-size: 13px; }
+    }
+    
+    /* =========================================
+       MOBILE FIXES (<= 640px)
+       - Hero title wrapping
+       - Sticky command bar -> mini bar + drawer
+       - Calendar flags not cut
+       ========================================= */
+    @media (max-width: 640px){
+    
+      /* ---------- HERO: titre & padding ---------- */
+      .hero-media{ min-height: 240px; }
+      .hero-content{
+        padding: 16px;
+        gap: 10px;
+      }
+      .hero-title{
+        font-size: clamp(22px, 7.2vw, 34px);
+        line-height: 1.06;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+        text-wrap: balance;
+      }
+      .hero-sub{
+        font-size: 13px;
+        line-height: 1.35;
+        max-width: 60ch;
+      }
+      .hero-actions .btn{
+        padding: 10px 12px;
+        border-radius: 14px;
+      }
+    
+      /* ---------- COMMAND BAR: mini-bar only ---------- */
+      .commandbar{
+        top: 10px;
+        border-radius: 18px;
+        overflow: visible; 
+      }
+      .commandbar-inner{
+        padding: 10px;
+        gap: 10px;
+      }
+      
+      .cb-mobilebar{ overflow: visible; }
+      .langdrop{ position: relative; }
+      .langmenu{ z-index: 5000; }
+    
+      /* On cache le contenu desktop/tablette */
+      .cb-desktop{ display: none !important; }
+    
+      /* Mini-bar visible */
+      .cb-mobilebar{
+        display: grid;
+        grid-template-columns: 44px 1fr auto;
+        gap: 10px;
+        align-items: center;
+      }
+    
+      .cb-burger{
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: #fff;
+        box-shadow: 0 10px 18px rgba(12,40,60,.06);
+        color: var(--teal);
+        cursor: pointer;
+      }
+    
+      .cb-mobileSearch{
+        display:flex;
+        align-items:center;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: #fff;
+        box-shadow: 0 10px 18px rgba(12,40,60,.06);
+        min-width: 0;
+      }
+      .cb-mobileSearch i{ color: var(--teal); }
+      .cb-mobileSearch input{
+        width: 100%;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        font-weight: 800;
+        min-width: 0;
+      }
+    
+      /* Lang button compact on mobile */
+      .cb-lang .langbtn{
+        padding: 10px 10px;
+        gap: 8px;
+      }
+      .cb-lang #langLabel{ display:none; } /* ultra compact: drapeau + chevron */
+      .cb-lang .langbtn .mini-flag{ width: 18px; height: 12px; }
+    
+      /* ---------- DRAWER ---------- */
+      .cb-drawer{
+        display: none; /* fermé par défaut */
+        margin-top: 10px;
+        padding: 12px;
+        border-top: 1px solid var(--line);
+        background: rgba(255,255,255,.92);
+        backdrop-filter: blur(12px);
+      }
+      .commandbar.open .cb-drawer{ display:block; }
+    
+      .cb-drawerHead{
+        display:flex;
+        align-items:center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 10px;
+      }
+      .cb-drawerTitle{
+        font-weight: 950;
+        letter-spacing: -0.02em;
+        display:flex;
+        align-items:center;
+        gap: 10px;
+      }
+      .cb-close{
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: #fff;
+        box-shadow: 0 10px 18px rgba(12,40,60,.06);
+        color: var(--teal);
+        cursor: pointer;
+      }
+    
+      /* drawer scroll si beaucoup de pills */
+      .commandbar.open .cb-drawer{
+        max-height: min(68vh, 520px);
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+    
+      /* Pills mieux adaptées au mobile */
+      #countryPillsMobile{
+        gap: 8px;
+      }
+      #countryPillsMobile .pill{
+        padding: 10px 12px;
+        border-radius: 999px;
+        font-size: 13px;
+      }
+    
+      /* ---------- CALENDAR: flags not cut ---------- */
+      .cal-grid{ gap: 6px; }
+      .cal-day{
+        min-height: 78px;
+        padding: 8px 6px 10px;
+        border-radius: 16px;
+      }
+      .cal-tag{
+        padding: 5px 6px;
+        border-radius: 999px;
+        max-width: 100%;
+      }
+      .cal-tag .mini-flag{
+        width: 20px;
+        height: 14px;
+        border-radius: 4px;
+        display:block;
+      }
+      .cal-loc{
+        font-size: 10px;
+        line-height: 1.15;
+        padding: 0 2px;
+      }
+    }
+    
+    /* ===== OVERRIDE FINAL: Desktop vs Mobile ===== */
+    
+    /* Desktop/tablet default */
+    .cb-desktop{ display:flex !important; gap:12px !important; align-items:center !important; flex-wrap:wrap !important; width:100% !important; }
+    .cb-mobilebar{ display:none !important; }
+    .cb-drawer{ display:none !important; }
+    
+    /* Mobile only */
+    @media (max-width: 640px){
+      .cb-desktop{ display:none !important; }
+      .cb-mobilebar{ display:grid !important; }
+      .commandbar.open .cb-drawer{ display:block !important; }
+    }
+    
+    /* ===== Desktop + Tablet: search full width + pills never wrap ===== */
+    @media (min-width: 641px){
+    
+      .cb-desktop{
+        display: grid !important;
+        grid-template-columns: auto 1fr auto;   /* seg | search grows | right group */
+        grid-template-rows: auto auto;
+        grid-template-areas:
+          "seg search search"
+          "pills pills right";
+        gap: 10px 14px;
+        align-items: center;
+        width: 100%;
+      }
+    
+      /* Row 1 */
+      .cb-desktop > .segmented{
+        grid-area: seg;
+        justify-self: start;
+      }
+    
+      .cb-desktop > .search{
+        grid-area: search;
+        width: 100%;
+        max-width: none !important;    /* IMPORTANT: enlève toute limitation */
+        margin-left: 0 !important;     /* IMPORTANT: pas de décalage */
+        justify-self: stretch;
+      }
+    
+      /* Row 2 pills rail (never wrap + scroll) */
+      #countryPills{
+        grid-area: pills;
+        display:flex;
+        flex-wrap: nowrap !important;
+        gap: 10px;
+        align-items:center;
+    
+        overflow-x:auto;
+        overflow-y:hidden;
+        white-space:nowrap;
+        -webkit-overflow-scrolling: touch;
+    
+        padding: 6px 2px;
+        scrollbar-width: none;
+      }
+      #countryPills::-webkit-scrollbar{ height: 0px; }
+      #countryPills .pill{ flex: 0 0 auto; }
+    
+      /* Right group (Private + Lang) */
+      .cb-right{
+        grid-area: right;
+        display:flex;
+        align-items:center;
+        gap: 10px;
+        justify-self: end;
+        white-space: nowrap;
+      }
+    
+      /* Neutralise l’ancien margin-left:auto */
+      .cb-desktop .lang-wrap{ margin-left: 0 !important; }
+    }
+    
+    /* ===== Small tablet: right group goes to 3rd row, aligned right ===== */
+    @media (min-width: 641px) and (max-width: 900px){
+    
+      .cb-desktop{
+        grid-template-rows: auto auto auto;
+        grid-template-areas:
+          "seg search search"
+          "pills pills pills"
+          ". . right";
+      }
+    
+      /* Pills full width on row 2 */
+      #countryPills{
+        width: 100%;
+      }
+    
+      /* Right group on row 3 aligned right */
+      .cb-right{
+        justify-self: end;
+      }
+    }
+    
+    @media (min-width: 641px){
+      .cb-right .lang-wrap{ margin-left: 0 !important; width: auto !important; }
+    }
   </style>
 </head>
 
@@ -1120,51 +1532,126 @@
     <!-- COMMAND BAR -->
     <section class="commandbar" id="content" aria-label="Barre de navigation">
       <div class="commandbar-inner">
-        <div class="segmented" role="tablist" aria-label="Vue">
-          <button id="tabTimeline" class="active" aria-selected="true" onclick="setView('timeline')"><i class="fa-solid fa-clock"></i> Timeline</button>
-          <button id="tabCountries" aria-selected="false" onclick="setView('countries')"><i class="fa-solid fa-flag"></i> Pays</button>
-        </div>
-
-        <div class="search" role="search">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input id="searchInput" type="search" placeholder="Rechercher : ville, lieu, programme… (ex: concert, culte, Paris)" />
-        </div>
-
-        <div class="pillrow" id="countryPills" aria-label="Filtres pays">
-          <!-- injecté -->
-        </div>
-
-        <div class="pill" id="togglePrivate" onclick="togglePrivate()" title="Afficher/masquer les événements privés">
-          <span class="dot" style="background: var(--gold)"></span>
-          Privé : <span id="privateState">masqué</span>
-        </div>
-
-        <!-- LANG SWITCH -->
-        <div class="lang-wrap" aria-label="Langue">
-          <div class="langdrop">
-            <button class="langbtn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false">
-              <span class="mini-flag flag-fr" id="langFlag"></span>
-              <span id="langLabel">FR</span>
-              <i class="fa-solid fa-chevron-down" style="color:var(--teal)"></i>
-            </button>
-
-            <div class="langmenu" id="langMenu" role="menu" aria-label="Choisir la langue">
-              <div class="langopt" role="menuitem" onclick="setLang('fr')">
-                <div class="left"><span class="mini-flag flag-fr"></span> Français</div>
-                <span class="langkbd">FR</span>
-              </div>
-              <div class="langopt" role="menuitem" onclick="setLang('en')">
-                <div class="left"><span class="mini-flag flag-uk"></span> English</div>
-                <span class="langkbd">EN</span>
-              </div>
-              <div class="langopt" role="menuitem" onclick="setLang('de')">
-                <div class="left"><span class="mini-flag flag-de"></span> Deutsch</div>
-                <span class="langkbd">DE</span>
+    
+        <!-- MOBILE MINI-BAR (always visible on mobile) -->
+        <div class="cb-mobilebar">
+          <button class="cb-burger" id="cbBurger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+    
+          <div class="cb-mobileSearch" role="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchInputMobile" type="search" placeholder="Rechercher…" />
+          </div>
+    
+          <!-- Lang stays visible -->
+          <div class="lang-wrap cb-lang" aria-label="Langue">
+            <div class="langdrop">
+              <button class="langbtn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false">
+                <span class="mini-flag flag-fr" id="langFlag"></span>
+                <span id="langLabel">FR</span>
+                <i class="fa-solid fa-chevron-down" style="color:var(--teal)"></i>
+              </button>
+    
+              <div class="langmenu" id="langMenu" role="menu" aria-label="Choisir la langue">
+                <div class="langopt" role="menuitem" onclick="setLang('fr')">
+                  <div class="left"><span class="mini-flag flag-fr"></span> Français</div>
+                  <span class="langkbd">FR</span>
+                </div>
+                <div class="langopt" role="menuitem" onclick="setLang('en')">
+                  <div class="left"><span class="mini-flag flag-uk"></span> English</div>
+                  <span class="langkbd">EN</span>
+                </div>
+                <div class="langopt" role="menuitem" onclick="setLang('de')">
+                  <div class="left"><span class="mini-flag flag-de"></span> Deutsch</div>
+                  <span class="langkbd">DE</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-
+    
+        <!-- DESKTOP/TABLET CONTENT -->
+        <div class="cb-desktop">
+        
+          <!-- Ligne 1 : Vue + Search -->
+          <div class="segmented" role="tablist" aria-label="Vue">
+            <button id="tabTimeline" class="active" aria-selected="true" onclick="setView('timeline')">
+              <i class="fa-solid fa-clock"></i> Timeline
+            </button>
+            <button id="tabCountries" aria-selected="false" onclick="setView('countries')">
+              <i class="fa-solid fa-flag"></i> Pays
+            </button>
+          </div>
+        
+          <div class="search" role="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="searchInput" type="search"
+              placeholder="Rechercher : ville, lieu, programme… (ex: concert, culte, Paris)" />
+          </div>
+        
+          <!-- Ligne 2 : Pays (rail) -->
+          <div class="pillrow" id="countryPills" aria-label="Filtres pays"></div>
+        
+          <!-- Ligne 2 (desktop) / Ligne 3 (petite tablette) : Privé + Langue ensemble -->
+          <div class="cb-right">
+            <div class="pill" id="togglePrivate" onclick="togglePrivate()"
+              title="Afficher/masquer les événements privés">
+              <span class="dot" style="background: var(--gold)"></span>
+              Privé : <span id="privateState">masqué</span>
+            </div>
+        
+            <!-- IMPORTANT : ici ton bloc langue DESKTOP (ids Desk) -->
+            <div class="lang-wrap" aria-label="Langue">
+              <div class="langdrop">
+                <button class="langbtn" id="langBtnDesk" type="button" aria-haspopup="true" aria-expanded="false">
+                  <span class="mini-flag flag-fr" id="langFlagDesk"></span>
+                  <span id="langLabelDesk">FR</span>
+                  <i class="fa-solid fa-chevron-down" style="color:var(--teal)"></i>
+                </button>
+        
+                <div class="langmenu" id="langMenuDesk" role="menu" aria-label="Choisir la langue">
+                  <div class="langopt" role="menuitem" onclick="setLang('fr')">
+                    <div class="left"><span class="mini-flag flag-fr"></span> Français</div>
+                    <span class="langkbd">FR</span>
+                  </div>
+                  <div class="langopt" role="menuitem" onclick="setLang('en')">
+                    <div class="left"><span class="mini-flag flag-uk"></span> English</div>
+                    <span class="langkbd">EN</span>
+                  </div>
+                  <div class="langopt" role="menuitem" onclick="setLang('de')">
+                    <div class="left"><span class="mini-flag flag-de"></span> Deutsch</div>
+                    <span class="langkbd">DE</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        </div>
+    
+        <!-- MOBILE DRAWER -->
+        <div class="cb-drawer" id="cbDrawer" aria-label="Menu mobile">
+          <div class="cb-drawerHead">
+            <div class="cb-drawerTitle"><i class="fa-solid fa-music"></i> Menu</div>
+            <button class="cb-close" id="cbClose" type="button" aria-label="Fermer le menu">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+    
+          <div class="segmented" role="tablist" aria-label="Vue">
+            <button id="tabTimeline_m" class="active" aria-selected="true" onclick="setView('timeline')"><i class="fa-solid fa-clock"></i> Timeline</button>
+            <button id="tabCountries_m" aria-selected="false" onclick="setView('countries')"><i class="fa-solid fa-flag"></i> Pays</button>
+          </div>
+    
+          <div class="pillrow" id="countryPillsMobile" aria-label="Filtres pays (mobile)"></div>
+    
+          <div class="pill" id="togglePrivateMobile" onclick="togglePrivate()" title="Afficher/masquer les événements privés">
+            <span class="dot" style="background: var(--gold)"></span>
+            Privé : <span id="privateStateMobile">masqué</span>
+          </div>
+        </div>
+    
       </div>
     </section>
 
@@ -1478,13 +1965,19 @@
     }
 
     function applyLangUI(){
-      // sticky lang button
-      const flag = document.getElementById('langFlag');
-      const lab = document.getElementById('langLabel');
-      if(flag){
-        flag.className = 'mini-flag ' + (lang==='fr' ? 'flag-fr' : lang==='en' ? 'flag-uk' : 'flag-de');
-      }
-      if(lab) lab.textContent = lang.toUpperCase();
+      // sticky lang buttons (mobile + desktop)
+      const flagM = document.getElementById('langFlag');
+      const labM  = document.getElementById('langLabel');
+      const flagD = document.getElementById('langFlagDesk');
+      const labD  = document.getElementById('langLabelDesk');
+      
+      const cls = (lang==='fr' ? 'flag-fr' : lang==='en' ? 'flag-uk' : 'flag-de');
+      
+      if(flagM) flagM.className = 'mini-flag ' + cls;
+      if(labM)  labM.textContent = lang.toUpperCase();
+      
+      if(flagD) flagD.className = 'mini-flag ' + cls;
+      if(labD)  labD.textContent = lang.toUpperCase();
 
       // Hero texts
       const heroTitle = document.querySelector('.hero-title');
@@ -1503,10 +1996,16 @@
       const tabC = document.getElementById('tabCountries');
       if(tabT) tabT.innerHTML = `<i class="fa-solid fa-clock"></i> ${t('viewTimeline')}`;
       if(tabC) tabC.innerHTML = `<i class="fa-solid fa-flag"></i> ${t('viewCountries')}`;
+      const tabTm = document.getElementById('tabTimeline_m');
+      const tabCm = document.getElementById('tabCountries_m');
+      if(tabTm) tabTm.innerHTML = `<i class="fa-solid fa-clock"></i> ${t('viewTimeline')}`;
+      if(tabCm) tabCm.innerHTML = `<i class="fa-solid fa-flag"></i> ${t('viewCountries')}`;
 
       // Search placeholder
       const s = document.getElementById('searchInput');
       if(s) s.placeholder = t('searchPlaceholder');
+      const sm = document.getElementById('searchInputMobile');
+      if(sm) sm.placeholder = (lang==='fr' ? 'Rechercher…' : lang==='en' ? 'Search…' : 'Suchen…');
 
       // Private pill label (keep dot + state span)
       const priv = document.getElementById('togglePrivate');
@@ -1516,6 +2015,16 @@
         priv.innerHTML = `
           <span class="dot" style="background: var(--gold)"></span>
           ${t('privateLabel')} : <span id="privateState">${state.textContent}</span>
+        `;
+      }
+      
+      const privM = document.getElementById('togglePrivateMobile');
+      const stateM = document.getElementById('privateStateMobile');
+      if(privM && stateM){
+        privM.title = t('privateTooltip');
+        privM.innerHTML = `
+          <span class="dot" style="background: var(--gold)"></span>
+          ${t('privateLabel')} : <span id="privateStateMobile">${stateM.textContent}</span>
         `;
       }
 
@@ -1546,22 +2055,37 @@
       renderAll();
     };
 
+    function getLangEls(){
+      // Priorité: le bouton visible (mobile si <=640 sinon desktop)
+      const isMobile = window.innerWidth <= 640;
+    
+      const btn = document.getElementById(isMobile ? 'langBtn' : 'langBtnDesk') || document.getElementById('langBtn') || document.getElementById('langBtnDesk');
+      const menu = document.getElementById(isMobile ? 'langMenu' : 'langMenuDesk') || document.getElementById('langMenu') || document.getElementById('langMenuDesk');
+    
+      return { btn, menu };
+    }
+    
     function openLangMenu(){
-      const m = document.getElementById('langMenu');
-      const b = document.getElementById('langBtn');
-      if(m){ m.classList.add('open'); }
-      if(b){ b.setAttribute('aria-expanded','true'); }
+      const {btn, menu} = getLangEls();
+      if(menu){ menu.classList.add('open'); }
+      if(btn){ btn.setAttribute('aria-expanded','true'); }
     }
     function closeLangMenu(){
-      const m = document.getElementById('langMenu');
-      const b = document.getElementById('langBtn');
-      if(m){ m.classList.remove('open'); }
-      if(b){ b.setAttribute('aria-expanded','false'); }
+      // ferme les 2 au cas où
+      const m1 = document.getElementById('langMenu');
+      const b1 = document.getElementById('langBtn');
+      const m2 = document.getElementById('langMenuDesk');
+      const b2 = document.getElementById('langBtnDesk');
+    
+      if(m1) m1.classList.remove('open');
+      if(b1) b1.setAttribute('aria-expanded','false');
+      if(m2) m2.classList.remove('open');
+      if(b2) b2.setAttribute('aria-expanded','false');
     }
     function toggleLangMenu(){
-      const m = document.getElementById('langMenu');
-      if(!m) return;
-      m.classList.contains('open') ? closeLangMenu() : openLangMenu();
+      const {menu} = getLangEls();
+      if(!menu) return;
+      menu.classList.contains('open') ? closeLangMenu() : openLangMenu();
     }
 
     /* =========================
@@ -1784,6 +2308,7 @@
        ========================= */
     function renderCountryPills(){
       const el = document.getElementById('countryPills');
+      const elM = document.getElementById('countryPillsMobile');
     
       // On garde la liste des pills stable (ALL + ordre défini)
       const pills = ['ALL', ...ORDER.filter(c => programs.some(p=>p.pays===c))];
@@ -1808,18 +2333,16 @@
           .map(p=>p.pays)
       );
     
-      el.innerHTML = pills.map(code=>{
+      const html = pills.map(code=>{
         const label = code==='ALL'
           ? (lang==='fr' ? 'Tous' : (lang==='en' ? 'All' : 'Alle'))
           : countryLabel(code);
-    
+      
         const isActive = activeCountry === code;
-    
-        // On grise si aucun résultat possible avec search/private actuels, MAIS toujours cliquable
+      
         const isSoftDisabled = (code !== 'ALL' && !availableWithCurrentFilters.has(code));
-    
         const flag = code==='ALL' ? '' : `<span class="dot" style="background: var(--teal)"></span>`;
-    
+      
         return `
           <div class="pill ${isActive?'active':''}"
                style="${isSoftDisabled ? 'opacity:.55;' : ''}"
@@ -1828,6 +2351,9 @@
           </div>
         `;
       }).join('');
+      
+      if(el) el.innerHTML = html;
+      if(elM) elM.innerHTML = html;
     }
 
     function groupByDate(list){
@@ -2253,7 +2779,14 @@
 
     window.togglePrivate = function(){
       showPrivate = !showPrivate;
-      document.getElementById('privateState').textContent = showPrivate ? t('privateShown') : t('privateHidden');
+    
+      const st = showPrivate ? t('privateShown') : t('privateHidden');
+    
+      const d1 = document.getElementById('privateState');
+      const d2 = document.getElementById('privateStateMobile');
+      if(d1) d1.textContent = st;
+      if(d2) d2.textContent = st;
+    
       renderAll();
       applyLangUI();
     };
@@ -2261,15 +2794,21 @@
     window.setView = function(view){
       const tBtn = document.getElementById('tabTimeline');
       const cBtn = document.getElementById('tabCountries');
+      const tBtnM = document.getElementById('tabTimeline_m');
+      const cBtnM = document.getElementById('tabCountries_m');
       const vT = document.getElementById('viewTimeline');
       const vC = document.getElementById('viewCountries');
 
       if(view === 'countries'){
         tBtn.classList.remove('active'); cBtn.classList.add('active');
         vT.classList.remove('active'); vC.classList.add('active');
+      
+        if(tBtnM && cBtnM){ tBtnM.classList.remove('active'); cBtnM.classList.add('active'); }
       }else{
         cBtn.classList.remove('active'); tBtn.classList.add('active');
         vC.classList.remove('active'); vT.classList.add('active');
+      
+        if(tBtnM && cBtnM){ cBtnM.classList.remove('active'); tBtnM.classList.add('active'); }
       }
     };
 
@@ -2285,13 +2824,22 @@
     }
 
     function wire(){
-      // search
+      // search (desktop + mobile)
       const s = document.getElementById('searchInput');
-      s.addEventListener('input', (e)=>{
-        query = e.target.value || '';
+      const sm = document.getElementById('searchInputMobile');
+    
+      function onSearch(val){
+        query = val || '';
         renderAll();
-      });
-
+      }
+    
+      if(s){
+        s.addEventListener('input', (e)=> onSearch(e.target.value));
+      }
+      if(sm){
+        sm.addEventListener('input', (e)=> onSearch(e.target.value));
+      }
+    
       // calendar nav
       document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
         currentMonth.setMonth(currentMonth.getMonth()-1);
@@ -2301,26 +2849,77 @@
         currentMonth.setMonth(currentMonth.getMonth()+1);
         renderCalendar();
       });
-
-      // private status init
-      document.getElementById('privateState').textContent = showPrivate ? t('privateShown') : t('privateHidden');
+    
+      // private status init (desktop + mobile)
+      const st = showPrivate ? t('privateShown') : t('privateHidden');
+      const d1 = document.getElementById('privateState');
+      const d2 = document.getElementById('privateStateMobile');
+      if(d1) d1.textContent = st;
+      if(d2) d2.textContent = st;
+    
       applyLangUI();
-
+    
       // language menu
-      const langBtn = document.getElementById('langBtn');
-      if(langBtn) langBtn.addEventListener('click', (e)=>{ e.stopPropagation(); toggleLangMenu(); });
-
+      const langBtnM = document.getElementById('langBtn');
+      const langBtnD = document.getElementById('langBtnDesk');
+      
+      if(langBtnM) langBtnM.addEventListener('click', (e)=>{ e.stopPropagation(); toggleLangMenu(); });
+      if(langBtnD) langBtnD.addEventListener('click', (e)=>{ e.stopPropagation(); toggleLangMenu(); });
+    
       document.addEventListener('click', (e)=>{
-        const menu = document.getElementById('langMenu');
-        const btn = document.getElementById('langBtn');
-        if(!menu || !btn) return;
-        if(menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)){
-          closeLangMenu();
-        }
+        const m1 = document.getElementById('langMenu');
+        const b1 = document.getElementById('langBtn');
+        const m2 = document.getElementById('langMenuDesk');
+        const b2 = document.getElementById('langBtnDesk');
+      
+        const open1 = m1 && m1.classList.contains('open');
+        const open2 = m2 && m2.classList.contains('open');
+      
+        if(open1 && !m1.contains(e.target) && !(b1 && b1.contains(e.target))) closeLangMenu();
+        if(open2 && !m2.contains(e.target) && !(b2 && b2.contains(e.target))) closeLangMenu();
       });
-
+    
       document.addEventListener('keydown', (e)=>{
         if(e.key === 'Escape') closeLangMenu();
+      });
+    
+      // ===== MOBILE DRAWER (commandbar) =====
+      const cb = document.querySelector('.commandbar');
+      const burger = document.getElementById('cbBurger');
+      const closeBtn = document.getElementById('cbClose');
+    
+      function setCb(open){
+        if(!cb) return;
+        cb.classList.toggle('open', open);
+        if(burger) burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        if(open) closeLangMenu(); // option premium
+      }
+    
+      if(burger){
+        burger.addEventListener('click', (e)=>{ e.stopPropagation(); setCb(true); });
+      }
+      if(closeBtn){
+        closeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); setCb(false); });
+      }
+    
+      // Ferme si on clique hors sticky
+      document.addEventListener('click', (e)=>{
+        if(!cb || !cb.classList.contains('open')) return;
+        if(cb.contains(e.target)) return;
+        setCb(false);
+      });
+    
+      // Ferme après action dans le drawer (mobile)
+      cb?.addEventListener('click', (e)=>{
+        if(window.innerWidth > 640) return;
+      
+        // si on clique sur la langue, on ne ferme pas (on veut voir le menu)
+        if(e.target.closest?.('.langbtn, .langmenu')) return;
+      
+        const isAction = e.target.closest?.('.pill, .segmented button, .langopt');
+        if(isAction){
+          setCb(false);
+        }
       });
     }
 
