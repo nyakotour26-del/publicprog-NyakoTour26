@@ -1242,6 +1242,7 @@
       }
       .hero-content{
         padding: 16px;
+        padding-bottom: 22px;
         gap: 10px;
       }
       .hero-title{
@@ -1529,6 +1530,29 @@
       }
     
     }
+
+    /* ===== HERO overlay mobile : bas sombre -> haut clair ===== */
+@media (max-width: 640px){
+
+  .hero-media::before{
+    background:
+      linear-gradient(
+        to top,
+        rgba(11,31,51,.92) 0%,
+        rgba(11,31,51,.65) 35%,
+        rgba(11,31,51,.25) 65%,
+        rgba(11,31,51,0) 100%
+      ),
+
+      /* léger voile clair en haut pour faire ressortir le logo */
+      linear-gradient(
+        to bottom,
+        rgba(255,255,255,.25) 0%,
+        rgba(255,255,255,0) 40%
+      );
+  }
+
+}
   </style>
 </head>
 
