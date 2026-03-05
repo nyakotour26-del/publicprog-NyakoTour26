@@ -40,8 +40,20 @@
 
       --focus: rgba(70,119,122,.35);
       
-      --grain: .045;         /* intensité du grain (0.03 à 0.07) */
-      --bgAnim: 38s;         /* vitesse animation (plus grand = plus lent) */
+      --grain: .045; 
+      
+      /* Accents par pays */
+        --c-all: #46777A;
+        --c-ch:  #D83A3A;  /* Suisse */
+        --c-fr:  #2F5FA8;  /* France */
+        --c-de:  #E0A11A;  /* Allemagne */
+        --c-be:  #3A3F45;  /* Belgique */
+        --c-wales:#3FAF9A; /* Wales */
+        --c-uk:  #1F4B8F;  /* Angleterre */
+      
+        /* Intensité “premium” des tints (à ajuster) */
+        --tintA: .22;
+        --tintB: .10;
     }
 
     *{ box-sizing: border-box; }
@@ -475,7 +487,11 @@
       gap: 10px;
       border-bottom: 1px solid var(--line);
       background:
-        linear-gradient(180deg, rgba(241,202,163,.35), rgba(255,255,255,0));
+          linear-gradient(180deg,
+            color-mix(in srgb, var(--accent) calc(var(--tintA) * 100%), transparent) 0%,
+            rgba(241,202,163,.20) 35%,
+            rgba(255,255,255,0) 100%
+          );
     }
     .panel-title{
       margin:0;
@@ -701,7 +717,11 @@
       gap: 12px;
       border-bottom: 1px solid var(--line);
       background:
-        linear-gradient(180deg, rgba(202,217,218,.55), rgba(255,255,255,0));
+          linear-gradient(180deg,
+            color-mix(in srgb, var(--accent) calc(var(--tintA) * 100%), transparent) 0%,
+            rgba(202,217,218,.35) 40%,
+            rgba(255,255,255,0) 100%
+          );
     }
     .daydate{
       display:flex;
@@ -883,7 +903,12 @@
       align-items:center;
       gap: 12px;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(241,202,163,.35), rgba(255,255,255,0));
+      background:
+          linear-gradient(180deg,
+            color-mix(in srgb, var(--accent) calc(var(--tintA) * 100%), transparent) 0%,
+            rgba(241,202,163,.18) 40%,
+            rgba(255,255,255,0) 100%
+          );
     }
 
     .country-flag-large{
@@ -1592,6 +1617,37 @@
 	/* Option utile: si tu veux pouvoir scroller proprement avec sticky */
 	#viewsSection { scroll-margin-top: 92px; }
 	#panelNextTitle { scroll-margin-top: 92px; }
+	
+	.pill .dot{
+	  --dot: var(--c-all);
+	  background: var(--dot);
+	
+	  /* halo auto (même couleur, plus transparent) */
+	  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dot) 30%, transparent);
+	}
+	
+	/* mapping pays -> variable */
+	.pill[data-country="SUISSE"] .dot{ --dot: var(--c-ch); }
+	.pill[data-country="FRANCE"] .dot{ --dot: var(--c-fr); }
+	.pill[data-country="ALLEMAGNE"] .dot{ --dot: var(--c-de); }
+	.pill[data-country="BELGIQUE"] .dot{ --dot: var(--c-be); }
+	.pill[data-country="WALES"] .dot{ --dot: var(--c-wales); }
+	.pill[data-country="ANGLETERRE"] .dot{ --dot: var(--c-uk); }
+	
+	
+	/* Optionnel : accent subtil quand active */
+	.pill.active{
+	  border-color: rgba(12,40,60,.12);
+	}
+	.pill.active .pill-label{
+	  /* pas obligatoire, juste un micro “focus” */
+	}
+	
+	/* ========= PILL active: fond teinté du pays ========= */
+	.pill.active{
+	  border-color: color-mix(in srgb, var(--dot) 35%, rgba(12,40,60,.10));
+	  background: color-mix(in srgb, var(--dot) 14%, white);
+	}
   </style>
 </head>
 
@@ -2340,6 +2396,22 @@
         firstCard.classList.remove('highlight-card');
       },1100);
     }
+    
+    function accentForCountry(code){
+      switch(code){
+        case 'SUISSE': return 'var(--c-ch)';
+        case 'FRANCE': return 'var(--c-fr)';
+        case 'ALLEMAGNE': return 'var(--c-de)';
+        case 'BELGIQUE': return 'var(--c-be)';
+        case 'WALES': return 'var(--c-wales)';
+        case 'ANGLETERRE': return 'var(--c-uk)';
+        default: return 'var(--c-all)';
+      }
+    }
+    
+    function applyAccent(code){
+      document.documentElement.style.setProperty('--accent', accentForCountry(code));
+    }
 
     /* =========================
        DATA LOAD
@@ -2363,6 +2435,7 @@
       allRows = rows.slice(4).filter(r => r.length >= 12);
 
       buildPrograms();
+      applyAccent(activeCountry);
       applyLangUI();
       renderAll();
       wire();
@@ -2474,13 +2547,14 @@
         const isActive = activeCountry === code;
       
         const isSoftDisabled = (code !== 'ALL' && !availableWithCurrentFilters.has(code));
-        const flag = code==='ALL' ? '' : `<span class="dot" style="background: var(--teal)"></span>`;
+        const flag = code==='ALL' ? '' : `<span class="dot country-dot"></span>`;
       
         return `
           <div class="pill ${isActive?'active':''}"
+               data-country="${code}"
                style="${isSoftDisabled ? 'opacity:.55;' : ''}"
                onclick="setCountry('${code}')">
-            ${flag}${escapeHtml(label)}
+            ${flag}<span class="pill-label">${escapeHtml(label)}</span>
           </div>
         `;
       }).join('');
@@ -2907,6 +2981,7 @@
        ========================= */
     window.setCountry = function(code){
       activeCountry = code;
+      applyAccent(activeCountry);
       renderAll();
     
       const firstCard = document.querySelector('#nextList .next-card');
