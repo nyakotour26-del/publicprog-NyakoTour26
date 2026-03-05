@@ -1236,9 +1236,13 @@
     @media (max-width: 640px){
     
       /* ---------- HERO: titre & padding ---------- */
-      .hero-media{ min-height: 25vh; }
+      .hero-media{ 
+      	min-height: 55vh; 
+      	background-image: url("./assets/Banner-mobile.webp");
+      }
       .hero-content{
         padding: 16px;
+        padding-bottom: 22px;
         gap: 10px;
       }
       .hero-title{
@@ -1513,7 +1517,6 @@
     @media (max-width: 640px){
     
       .hero{
-        background-image: url("./assets/Banner-mobile.webp");
         background-size: cover;
         background-position: center top;
         background-repeat: no-repeat;
@@ -1522,11 +1525,73 @@
         flex-direction: column;
         justify-content: flex-end;
     
-        min-height: 25vh;
+        min-height: 55vh;
         margin-top: 0;
       }
     
     }
+
+    /* ===== HERO overlay mobile : bas sombre -> haut clair ===== */
+@media (max-width: 640px){
+
+  .hero-media::before{
+    background:
+      linear-gradient(
+        to top,
+        rgba(11,31,51,.92) 0%,
+        rgba(11,31,51,.65) 35%,
+        rgba(11,31,51,.25) 65%,
+        rgba(11,31,51,0) 100%
+      ),
+
+      /* léger voile clair en haut pour faire ressortir le logo */
+      linear-gradient(
+        to bottom,
+        rgba(255,255,255,.25) 0%,
+        rgba(255,255,255,0) 40%
+      );
+  }
+
+}
+
+	/* ===== Highlight 1s (premium pulse) ===== */
+	@keyframes highlightPulse {
+	  0%   { box-shadow: 0 0 0 rgba(228,160,21,0); transform: translateZ(0); }
+	  25%  { box-shadow: 0 0 0 6px rgba(228,160,21,.22), 0 18px 44px rgba(12,40,60,.10); }
+	  60%  { box-shadow: 0 0 0 10px rgba(70,119,122,.14), 0 18px 44px rgba(12,40,60,.10); }
+	  100% { box-shadow: 0 0 0 rgba(228,160,21,0); }
+	}
+	
+	/* À appliquer sur des blocs type panel/section */
+	.highlight-1s {
+	  border-radius: var(--r-xl);
+	  animation: highlightPulse 1s ease-out 1;
+	}
+	
+	/* ===== Highlight carte ===== */
+	
+	@keyframes cardPulse {
+	  0% {
+	    transform: scale(1);
+	    box-shadow: 0 8px 28px rgba(12,40,60,.08);
+	  }
+	  40% {
+	    transform: scale(1.04);
+	    box-shadow: 0 14px 42px rgba(228,160,21,.35);
+	  }
+	  100% {
+	    transform: scale(1);
+	    box-shadow: 0 8px 28px rgba(12,40,60,.08);
+	  }
+	}
+	
+	.highlight-card{
+	  animation: cardPulse 1s ease-out 1;
+	}
+	
+	/* Option utile: si tu veux pouvoir scroller proprement avec sticky */
+	#viewsSection { scroll-margin-top: 92px; }
+	#panelNextTitle { scroll-margin-top: 92px; }
   </style>
 </head>
 
@@ -1681,7 +1746,7 @@
 
     <!-- TOP GRID (Calendar + Next) -->
     <section class="grid" id="calendar">
-      <div class="panel" id="upcoming">
+      <div class="panel">
         <div class="panel-head">
           <h2 class="panel-title" id="panelCalendarTitle"><i class="fa-solid fa-calendar-days"></i> Calendrier</h2>
           <div class="cal-nav">
@@ -2232,19 +2297,48 @@
 
     function normalize(s){ return (s||'').toString().toLowerCase().trim(); }
     
+    function getStickyOffset(){
+      const cb = document.querySelector('.commandbar');
+      const h = cb ? cb.getBoundingClientRect().height : 0;
+      // marge premium pour respirer sous le sticky
+      return Math.min(h + 16, 140);
+    }
+    
     function smartScrollTo(el){
       if(!el) return;
+      const top = el.getBoundingClientRect().top + window.scrollY - getStickyOffset();
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
     
-      const cb = document.querySelector('.commandbar');
-      const cbTop = cb ? cb.getBoundingClientRect().top : 0;
-      const cbH = cb ? cb.offsetHeight : 0;
+    function pulseHighlight(el){
+      if(!el) return;
+      el.classList.remove('highlight-1s');   // reset si déjà présent
+      // force reflow pour relancer l'animation
+      void el.offsetWidth;
+      el.classList.add('highlight-1s');
+      setTimeout(()=> el.classList.remove('highlight-1s'), 1100);
+    }
     
-      // Si la commandbar est sticky, on compense sa hauteur
-      const isStickyNow = cb && cbTop <= 12;
-      const offset = (isStickyNow ? cbH : 0) + 14;
+    function focusAndHighlight(el){
+      if(!el) return;
+      smartScrollTo(el);
+      // après un petit délai pour laisser le scroll démarrer
+      setTimeout(()=> pulseHighlight(el), 220);
+    }
     
-      const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+    function highlightFirstNextCard(){
+      const firstCard = document.querySelector('#nextList .next-card');
+    
+      if(!firstCard) return;
+    
+      firstCard.classList.remove('highlight-card');
+      void firstCard.offsetWidth; // reset animation
+    
+      firstCard.classList.add('highlight-card');
+    
+      setTimeout(()=>{
+        firstCard.classList.remove('highlight-card');
+      },1100);
     }
 
     /* =========================
@@ -2815,11 +2909,11 @@
       activeCountry = code;
       renderAll();
     
-      // Scroll exactement sur le titre "À venir"
-      const title = document.getElementById('panelNextTitle');
+      const firstCard = document.querySelector('#nextList .next-card');
     
       requestAnimationFrame(()=>{
-        smartScrollTo(title);
+        smartScrollTo(firstCard);
+        setTimeout(()=> highlightFirstNextCard(), 200);
       });
     };
 
@@ -2857,14 +2951,9 @@
         if(tBtnM && cBtnM){ cBtnM.classList.remove('active'); tBtnM.classList.add('active'); }
       }
       
-      // Scroll automatique vers la zone d'affichage (timeline/pays)
-      requestAnimationFrame(()=>{
-        const target = (view === 'countries')
-          ? document.getElementById('viewCountries')
-          : document.getElementById('viewTimeline');
-      
-        smartScrollTo(target || document.getElementById('viewsSection'));
-      });
+      // Scroll + highlight sur la zone d’affichage Timeline/Pays
+      const viewsTop = document.getElementById('viewsSection');
+      requestAnimationFrame(()=> focusAndHighlight(viewsTop));
     };
 
     /* =========================
