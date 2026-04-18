@@ -76,19 +76,27 @@
       z-index: -1;
       pointer-events: none;
     
+      /* On anime légèrement les positions + rotation via transform */
       animation: bgFloat var(--bgAnim, 38s) ease-in-out infinite alternate;
       will-change: transform, filter;
     
       background-image:
+        /* wash pêche */
         radial-gradient(900px 600px at 15% 10%, rgba(241,202,163,.45), rgba(241,202,163,0) 70%),
+    
+        /* wash bleu doux */
         radial-gradient(900px 600px at 85% -5%, rgba(202,217,218,.55), rgba(202,217,218,0) 65%),
+    
+        /* wash global */
         radial-gradient(1200px 800px at 50% 20%, rgba(255,255,255,.85), rgba(255,255,255,0) 70%),
         linear-gradient(180deg,#fff,var(--bg)),
+    
+        /* TILE seamless */
         radial-gradient(700px 520px at 0% 0%,rgba(241,202,163,.30),rgba(241,202,163,0) 70%),
         radial-gradient(700px 520px at 100% 0%,rgba(241,202,163,.30),rgba(241,202,163,0) 70%),
         radial-gradient(820px 600px at 0% 100%,rgba(202,217,218,.40),rgba(202,217,218,0) 72%),
         radial-gradient(820px 600px at 100% 100%,rgba(202,217,218,.40),rgba(202,217,218,0) 72%);
-
+    
       background-size:
         100% 100%,
         100% 100%,
@@ -98,7 +106,7 @@
         1400px 900px,
         1400px 900px,
         1400px 900px;
-
+    
       background-repeat:
         no-repeat,
         no-repeat,
@@ -108,7 +116,7 @@
         repeat,
         repeat,
         repeat;
-
+    
       background-position:
         center,
         center,
@@ -118,7 +126,8 @@
         0 0,
         0 0,
         0 0;
-
+    
+      /* très léger */
       filter: blur(0.25px);
       transform: scale(1.02);
     }
@@ -135,6 +144,7 @@
       z-index: -1;
       pointer-events: none;
     
+      /* Grain sans image (deux couches croisées) */
       background-image:
         repeating-linear-gradient(0deg,
           rgba(0,0,0,var(--grain, .045)) 0px,
@@ -172,6 +182,9 @@
       padding: 18px;
     }
 
+    /* =========================
+       HERO (bannière)
+       ========================= */
     .hero{
       border-radius: var(--r-xl);
       overflow: hidden;
@@ -186,6 +199,7 @@
         url("./assets/Banner.webp") center/cover no-repeat;
       isolation: isolate;
     }
+    /* overlay lisibilité */
     .hero-media::before{
       content:"";
       position:absolute; inset:0;
@@ -264,6 +278,9 @@
     }
     .btn.primary:hover{ background: rgba(228,160,21,1); }
 
+    /* =========================
+       STICKY COMMAND BAR
+       ========================= */
     .commandbar{
       margin-top: 14px;
       position: sticky;
@@ -284,6 +301,7 @@
       flex-wrap: wrap;
     }
     
+    /* ===== DESKTOP DEFAULT LAYOUT ===== */
     .cb-desktop{
       display:flex;
       gap:12px;
@@ -371,6 +389,9 @@
       background: rgba(70,119,122,.10);
     }
 
+    /* =========================
+       LANGUAGE SWITCH (sticky)
+       ========================= */
     .lang-wrap{
       margin-left: auto;
       display:flex;
@@ -437,6 +458,9 @@
       border-radius: 999px;
     }
 
+    /* =========================
+       SECTIONS
+       ========================= */
     .grid{
       margin-top: 14px;
       display:grid;
@@ -482,6 +506,9 @@
     .panel-title i{ color: var(--teal); }
     .panel-body{ padding: 14px; }
 
+    /* =========================
+       CALENDAR
+       ========================= */
     .cal-header{
       display:flex;
       align-items:center;
@@ -576,6 +603,9 @@
       text-align: center;
     }
 
+    /* =========================
+       RIGHT SIDE: "Prochains"
+       ========================= */
     .next-list{
       display:flex;
       flex-direction: column;
@@ -653,6 +683,9 @@
       color: var(--muted);
     }
 
+    /* =========================
+       MAIN CONTENT: views
+       ========================= */
     .views{
       margin-top: 14px;
     }
@@ -823,6 +856,9 @@
       color: var(--muted);
     }
 
+    /* =========================
+       FLAGS classes (compat)
+       ========================= */
     .flag-fr { background: linear-gradient(90deg, #002395 33.33%, #fff 33.33%, #fff 66.66%, #ED2939 66.66%); }
     .flag-de { background: linear-gradient(0deg, #000 33.33%, #DD0000 33.33%, #DD0000 66.66%, #FFCE00 66.66%); }
     .flag-be { background: linear-gradient(90deg, #000 33.33%, #FAE042 33.33%, #FAE042 66.66%, #ED2939 66.66%); }
@@ -839,6 +875,9 @@
       background-repeat: no-repeat;
     }
 
+    /* =========================
+       PAYS VIEW (layout "original" par sections + grille)
+       ========================= */
     .countries{
       display:flex;
       flex-direction: column;
@@ -972,6 +1011,9 @@
       min-height: 2.7em;
     }
 
+    /* =========================
+       MODAL
+       ========================= */
     .modal{
       display:none;
       position: fixed;
@@ -1084,13 +1126,19 @@
       font-size: 12px;
     }
     
+    /* =========================
+       ULTRA PREMIUM MOBILE COMMAND BAR
+       Desktop/tablet unchanged
+       ========================= */
     .cb-mobilebar{ display:none; }
     .cb-drawer{ display:none; }
     .cb-desktop{ display:block; }
     
     @media (max-width: 640px){
+      /* On cache l'ancien layout desktop */
       .cb-desktop{ display:none !important; }
     
+      /* Mini-bar visible */
       .cb-mobilebar{
         display:flex;
         width:100%;
@@ -1141,12 +1189,14 @@
         color: var(--text);
       }
     
+      /* Lang compact dans mini-bar */
       .cb-lang{ width: auto; margin-left: 0; }
       .cb-lang .langbtn{
         padding: 10px 10px;
         gap: 8px;
       }
     
+      /* Drawer (menu) */
       .cb-drawer{
         display:none;
         width:100%;
@@ -1192,11 +1242,20 @@
         flex: 0 0 auto;
       }
     
+      /* Drawer content tightening */
       .cb-drawer .segmented{ width:100%; justify-content:center; }
       .cb-drawer .segmented button{ padding: 9px 10px; font-size: 13px; }
     }
     
+    /* =========================================
+       MOBILE FIXES (<= 640px)
+       - Hero title wrapping
+       - Sticky command bar -> mini bar + drawer
+       - Calendar flags not cut
+       ========================================= */
     @media (max-width: 640px){
+    
+      /* ---------- HERO: titre & padding ---------- */
       .hero-media{ 
       	min-height: 55vh; 
       	background-image: url("./assets/Banner-mobile.webp");
@@ -1223,6 +1282,7 @@
         border-radius: 14px;
       }
     
+      /* ---------- COMMAND BAR: mini-bar only ---------- */
       .commandbar{
         top: 10px;
         border-radius: 18px;
@@ -1237,8 +1297,10 @@
       .langdrop{ position: relative; }
       .langmenu{ z-index: 5000; }
     
+      /* On cache le contenu desktop/tablette */
       .cb-desktop{ display: none !important; }
     
+      /* Mini-bar visible */
       .cb-mobilebar{
         display: grid;
         grid-template-columns: 44px 1fr auto;
@@ -1278,15 +1340,17 @@
         min-width: 0;
       }
     
+      /* Lang button compact on mobile */
       .cb-lang .langbtn{
         padding: 10px 10px;
         gap: 8px;
       }
-      .cb-lang #langLabel{ display:none; }
+      .cb-lang #langLabel{ display:none; } /* ultra compact: drapeau + chevron */
       .cb-lang .langbtn .mini-flag{ width: 18px; height: 12px; }
     
+      /* ---------- DRAWER ---------- */
       .cb-drawer{
-        display: none;
+        display: none; /* fermé par défaut */
         margin-top: 10px;
         padding: 12px;
         border-top: 1px solid var(--line);
@@ -1320,12 +1384,14 @@
         cursor: pointer;
       }
     
+      /* drawer scroll si beaucoup de pills */
       .commandbar.open .cb-drawer{
         max-height: min(68vh, 520px);
         overflow: auto;
         -webkit-overflow-scrolling: touch;
       }
     
+      /* Pills mieux adaptées au mobile */
       #countryPillsMobile{
         gap: 8px;
       }
@@ -1335,6 +1401,7 @@
         font-size: 13px;
       }
     
+      /* ---------- CALENDAR: flags not cut ---------- */
       .cal-grid{ gap: 6px; }
       .cal-day{
         min-height: 78px;
@@ -1359,21 +1426,26 @@
       }
     }
     
+    /* ===== OVERRIDE FINAL: Desktop vs Mobile ===== */
+    
+    /* Desktop/tablet default */
     .cb-desktop{ display:flex !important; gap:12px !important; align-items:center !important; flex-wrap:wrap !important; width:100% !important; }
     .cb-mobilebar{ display:none !important; }
     .cb-drawer{ display:none !important; }
     
+    /* Mobile only */
     @media (max-width: 640px){
       .cb-desktop{ display:none !important; }
       .cb-mobilebar{ display:grid !important; }
       .commandbar.open .cb-drawer{ display:block !important; }
     }
     
+    /* ===== Desktop + Tablet: search full width + pills never wrap ===== */
     @media (min-width: 641px){
     
       .cb-desktop{
         display: grid !important;
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: auto 1fr auto;   /* seg | search grows | right group */
         grid-template-rows: auto auto;
         grid-template-areas:
           "seg search search"
@@ -1383,6 +1455,7 @@
         width: 100%;
       }
     
+      /* Row 1 */
       .cb-desktop > .segmented{
         grid-area: seg;
         justify-self: start;
@@ -1391,11 +1464,12 @@
       .cb-desktop > .search{
         grid-area: search;
         width: 100%;
-        max-width: none !important;
-        margin-left: 0 !important;
+        max-width: none !important;    /* IMPORTANT: enlève toute limitation */
+        margin-left: 0 !important;     /* IMPORTANT: pas de décalage */
         justify-self: stretch;
       }
     
+      /* Row 2 pills rail (never wrap + scroll) */
       #countryPills{
         grid-area: pills;
         display:flex;
@@ -1414,6 +1488,7 @@
       #countryPills::-webkit-scrollbar{ height: 0px; }
       #countryPills .pill{ flex: 0 0 auto; }
     
+      /* Right group (Private + Lang) */
       .cb-right{
         grid-area: right;
         display:flex;
@@ -1423,9 +1498,11 @@
         white-space: nowrap;
       }
     
+      /* Neutralise l’ancien margin-left:auto */
       .cb-desktop .lang-wrap{ margin-left: 0 !important; }
     }
     
+    /* ===== Small tablet: right group goes to 3rd row, aligned right ===== */
     @media (min-width: 641px) and (max-width: 900px){
     
       .cb-desktop{
@@ -1436,10 +1513,12 @@
           ". . right";
       }
     
+      /* Pills full width on row 2 */
       #countryPills{
         width: 100%;
       }
     
+      /* Right group on row 3 aligned right */
       .cb-right{
         justify-self: end;
       }
@@ -1448,12 +1527,14 @@
     @media (min-width: 641px){
       .cb-right .lang-wrap{ margin-left: 0 !important; width: auto !important; }
     }
+    /* ===== Mobile: hide "Voir le programme" button ===== */
     @media (max-width: 640px){
       .hero-actions .btn:not(.primary){
         display: none !important;
       }
     }
-   @media (max-width: 640px){
+   /* ===== Mobile banner image ===== */
+    @media (max-width: 640px){
     
       .hero{
         background-size: cover;
@@ -1470,6 +1551,7 @@
     
     }
 
+    /* ===== HERO overlay mobile : bas sombre -> haut clair ===== */
 @media (max-width: 640px){
 
   .hero-media::before{
@@ -1482,6 +1564,7 @@
         rgba(11,31,51,0) 100%
       ),
 
+      /* léger voile clair en haut pour faire ressortir le logo */
       linear-gradient(
         to bottom,
         rgba(255,255,255,.25) 0%,
@@ -1491,6 +1574,7 @@
 
 }
 
+	/* ===== Highlight 1s (premium pulse) ===== */
 	@keyframes highlightPulse {
 	  0%   { box-shadow: 0 0 0 rgba(228,160,21,0); transform: translateZ(0); }
 	  25%  { box-shadow: 0 0 0 6px rgba(228,160,21,.22), 0 18px 44px rgba(12,40,60,.10); }
@@ -1498,10 +1582,13 @@
 	  100% { box-shadow: 0 0 0 rgba(228,160,21,0); }
 	}
 	
+	/* À appliquer sur des blocs type panel/section */
 	.highlight-1s {
 	  border-radius: var(--r-xl);
 	  animation: highlightPulse 1s ease-out 1;
 	}
+	
+	/* ===== Highlight carte ===== */
 	
 	@keyframes cardPulse {
 	  0% {
@@ -1522,15 +1609,19 @@
 	  animation: cardPulse 1s ease-out 1;
 	}
 	
+	/* Option utile: si tu veux pouvoir scroller proprement avec sticky */
 	#viewsSection { scroll-margin-top: 92px; }
 	#panelNextTitle { scroll-margin-top: 92px; }
 	
 	.pill .dot{
 	  --dot: var(--c-all);
 	  background: var(--dot);
+	
+	  /* halo auto (même couleur, plus transparent) */
 	  box-shadow: 0 0 0 3px color-mix(in srgb, var(--dot) 30%, transparent);
 	}
 	
+	/* mapping pays -> variable */
 	.pill[data-country="SUISSE"] .dot{ --dot: var(--c-ch); }
 	.pill[data-country="FRANCE"] .dot{ --dot: var(--c-fr); }
 	.pill[data-country="ALLEMAGNE"] .dot{ --dot: var(--c-de); }
@@ -1538,10 +1629,16 @@
 	.pill[data-country="WALES"] .dot{ --dot: var(--c-wales); }
 	.pill[data-country="ANGLETERRE"] .dot{ --dot: var(--c-uk); }
 	
+	
+	/* Optionnel : accent subtil quand active */
 	.pill.active{
 	  border-color: rgba(12,40,60,.12);
 	}
+	.pill.active .pill-label{
+	  /* pas obligatoire, juste un micro “focus” */
+	}
 	
+	/* ========= PILL active: fond teinté du pays ========= */
 	.pill.active{
 	  border-color: color-mix(in srgb, var(--dot) 35%, rgba(12,40,60,.10));
 	  background: color-mix(in srgb, var(--dot) 14%, white);
@@ -1551,6 +1648,7 @@
 
 <body>
   <div class="wrap">
+    <!-- HERO -->
     <section class="hero" aria-label="NY AKO Tour">
       <div class="hero-media" id="heroMedia">
         <div class="hero-content">
@@ -1571,9 +1669,11 @@
       </div>
     </section>
 
+    <!-- COMMAND BAR -->
     <section class="commandbar" id="content" aria-label="Barre de navigation">
       <div class="commandbar-inner">
     
+        <!-- MOBILE MINI-BAR (always visible on mobile) -->
         <div class="cb-mobilebar">
           <button class="cb-burger" id="cbBurger" type="button" aria-label="Ouvrir le menu" aria-expanded="false">
             <i class="fa-solid fa-bars"></i>
@@ -1584,6 +1684,7 @@
             <input id="searchInputMobile" type="search" placeholder="Rechercher…" />
           </div>
     
+          <!-- Lang stays visible -->
           <div class="lang-wrap cb-lang" aria-label="Langue">
             <div class="langdrop">
               <button class="langbtn" id="langBtn" type="button" aria-haspopup="true" aria-expanded="false">
@@ -1610,7 +1711,10 @@
           </div>
         </div>
     
+        <!-- DESKTOP/TABLET CONTENT -->
         <div class="cb-desktop">
+        
+          <!-- Ligne 1 : Vue + Search -->
           <div class="segmented" role="tablist" aria-label="Vue">
             <button id="tabTimeline" class="active" aria-selected="true" onclick="setView('timeline')">
               <i class="fa-solid fa-clock"></i> Timeline
@@ -1626,8 +1730,10 @@
               placeholder="Rechercher : ville, lieu, programme… (ex: concert, culte, Paris)" />
           </div>
         
+          <!-- Ligne 2 : Pays (rail) -->
           <div class="pillrow" id="countryPills" aria-label="Filtres pays"></div>
         
+          <!-- Ligne 2 (desktop) / Ligne 3 (petite tablette) : Privé + Langue ensemble -->
           <div class="cb-right">
             <div class="pill" id="togglePrivate" onclick="togglePrivate()"
               title="Afficher/masquer les événements privés">
@@ -1635,6 +1741,7 @@
               Privé : <span id="privateState">masqué</span>
             </div>
         
+            <!-- IMPORTANT : ici ton bloc langue DESKTOP (ids Desk) -->
             <div class="lang-wrap" aria-label="Langue">
               <div class="langdrop">
                 <button class="langbtn" id="langBtnDesk" type="button" aria-haspopup="true" aria-expanded="false">
@@ -1663,6 +1770,7 @@
         
         </div>
     
+        <!-- MOBILE DRAWER -->
         <div class="cb-drawer" id="cbDrawer" aria-label="Menu mobile">
           <div class="cb-drawerHead">
             <div class="cb-drawerTitle"><i class="fa-solid fa-music"></i> Menu</div>
@@ -1687,6 +1795,7 @@
       </div>
     </section>
 
+    <!-- TOP GRID (Calendar + Next) -->
     <section class="grid" id="calendar">
       <div class="panel">
         <div class="panel-head">
@@ -1714,6 +1823,7 @@
       </div>
     </section>
 
+    <!-- VIEWS -->
     <section class="views" id="viewsSection">
       <div class="view active" id="viewTimeline">
         <div class="timeline" id="timeline"></div>
@@ -1727,6 +1837,7 @@
     <footer id="footerText"><i class="fa-solid fa-music"></i> Données extraites automatiquement · programme grand public</footer>
   </div>
 
+  <!-- MODAL -->
   <div class="modal" id="modal" role="dialog" aria-modal="true">
     <div class="modal-card">
       <div class="modal-head">
@@ -1739,6 +1850,9 @@
 
   <script>
   (function(){
+    /* =========================
+       CONFIG
+       ========================= */
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSrF0hs00W-QvR3v5wxZA1ceGEx4xWR0dJv5kF3zgab6YVV00OehcwxYg-EJfOrMqj4IJnDl649SIkg/pub?gid=951917006&single=true&output=csv';
 
     const EXCLUDED_KEYWORDS = ['apéro','apero','repas','installation','visite','visites','repos','trajet','trajets','départ','retour','rest','relax','marche','shopping','marché','détente','voyage','transfert'];
@@ -1749,6 +1863,9 @@
 
     const COLUMNS = { DATE:0, LOCALITE:1, LIEU:2, HEURES:3, ADRESSE:4, HEBERGEMENT:5, PROGRAMME:6, LOCALISATION:7, SITE:8, PAYS:9, COORDS:10, TRAJETS:11 };
 
+    /* =========================
+       I18N (no sheet changes)
+       ========================= */
     const LANGS = ['fr','en','de'];
     let lang = localStorage.getItem('lang') || 'fr';
     if(!LANGS.includes(lang)) lang='fr';
@@ -1988,6 +2105,7 @@
     }
 
     function applyLangUI(){
+      // sticky lang buttons (mobile + desktop)
       const flagM = document.getElementById('langFlag');
       const labM  = document.getElementById('langLabel');
       const flagD = document.getElementById('langFlagDesk');
@@ -2001,16 +2119,19 @@
       if(flagD) flagD.className = 'mini-flag ' + cls;
       if(labD)  labD.textContent = lang.toUpperCase();
 
+      // Hero texts
       const heroTitle = document.querySelector('.hero-title');
       const heroSub = document.querySelector('.hero-sub');
       if(heroTitle) heroTitle.textContent = t('heroTitle');
       if(heroSub) heroSub.textContent = t('heroSub');
 
+      // Buttons
       const btnCal = document.querySelector('.btn.primary');
       const btnProg = document.querySelector('.hero-actions .btn:not(.primary)');
       if(btnCal) btnCal.innerHTML = `<i class="fa-solid fa-calendar-days"></i> ${t('btnCalendar')}`;
       if(btnProg) btnProg.innerHTML = `<i class="fa-solid fa-route"></i> ${t('btnProgram')}`;
 
+      // Tabs
       const tabT = document.getElementById('tabTimeline');
       const tabC = document.getElementById('tabCountries');
       if(tabT) tabT.innerHTML = `<i class="fa-solid fa-clock"></i> ${t('viewTimeline')}`;
@@ -2020,11 +2141,13 @@
       if(tabTm) tabTm.innerHTML = `<i class="fa-solid fa-clock"></i> ${t('viewTimeline')}`;
       if(tabCm) tabCm.innerHTML = `<i class="fa-solid fa-flag"></i> ${t('viewCountries')}`;
 
+      // Search placeholder
       const s = document.getElementById('searchInput');
       if(s) s.placeholder = t('searchPlaceholder');
       const sm = document.getElementById('searchInputMobile');
       if(sm) sm.placeholder = (lang==='fr' ? 'Rechercher…' : lang==='en' ? 'Search…' : 'Suchen…');
 
+      // Private pill label (keep dot + state span)
       const priv = document.getElementById('togglePrivate');
       const state = document.getElementById('privateState');
       if(priv && state){
@@ -2045,14 +2168,17 @@
         `;
       }
 
+      // Panels
       const calTitle = document.getElementById('panelCalendarTitle');
       const nextTitle = document.getElementById('panelNextTitle');
       if(calTitle) calTitle.innerHTML = `<i class="fa-solid fa-calendar-days"></i> ${t('panelCalendar')}`;
       if(nextTitle) nextTitle.innerHTML = `<i class="fa-solid fa-hourglass-half"></i> ${t('panelNext')}`;
 
+      // Footer
       const ft = document.getElementById('footerText');
       if(ft) ft.innerHTML = `<i class="fa-solid fa-music"></i> ${t('footer')}`;
 
+      // Calendar nav aria
       const prev = document.getElementById('prevMonthBtn');
       const next = document.getElementById('nextMonthBtn');
       if(prev) prev.setAttribute('aria-label', t('prevMonth'));
@@ -2064,14 +2190,18 @@
       localStorage.setItem('lang', lang);
       closeLangMenu();
       applyLangUI();
-      buildPrograms();
+      // update dynamic sections
+      buildPrograms(); // rebuild country labels & program keyword translations
       renderAll();
     };
 
     function getLangEls(){
+      // Priorité: le bouton visible (mobile si <=640 sinon desktop)
       const isMobile = window.innerWidth <= 640;
+    
       const btn = document.getElementById(isMobile ? 'langBtn' : 'langBtnDesk') || document.getElementById('langBtn') || document.getElementById('langBtnDesk');
       const menu = document.getElementById(isMobile ? 'langMenu' : 'langMenuDesk') || document.getElementById('langMenu') || document.getElementById('langMenuDesk');
+    
       return { btn, menu };
     }
     
@@ -2081,6 +2211,7 @@
       if(btn){ btn.setAttribute('aria-expanded','true'); }
     }
     function closeLangMenu(){
+      // ferme les 2 au cas où
       const m1 = document.getElementById('langMenu');
       const b1 = document.getElementById('langBtn');
       const m2 = document.getElementById('langMenuDesk');
@@ -2097,9 +2228,12 @@
       menu.classList.contains('open') ? closeLangMenu() : openLangMenu();
     }
 
+    /* =========================
+       STATE
+       ========================= */
     let allRows = [];
-    let programs = [];
-    let countryByDate = new Map();
+    let programs = []; // flatten public programs
+    let countryByDate = new Map(); // dateKey -> country (même si pas public)
     let activeCountry = 'ALL';
     let showPrivate = false;
     let query = '';
@@ -2107,6 +2241,9 @@
     let today = new Date(); today.setHours(0,0,0,0);
     let currentMonth = new Date(Math.max(new Date(2026,3,1), new Date(today.getFullYear(), today.getMonth(), 1)));
 
+    /* =========================
+       UTILS
+       ========================= */
     function parseCSV(text){
       const lines=[]; let cur=[], field='', inQuotes=false;
       for(let i=0;i<text.length;i++){
@@ -2214,6 +2351,7 @@
     function getStickyOffset(){
       const cb = document.querySelector('.commandbar');
       const h = cb ? cb.getBoundingClientRect().height : 0;
+      // marge premium pour respirer sous le sticky
       return Math.min(h + 16, 140);
     }
     
@@ -2225,7 +2363,8 @@
     
     function pulseHighlight(el){
       if(!el) return;
-      el.classList.remove('highlight-1s');
+      el.classList.remove('highlight-1s');   // reset si déjà présent
+      // force reflow pour relancer l'animation
       void el.offsetWidth;
       el.classList.add('highlight-1s');
       setTimeout(()=> el.classList.remove('highlight-1s'), 1100);
@@ -2234,15 +2373,18 @@
     function focusAndHighlight(el){
       if(!el) return;
       smartScrollTo(el);
+      // après un petit délai pour laisser le scroll démarrer
       setTimeout(()=> pulseHighlight(el), 220);
     }
     
     function highlightFirstNextCard(){
       const firstCard = document.querySelector('#nextList .next-card');
+    
       if(!firstCard) return;
     
       firstCard.classList.remove('highlight-card');
-      void firstCard.offsetWidth;
+      void firstCard.offsetWidth; // reset animation
+    
       firstCard.classList.add('highlight-card');
     
       setTimeout(()=>{
@@ -2266,19 +2408,9 @@
       document.documentElement.style.setProperty('--accent', accentForCountry(code));
     }
 
-    function encodeCardData(obj){
-      return encodeURIComponent(JSON.stringify(obj));
-    }
-
-    window.openModalFromEncoded = function(encoded){
-      try{
-        const p = JSON.parse(decodeURIComponent(encoded));
-        window.openModal(p);
-      }catch(err){
-        console.error('Erreur parsing carte:', err, encoded);
-      }
-    };
-
+    /* =========================
+       DATA LOAD
+       ========================= */
     async function load(){
       const urls = [
         SHEET_URL,
@@ -2351,6 +2483,9 @@
       programs.sort((a,b)=>a.date-b.date);
     }
 
+    /* =========================
+       FILTERING
+       ========================= */
     function filteredPrograms(){
       return programs.filter(p=>{
         if(p.date < today) return false;
@@ -2369,12 +2504,18 @@
       });
     }
 
+    /* =========================
+       RENDER: pills / views
+       ========================= */
     function renderCountryPills(){
       const el = document.getElementById('countryPills');
       const elM = document.getElementById('countryPillsMobile');
     
+      // On garde la liste des pills stable (ALL + ordre défini)
       const pills = ['ALL', ...ORDER.filter(c => programs.some(p=>p.pays===c))];
     
+      // (Optionnel) dispo "soft" pour juste griser si aucun résultat avec les filtres courants
+      // IMPORTANT: on calcule la dispo sans bloquer le clic
       const availableWithCurrentFilters = new Set(
         programs
           .filter(p=>{
@@ -2399,6 +2540,7 @@
           : countryLabel(code);
       
         const isActive = activeCountry === code;
+      
         const isSoftDisabled = (code !== 'ALL' && !availableWithCurrentFilters.has(code));
         const flag = code==='ALL' ? '' : `<span class="dot country-dot"></span>`;
       
@@ -2455,7 +2597,7 @@
             </div>
             <div class="events">
               ${events.map(p => `
-                <div class="event" onclick="openModalFromEncoded('${encodeCardData(p)}')">
+                <div class="event" onclick='openModal(${escapeJson(p)})'>
                   <div class="event-top">
                     <div class="event-country">
                       <span class="flag ${p.flagClass}"></span>
@@ -2527,7 +2669,7 @@
               <div class="country-body">
                 <div class="program-list">
                   ${items.map(p => `
-                    <div class="program-card" onclick="openModalFromEncoded('${encodeCardData(p)}')">
+                    <div class="program-card" onclick='openModal(${escapeJson(p)})'>
                       <div class="program-top">
                         <div class="program-date-badge">
                           <i class="fa-solid fa-calendar-days"></i> ${escapeHtml(p.dateStr)}
@@ -2564,6 +2706,9 @@
       `;
     }
 
+    /* =========================
+       CALENDAR
+       ========================= */
     function renderCalendar(){
       const grid = document.getElementById('calendarGrid');
       const label = document.getElementById('monthLabel');
@@ -2574,7 +2719,7 @@
       const first = new Date(an, mois, 1);
       const last = new Date(an, mois+1, 0);
 
-      let startDow = first.getDay();
+      let startDow = first.getDay(); // 0 dim ... 6 sam
       if(startDow===0) startDow=7;
       const prevCount = startDow-1;
 
@@ -2645,7 +2790,7 @@
         </div>
         <div style="margin-top:14px; display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:12px;">
           ${list.map(p => `
-            <div class="detail-block" style="cursor:pointer;" onclick="openModalFromEncoded('${encodeCardData(p)}')">
+            <div class="detail-block" style="cursor:pointer;" onclick='openModal(${escapeJson(p)})'>
               <div style="display:flex; justify-content:space-between; gap:10px; align-items:flex-start;">
                 <div style="font-weight:950; letter-spacing:-0.02em;">${emojiFor(p.programme)} ${escapeHtml(p.localite || '?')}</div>
                 <div style="font-weight:950; color:var(--muted); font-size:12px;">${escapeHtml(p.heures||'')}</div>
@@ -2662,6 +2807,9 @@
       openModalRaw(t('programs'), body);
     };
 
+    /* =========================
+       NEXT
+       ========================= */
     function renderNext(){
       const el = document.getElementById('nextList');
       const list = filteredPrograms().slice(0,3);
@@ -2673,7 +2821,7 @@
         const d = daysUntil(p.date);
         const label = d===0 ? t('today') : d===1 ? t('tomorrow') : t('jMinus', d);
         return `
-          <div class="next-card" onclick="openModalFromEncoded('${encodeCardData(p)}')">
+          <div class="next-card" onclick='openModal(${escapeJson(p)})'>
             <div class="countdown">${escapeHtml(label)}</div>
             <div class="next-date"><i class="fa-solid fa-calendar-days"></i> ${escapeHtml(p.dateStr)} ${p.heures ? '· '+escapeHtml(p.heures) : ''}</div>
             <div class="next-title">
@@ -2688,6 +2836,9 @@
       }).join('');
     }
 
+    /* =========================
+       MODAL DETAILS
+       ========================= */
     function escapeHtml(s){
       return (s||'').toString()
         .replace(/&/g,'&amp;')
@@ -2695,6 +2846,13 @@
         .replace(/>/g,'&gt;')
         .replace(/"/g,'&quot;')
         .replace(/'/g,'&#39;');
+    }
+
+    function escapeJson(obj){
+      return JSON.stringify(obj)
+        .replace(/\\/g, '\\\\')
+        .replace(/'/g, "\\'")
+        .replace(/\n/g, "\\n");
     }
 
     window.openModal = function(p){
@@ -2813,6 +2971,9 @@
       if(e.target && e.target.id === 'modal') closeModal();
     };
 
+    /* =========================
+       UI ACTIONS (global)
+       ========================= */
     window.setCountry = function(code){
       activeCountry = code;
       applyAccent(activeCountry);
@@ -2860,10 +3021,14 @@
         if(tBtnM && cBtnM){ cBtnM.classList.remove('active'); tBtnM.classList.add('active'); }
       }
       
+      // Scroll + highlight sur la zone d’affichage Timeline/Pays
       const viewsTop = document.getElementById('viewsSection');
       requestAnimationFrame(()=> focusAndHighlight(viewsTop));
     };
 
+    /* =========================
+       RENDER ALL
+       ========================= */
     function renderAll(){
       renderCountryPills();
       renderCalendar();
@@ -2873,6 +3038,7 @@
     }
 
     function wire(){
+      // search (desktop + mobile)
       const s = document.getElementById('searchInput');
       const sm = document.getElementById('searchInputMobile');
     
@@ -2888,6 +3054,7 @@
         sm.addEventListener('input', (e)=> onSearch(e.target.value));
       }
     
+      // calendar nav
       document.getElementById('prevMonthBtn').addEventListener('click', ()=>{
         currentMonth.setMonth(currentMonth.getMonth()-1);
         renderCalendar();
@@ -2897,6 +3064,7 @@
         renderCalendar();
       });
     
+      // private status init (desktop + mobile)
       const st = showPrivate ? t('privateShown') : t('privateHidden');
       const d1 = document.getElementById('privateState');
       const d2 = document.getElementById('privateStateMobile');
@@ -2905,6 +3073,7 @@
     
       applyLangUI();
     
+      // language menu
       const langBtnM = document.getElementById('langBtn');
       const langBtnD = document.getElementById('langBtnDesk');
       
@@ -2928,6 +3097,7 @@
         if(e.key === 'Escape') closeLangMenu();
       });
     
+      // ===== MOBILE DRAWER (commandbar) =====
       const cb = document.querySelector('.commandbar');
       const burger = document.getElementById('cbBurger');
       const closeBtn = document.getElementById('cbClose');
@@ -2936,7 +3106,7 @@
         if(!cb) return;
         cb.classList.toggle('open', open);
         if(burger) burger.setAttribute('aria-expanded', open ? 'true' : 'false');
-        if(open) closeLangMenu();
+        if(open) closeLangMenu(); // option premium
       }
     
       if(burger){
@@ -2946,15 +3116,20 @@
         closeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); setCb(false); });
       }
     
+      // Ferme si on clique hors sticky
       document.addEventListener('click', (e)=>{
         if(!cb || !cb.classList.contains('open')) return;
         if(cb.contains(e.target)) return;
         setCb(false);
       });
     
+      // Ferme après action dans le drawer (mobile)
       cb?.addEventListener('click', (e)=>{
         if(window.innerWidth > 640) return;
+      
+        // si on clique sur la langue, on ne ferme pas (on veut voir le menu)
         if(e.target.closest?.('.langbtn, .langmenu')) return;
+      
         const isAction = e.target.closest?.('.pill, .segmented button, .langopt');
         if(isAction){
           setCb(false);
@@ -2962,6 +3137,9 @@
       });
     }
 
+    /* =========================
+       INIT
+       ========================= */
     load().catch(err=>{
       console.error(err);
       document.getElementById('timeline').innerHTML =
