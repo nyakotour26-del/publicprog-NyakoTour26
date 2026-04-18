@@ -2277,6 +2277,13 @@
       return isNaN(dt) ? null : dt;
     }
 
+    function toDateKeyLocal(d){
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2,'0');
+      const day = String(d.getDate()).padStart(2,'0');
+      return `${y}-${m}-${day}`;
+    }
+
     function fmtDateLong(d){
       const locale = lang==='fr' ? 'fr-FR' : (lang==='en' ? 'en-GB' : 'de-DE');
       return d.toLocaleDateString(locale, {weekday:'long', day:'numeric', month:'long', year:'numeric'});
@@ -2447,7 +2454,7 @@
         const date = parseDate(row[COLUMNS.DATE]);
         if(!date) return;
 
-        const dateKey = date.toISOString().split('T')[0];
+        const dateKey = toDateKeyLocal(date);
         countryByDate.set(dateKey, pays);
 
         const loc = row[COLUMNS.LOCALITE] || '';
@@ -2732,11 +2739,13 @@
         html += `<div class="cal-day other"><div class="cal-num">${day}</div></div>`;
       }
 
+      const visiblePrograms = filteredPrograms();
+
       for(let d=1; d<=last.getDate(); d++){
         const cur = new Date(an, mois, d);
-        const dateKey = cur.toISOString().split('T')[0];
+        const dateKey = toDateKeyLocal(cur);
 
-        const list = filteredPrograms().filter(p => p.dateKey === dateKey);
+        const list = visiblePrograms.filter(p => p.dateKey === dateKey);
         let country = list[0]?.pays || countryByDate.get(dateKey) || null;
         let flagClass = country ? (COUNTRY_FLAG_CLASS[country]||'flag-fr') : '';
         let loc = list[0]?.localite || '';
@@ -2768,7 +2777,10 @@
 
     window.openDay = function(dateKey){
       const list = filteredPrograms().filter(p => p.dateKey === dateKey);
-      const d = new Date(dateKey+'T00:00:00');
+
+      const [y, m, day] = dateKey.split('-').map(Number);
+      const d = new Date(y, m - 1, day);
+
       if(list.length===0){
         const country = countryByDate.get(dateKey);
         openModalRaw(
