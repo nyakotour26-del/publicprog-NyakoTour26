@@ -50,6 +50,7 @@
         --c-be:  #3A3F45;  /* Belgique */
         --c-wales:#3FAF9A; /* Wales */
         --c-uk:  #1F4B8F;  /* Angleterre */
+		--c-nl:  #21468B;  /* Hollande */
       
         /* Intensité “premium” des tints (à ajuster) */
         --tintA: .22;
@@ -874,6 +875,15 @@
       background-position: center;
       background-repeat: no-repeat;
     }
+	.flag-nl{
+  background: linear-gradient(
+    180deg,
+    #AE1C28 33.33%,
+    #FFFFFF 33.33%,
+    #FFFFFF 66.66%,
+    #21468B 66.66%
+  );
+}
 
     /* =========================
        PAYS VIEW (layout "original" par sections + grille)
@@ -1858,8 +1868,9 @@
     const EXCLUDED_KEYWORDS = ['apéro','apero','repas','installation','visite','visites','repos','trajet','trajets','départ','retour','rest','relax','marche','shopping','marché','détente','voyage','transfert'];
     const PRIVATE_KEYWORDS = ['animation enfant','ecole','school','enfant','kids','child','élève','classe','scolaire','périscolaire','garderie','animation','visite','repos'];
 
-    const COUNTRY_FLAG_CLASS = { 'SUISSE':'flag-ch','FRANCE':'flag-fr','ALLEMAGNE':'flag-de','BELGIQUE':'flag-be','WALES':'flag-wales','ANGLETERRE':'flag-uk' };
-    const ORDER = ['SUISSE','FRANCE','ALLEMAGNE','BELGIQUE','WALES','ANGLETERRE'];
+    const COUNTRY_FLAG_CLASS = { 'SUISSE':'flag-ch','FRANCE':'flag-fr','ALLEMAGNE':'flag-de','BELGIQUE':'flag-be','WALES':'flag-wales','ANGLETERRE':'flag-uk','HOLLANDE':'flag-nl','PAYS-BAS':'flag-nl',
+  'NETHERLANDS':'flag-nl' };
+   const ORDER = ['SUISSE','FRANCE','HOLLANDE','ALLEMAGNE','BELGIQUE','WALES','ANGLETERRE'];
 
     const COLUMNS = { DATE:0, LOCALITE:1, LIEU:2, HEURES:3, ADRESSE:4, HEBERGEMENT:5, PROGRAMME:6, LOCALISATION:7, SITE:8, PAYS:9, COORDS:10, TRAJETS:11 };
 
@@ -2070,9 +2081,12 @@
     }
 
     const COUNTRY_LABEL_I18N = {
-      fr: { 'SUISSE':'Suisse','FRANCE':'France','ALLEMAGNE':'Allemagne','BELGIQUE':'Belgique','WALES':'Pays de Galles','ANGLETERRE':'Angleterre' },
-      en: { 'SUISSE':'Switzerland','FRANCE':'France','ALLEMAGNE':'Germany','BELGIQUE':'Belgium','WALES':'Wales','ANGLETERRE':'England' },
-      de: { 'SUISSE':'Schweiz','FRANCE':'Frankreich','ALLEMAGNE':'Deutschland','BELGIQUE':'Belgien','WALES':'Wales','ANGLETERRE':'England' }
+      fr: { 'SUISSE':'Suisse','FRANCE':'France','ALLEMAGNE':'Allemagne','BELGIQUE':'Belgique','WALES':'Pays de Galles','ANGLETERRE':'Angleterre','HOLLANDE':'Hollande',
+'PAYS-BAS':'Pays-Bas' },
+      en: { 'SUISSE':'Switzerland','FRANCE':'France','ALLEMAGNE':'Germany','BELGIQUE':'Belgium','WALES':'Wales','ANGLETERRE':'England','HOLLANDE':'Netherlands',
+'PAYS-BAS':'Netherlands' },
+      de: { 'SUISSE':'Schweiz','FRANCE':'Frankreich','ALLEMAGNE':'Deutschland','BELGIQUE':'Belgien','WALES':'Wales','ANGLETERRE':'England','HOLLANDE':'Niederlande',
+'PAYS-BAS':'Niederlande' }
     };
 
     function countryLabel(code){
